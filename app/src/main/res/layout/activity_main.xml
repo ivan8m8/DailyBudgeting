@@ -22,19 +22,71 @@
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:toolbarId="@+id/toolbar">
+            app:toolbarId="@+id/toolbar"
+            app:titleEnabled="false">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                app:layout_collapseMode="parallax"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:title="Май 2018"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="?attr/actionBarSize"
+                android:layout_marginStart="20dp">
+
+                <TextView
+                    android:id="@+id/incomeTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:fontFamily="casual"
+                    android:text="Доход: 500000"/>
+
+                <TextView
+                    android:id="@+id/dailyBudgetTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:fontFamily="casual"
+                    android:layout_below="@id/incomeTitle"
+                    android:text="Бюджет на день: 1800"/>
+
+                <TextView
+                    android:id="@+id/monthlySavingsTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:fontFamily="casual"
+                    android:layout_below="@id/dailyBudgetTitle"
+                    android:text="Накополения за месяц: 8000"/>
+
+                <TextView
+                    android:id="@+id/yearlySavingsTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:fontFamily="casual"
+                    android:layout_below="@id/monthlySavingsTitle"
+                    android:text="Накопления за год: 30000"/>
+            </RelativeLayout>
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <include layout="@layout/costs_nested_scroll_view" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
