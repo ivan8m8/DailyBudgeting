@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:layout_scrollFlags="snap"
             app:toolbarId="@+id/toolbar"
             app:titleEnabled="false">
 
@@ -47,7 +47,21 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:fontFamily="casual"
-                    android:text="Доход: 500000"/>
+                    android:text="Доход:"/>
+
+                <TextView
+                    android:id="@+id/incomeAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:layout_toRightOf="@id/incomeTitle"
+                    android:layout_toEndOf="@id/incomeTitle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:text="50000"/>
 
                 <TextView
                     android:id="@+id/dailyBudgetTitle"
@@ -58,7 +72,7 @@
                     android:textSize="16sp"
                     android:fontFamily="casual"
                     android:layout_below="@id/incomeTitle"
-                    android:text="Бюджет на день: 1800"/>
+                    android:text="Дневной бюджет: 1800"/>
 
                 <TextView
                     android:id="@+id/monthlySavingsTitle"
@@ -69,7 +83,7 @@
                     android:textSize="16sp"
                     android:fontFamily="casual"
                     android:layout_below="@id/dailyBudgetTitle"
-                    android:text="Накополения за месяц: 8000"/>
+                    android:text="Отложите в этом месяце: 8000"/>
 
                 <TextView
                     android:id="@+id/yearlySavingsTitle"
@@ -80,7 +94,7 @@
                     android:textSize="16sp"
                     android:fontFamily="casual"
                     android:layout_below="@id/monthlySavingsTitle"
-                    android:text="Накопления за год: 30000"/>
+                    android:text="Накопите за год: 30000"/>
             </RelativeLayout>
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -95,6 +109,6 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@android:drawable/ic_menu_edit" />
 
 </android.support.design.widget.CoordinatorLayout>
