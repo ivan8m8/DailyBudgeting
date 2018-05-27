@@ -3,7 +3,7 @@ package ru.is88.dailybudgeting.domain.models.accounts;
 import java.time.YearMonth;
 import java.util.Date;
 
-public class Account {
+public abstract class Account {
 
     private long id;
     private String description;
