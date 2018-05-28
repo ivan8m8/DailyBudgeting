@@ -3,33 +3,36 @@ package ru.is88.dailybudgeting.domain.models;
 public class MonthDay {
 
     /**
-     * id is three numbers consists day, month and year
+     * Id is three numbers consists day, month and year
      * example: 31122017
      */
     private int id;
 
-    private double amount;
+    /**
+     * This is String, because it's easier to user to sum up all his expenses.
+     * Moreover, it's more like an Excel cell.
+     */
+    private String amountString;
     private String description;
 
-    public MonthDay(double amount,
+    public MonthDay(int id,
+                    String amountString,
                     String description){
-        //this.id = need to obtain smth like 05-2018
+        this.id = id;
+        this.amountString = amountString;
+        this.description = description;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getAmountString() {
+        return amountString;
     }
 
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setAmountString(String amountString) {
+        this.amountString = amountString;
     }
 
     public String getDescription() {

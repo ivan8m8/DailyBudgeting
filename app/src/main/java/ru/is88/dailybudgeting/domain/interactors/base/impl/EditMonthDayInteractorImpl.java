@@ -13,29 +13,40 @@ public class EditMonthDayInteractorImpl extends AbstractInteractor implements In
     private EditMonthDayInteractor.Callback callback;
     private MonthDay updatedMonthDay;
     private MonthDayRepository monthDayRepository;
+    private int id;
+    private String amountString;
+    private String description;
 
     public EditMonthDayInteractorImpl(Executor threadExecutor,
                                       MainThread mainThread,
                                       EditMonthDayInteractor.Callback callback,
                                       MonthDay updatedMonthDay,
-                                      MonthDayRepository monthDayRepository) {
+                                      MonthDayRepository monthDayRepository,
+                                      int id,
+                                      String amountString,
+                                      String description) {
         super(threadExecutor, mainThread);
 
         this.callback = callback;
         this.updatedMonthDay = updatedMonthDay;
         this.monthDayRepository = monthDayRepository;
+        this.id = id;
+        this.amountString = amountString;
+        this.description = description;
     }
 
     @Override
     public void run() {
         // check if it exists in database
-        long id = updatedMonthDay.getId();
+        int id = updatedMonthDay.getId();
         MonthDay monthDayToEdit = monthDayRepository.getMonthDayById(id);
-
         if (monthDayToEdit == null){
-            // make new monthDay to place in the database
+            monthDayToEdit = new MonthDay(this.id, amountString, description);
+            monthDayRepository.insert(monthDayToEdit);
         } else {
-            // edit monthday
+            monthDayToEdit.setAmountString(amountString);
+            monthDayToEdit.setDescription(description);
+            monthDayRepository.update(monthDayToEdit);
         }
 
         mainThread.post(new Runnable() {
