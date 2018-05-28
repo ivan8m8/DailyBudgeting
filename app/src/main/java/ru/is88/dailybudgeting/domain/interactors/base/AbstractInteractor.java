@@ -32,7 +32,6 @@ public abstract class AbstractInteractor implements Interactor {
      * execute() method of an interactor to make sure the operation is done on a background thread.
      * </p>
      * This method should only be called directly while doing unit/integration tests.
-     * This is the only reason this method is declared public as to help with easier testing.
      */
     public abstract void run();
 

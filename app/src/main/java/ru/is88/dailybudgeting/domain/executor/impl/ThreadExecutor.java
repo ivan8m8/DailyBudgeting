@@ -41,4 +41,14 @@ public class ThreadExecutor implements Executor {
             }
         });
     }
+
+    /**
+     * Returns a singleton instance of this executor.
+     */
+    public static Executor getInstance() {
+        if (sThreadExecutor == null) {
+            sThreadExecutor = new ThreadExecutor();
+        }
+        return sThreadExecutor;
+    }
 }
