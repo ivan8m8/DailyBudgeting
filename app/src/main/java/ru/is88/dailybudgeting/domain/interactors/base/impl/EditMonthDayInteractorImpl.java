@@ -11,29 +11,37 @@ import ru.is88.dailybudgeting.domain.repositories.MonthDayRepository;
 public class EditMonthDayInteractorImpl extends AbstractInteractor implements Interactor {
 
     private EditMonthDayInteractor.Callback callback;
-    private MonthDay monthDay;
+    private MonthDay updatedMonthDay;
     private MonthDayRepository monthDayRepository;
 
     public EditMonthDayInteractorImpl(Executor threadExecutor,
                                       MainThread mainThread,
                                       EditMonthDayInteractor.Callback callback,
-                                      MonthDay monthDay,
+                                      MonthDay updatedMonthDay,
                                       MonthDayRepository monthDayRepository) {
         super(threadExecutor, mainThread);
 
         this.callback = callback;
-        this.monthDay = monthDay;
+        this.updatedMonthDay = updatedMonthDay;
         this.monthDayRepository = monthDayRepository;
     }
 
     @Override
     public void run() {
         // check if it exists in database
+        long id = updatedMonthDay.getId();
+        MonthDay monthDayToEdit = monthDayRepository.getMonthDayById(id);
+
+        if (monthDayToEdit == null){
+            // make new monthDay to place in the database
+        } else {
+            // edit monthday
+        }
 
         mainThread.post(new Runnable() {
             @Override
             public void run() {
-                callback.onMonthDayUpdated(monthDay);
+                callback.onMonthDayUpdated(updatedMonthDay);
             }
         });
     }
