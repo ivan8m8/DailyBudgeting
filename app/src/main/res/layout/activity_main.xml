@@ -23,77 +23,78 @@
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar"
-            app:expandedTitleTextAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+            app:expandedTitleTextAppearance="@style/ToolbarTextAppearance"
+            app:expandedTitleMarginBottom="20dp"
             app:expandedTitleMarginStart="18dp"
-            app:expandedTitleMarginBottom="20dp">
+            app:collapsedTitleTextAppearance="@style/ToolbarTextAppearance"
+            app:title="Дневной бюджет: 2780">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/monthToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="parallax"
+                app:titleTextAppearance="@style/ToolbarTextAppearance"
+                app:title="Май 2018"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:title="Дневной бюджет: 2700"/>
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar2"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="parallax"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:title="Май 2018" />
+                app:titleTextAppearance="@style/ToolbarTextAppearance" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="?attr/actionBarSize"
+                android:layout_marginBottom="?attr/actionBarSize"
                 android:layout_marginStart="20dp"
-                android:layout_marginBottom="?attr/actionBarSize">
+                android:layout_marginTop="?attr/actionBarSize">
 
                 <TextView
                     android:id="@+id/incomeTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:text="Доход:"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:fontFamily="casual"
-                    android:text="Доход:"/>
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/incomeAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:fontFamily="sans-serif-smallcaps"
-                    android:layout_toEndOf="@id/incomeTitle"
-                    android:layout_marginStart="5dp"
                     android:layout_alignBaseline="@id/incomeTitle"
-                    android:text="50000"/>
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@id/incomeTitle"
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:text="50000"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/monthlySavingsTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:fontFamily="casual"
                     android:layout_below="@id/incomeTitle"
-                    android:text="Отложите в этом месяце: 8000"/>
+                    android:fontFamily="sans-serif"
+                    android:text="Отложите в этом месяце: 8000"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/yearlySavingsTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:fontFamily="casual"
                     android:layout_below="@id/monthlySavingsTitle"
-                    android:text="Накопите за год: 30000"/>
+                    android:fontFamily="sans-serif"
+                    android:text="Накопите за год: 30000"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </RelativeLayout>
 
         </android.support.design.widget.CollapsingToolbarLayout>
