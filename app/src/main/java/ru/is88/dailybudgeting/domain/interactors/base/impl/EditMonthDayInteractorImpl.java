@@ -37,7 +37,7 @@ public class EditMonthDayInteractorImpl extends AbstractInteractor implements In
 
     @Override
     public void run() {
-        // check if it exists in database
+        // check if it exists in the database
         int id = updatedMonthDay.getId();
         MonthDay monthDayToEdit = monthDayRepository.getMonthDayById(id);
         if (monthDayToEdit == null){

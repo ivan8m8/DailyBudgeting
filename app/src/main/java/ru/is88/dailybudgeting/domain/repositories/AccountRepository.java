@@ -1,10 +1,11 @@
 package ru.is88.dailybudgeting.domain.repositories;
 
-import ru.is88.dailybudgeting.domain.models.accounts.Account;
+import ru.is88.dailybudgeting.domain.models.accounts.AbstractAccount;
 
 public interface AccountRepository {
 
-    void insert(Account account);
-    void update(Account account);
-    void delete(Account account);
+    void insert(AbstractAccount abstractAccount);
+    void update(AbstractAccount abstractAccount);
+
+    void getAccountById(long id);
 }
