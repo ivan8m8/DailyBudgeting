@@ -38,6 +38,7 @@ public class EditIncomeInteractorImpl extends AbstractInteractor implements Inte
 
     @Override
     public void run() {
+        //TODO
         // Check if this.income already exists in the database.
         // I am actually not sure if it's really needed to be checked,
         // but situation when might occur, I believe
