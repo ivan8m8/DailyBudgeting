@@ -1,5 +1,9 @@
 package ru.is88.dailybudgeting.domain.models;
 
+/**
+ * It's one of those card views.
+ */
+
 public class MonthDay {
 
     /**
