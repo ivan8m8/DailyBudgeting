@@ -50,7 +50,7 @@
                 android:layout_marginBottom="?attr/actionBarSize"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="?attr/actionBarSize"
-                tools:ignore="HardcodedText">
+                tools:ignore="HardcodedText"> <!--Don't forget to delete-->
 
                 <TextView
                     android:id="@+id/incomeTitle"
@@ -101,15 +101,12 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/monthDaysRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </android.support.v4.widget.NestedScrollView>
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

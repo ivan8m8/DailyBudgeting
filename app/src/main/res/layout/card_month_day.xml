@@ -17,7 +17,7 @@
         android:paddingRight="10dp"
         android:paddingStart="10dp"
         android:paddingTop="5dp"
-        tools:ignore="HardcodedText">
+        tools:ignore="HardcodedText"> <!--Don't forget to delete-->
 
         <LinearLayout
             android:layout_width="0px"
