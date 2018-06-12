@@ -10,6 +10,6 @@ public interface EditMonthDayPresenter {
         void onMonthDayUpdated(MonthDay monthDay);
     }
 
-    void getMonthDayById(int id);
+    void getMonthDayById(int monthDayId);
     void editMonthDay(MonthDay monthDay, String description, String amount);
 }
