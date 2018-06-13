@@ -6,9 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 import ru.is88.dailybudgeting.R;
+import ru.is88.dailybudgeting.domain.models.MonthDay;
 
 public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecyclerAdapter.ViewHolder> {
+
+    private ArrayList<MonthDay> monthDays;
 
     @NonNull
     @Override
