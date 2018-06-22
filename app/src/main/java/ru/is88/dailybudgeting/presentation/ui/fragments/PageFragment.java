@@ -39,12 +39,27 @@ public class PageFragment extends Fragment {
         Calendar calendar = Calendar.getInstance();
 
         Toolbar toolbar = viewRoot.findViewById(R.id.monthToolbar);
-        boolean previousYear = mMonth <= 0;
+        int yearNumber = calendar.get(Calendar.YEAR);
+        boolean previousYear = mMonth < 1;
+        boolean nextYear = mMonth > 12;
         if (previousYear) {
+
+            /** PageFragment might receive negative values,
+             * when the current month is lower than Utils.VIEW_PAGER_START_POSITION.
+             *
+             * calendar.getActualMaximum(Calendar.MONTH) is a 0-indexed value,
+             * so it's needed to increment it.
+             */
             mMonth = mMonth + calendar.getActualMaximum(Calendar.MONTH) + 1;
+
+            yearNumber = yearNumber - 1;
+        } else if (nextYear) {
+            // -1 is a negative increment here.
+            mMonth = mMonth - calendar.getActualMaximum(Calendar.MONTH) - 1;
+            yearNumber = yearNumber + 1;
         }
-        String monthTitle = new DateFormatSymbols().getMonths()[mMonth - 1];
-        toolbar.setTitle(monthTitle);
+        String monthName = new DateFormatSymbols().getMonths()[mMonth - 1];
+        toolbar.setTitle(monthName + " " + String.valueOf(yearNumber));
 
         RecyclerView recyclerView = viewRoot.findViewById(R.id.monthDaysRecyclerView);
         MonthDaysRecyclerAdapter monthDaysRecyclerAdapter = new MonthDaysRecyclerAdapter();

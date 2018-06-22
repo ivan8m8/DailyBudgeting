@@ -16,7 +16,7 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
     public MyFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
-        this.currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1; // because months in Java are 0-indexed
+        this.currentMonth = Calendar.getInstance().get(Calendar.MONTH) -4; // because months in Java are 0-indexed
     }
 
     @Override
