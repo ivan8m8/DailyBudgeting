@@ -6,29 +6,33 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.text.DateFormatSymbols;
 import java.util.Calendar;
-import java.util.Locale;
 
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.presentation.ui.adapters.MonthDaysRecyclerAdapter;
-import ru.is88.dailybudgeting.utils.Utils;
 
 public class PageFragment extends Fragment {
 
-    private static final String MONTH_KEY = "month_key";
+    private static final String DELTA_KEY = "delta_key";
 
-    private int mMonth;
+    private int mDelta;
+
+    private Calendar calendar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mMonth = getArguments().getInt(MONTH_KEY);
+        if (getArguments() != null) {
+            mDelta = getArguments().getInt(DELTA_KEY);
+        } else {
+            mDelta = 0;
+            // TODO: handle a mistake. The PageFragment hasn't received delta.
+        }
     }
 
     @Nullable
@@ -36,30 +40,12 @@ public class PageFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.fragment_page, container, false);
 
-        Calendar calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, mDelta);
 
         Toolbar toolbar = viewRoot.findViewById(R.id.monthToolbar);
-        int yearNumber = calendar.get(Calendar.YEAR);
-        boolean previousYear = mMonth < 1;
-        boolean nextYear = mMonth > 12;
-        if (previousYear) {
-
-            /** PageFragment might receive negative values,
-             * when the current month is lower than Utils.VIEW_PAGER_START_POSITION.
-             *
-             * calendar.getActualMaximum(Calendar.MONTH) is a 0-indexed value,
-             * so it's needed to increment it.
-             */
-            mMonth = mMonth + calendar.getActualMaximum(Calendar.MONTH) + 1;
-
-            yearNumber = yearNumber - 1;
-        } else if (nextYear) {
-            // -1 is a negative increment here.
-            mMonth = mMonth - calendar.getActualMaximum(Calendar.MONTH) - 1;
-            yearNumber = yearNumber + 1;
-        }
-        String monthName = new DateFormatSymbols().getMonths()[mMonth - 1];
-        toolbar.setTitle(monthName + " " + String.valueOf(yearNumber));
+        String title = getMonthNameForTheCurrentFragment() + " " + calendar.get(Calendar.YEAR);
+        toolbar.setTitle(title);
 
         RecyclerView recyclerView = viewRoot.findViewById(R.id.monthDaysRecyclerView);
         MonthDaysRecyclerAdapter monthDaysRecyclerAdapter = new MonthDaysRecyclerAdapter();
@@ -70,14 +56,19 @@ public class PageFragment extends Fragment {
         return viewRoot;
     }
 
+    private String getMonthNameForTheCurrentFragment() {
+        return DateUtils.formatDateTime(getContext(), calendar.getTimeInMillis(),
+                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_MONTH_DAY | DateUtils.FORMAT_NO_YEAR);
+    }
+
     /**
      * This method is called within MyFragmentPagerAdapter.getItem(int position)
-     * @param month !!!
+     * @param delta !!!
      */
-    public static PageFragment newInstance(int month) {
+    public static PageFragment newInstance(int delta) {
         PageFragment pageFragment = new PageFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(MONTH_KEY, month);
+        bundle.putInt(DELTA_KEY, delta);
         pageFragment.setArguments(bundle);
         return pageFragment;
     }
