@@ -5,11 +5,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.presentation.ui.adapters.MyFragmentPagerAdapter;
+import ru.is88.dailybudgeting.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,12 +19,9 @@ public class MainActivity extends AppCompatActivity {
 
         ViewPager viewPager = findViewById(R.id.viewPager);
 
-        // retrieve current month
-        // pass it to
-        
         MyFragmentPagerAdapter fragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(fragmentPagerAdapter);
-        viewPager.setCurrentItem(6);
+        viewPager.setCurrentItem(Utils.VIEW_PAGER_START_POSITION);
 
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
