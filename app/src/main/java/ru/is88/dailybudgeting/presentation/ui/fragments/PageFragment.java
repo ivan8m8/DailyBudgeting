@@ -48,10 +48,10 @@ public class PageFragment extends Fragment {
         toolbar.setTitle(title);
 
         RecyclerView recyclerView = viewRoot.findViewById(R.id.monthDaysRecyclerView);
-        MonthDaysRecyclerAdapter monthDaysRecyclerAdapter = new MonthDaysRecyclerAdapter();
+        MonthDaysRecyclerAdapter monthDaysRecyclerAdapter = new MonthDaysRecyclerAdapter(calendar);
         recyclerView.setAdapter(monthDaysRecyclerAdapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.scrollToPosition(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        recyclerView.scrollToPosition(calendar.get(Calendar.DAY_OF_MONTH));
 
         return viewRoot;
     }

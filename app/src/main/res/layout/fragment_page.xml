@@ -108,6 +108,13 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:padding="10dp"
+        android:text="asdas"/>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
