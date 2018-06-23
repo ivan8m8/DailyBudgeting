@@ -34,8 +34,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="parallax"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:titleTextAppearance="@style/ToolbarTextAppearance"
-                app:title="Май 2018"/>
+                app:title="Май 2018">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </android.support.v7.widget.Toolbar>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -49,17 +56,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="?attr/actionBarSize"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="?attr/actionBarSize"
-                tools:ignore="HardcodedText"> <!--Don't forget to delete-->
+                android:layout_marginTop="?attr/actionBarSize">
 
                 <TextView
                     android:id="@+id/incomeTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
-                    android:text="Доход:"
+                    android:paddingStart="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="Доходы:"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -72,18 +80,44 @@
                     android:fontFamily="sans-serif-smallcaps"
                     android:text="50000"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/spentTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/incomeTitle"
+                    android:fontFamily="sans-serif"
+                    android:paddingStart="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="Траты:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/spentAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/spentTitle"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@id/spentTitle"
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:text="30000"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/monthlySavingsTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/incomeTitle"
-                    android:fontFamily="sans-serif"
+                    android:layout_below="@id/spentTitle"
+                    android:layout_marginTop="10dp"
                     android:text="Отложите в этом месяце: 8000"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textSize="18sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -91,10 +125,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/monthlySavingsTitle"
-                    android:fontFamily="sans-serif"
+                    android:layout_marginTop="-4dp"
                     android:text="Накопите за год: 30000"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textSize="18sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -107,13 +141,6 @@
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:padding="10dp"
-        android:text="asdas"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

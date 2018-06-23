@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(fragmentPagerAdapter);
         viewPager.setCurrentItem(Utils.VIEW_PAGER_START_POSITION);
 
-//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        Toolbar toolbar = findViewById(R.id.toolbar_main_activity); // delete, there is no toolbar for the activity
 //        setSupportActionBar(toolbar);
 //
 //        FloatingActionButton fab = findViewById(R.id.fab);
