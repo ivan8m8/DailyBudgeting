@@ -19,16 +19,18 @@ import android.view.ViewGroup;
 import java.util.Calendar;
 
 import ru.is88.dailybudgeting.R;
+import ru.is88.dailybudgeting.presentation.presenters.MainPresenter;
 import ru.is88.dailybudgeting.presentation.ui.adapters.MonthDaysRecyclerAdapter;
 import ru.is88.dailybudgeting.utils.Utils;
 
-public class PageFragment extends Fragment {
+public class PageFragment extends Fragment implements MainPresenter.View {
 
     private static final String DELTA_KEY = "delta_key";
 
     private int mDelta;
 
     private Calendar calendar;
+    private MainPresenter mainPresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +56,7 @@ public class PageFragment extends Fragment {
         toolbar.setTitle(title);
 
         RecyclerView recyclerView = viewRoot.findViewById(R.id.monthDaysRecyclerView);
-        MonthDaysRecyclerAdapter monthDaysRecyclerAdapter = new MonthDaysRecyclerAdapter(calendar);
+        MonthDaysRecyclerAdapter monthDaysRecyclerAdapter = new MonthDaysRecyclerAdapter(this, calendar);
         recyclerView.setAdapter(monthDaysRecyclerAdapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.scrollToPosition(calendar.get(Calendar.DAY_OF_MONTH));
@@ -77,5 +79,27 @@ public class PageFragment extends Fragment {
         bundle.putInt(DELTA_KEY, delta);
         pageFragment.setArguments(bundle);
         return pageFragment;
+    }
+
+    @Override
+    public void onClickEditMonthDay(int monthDayId, int position) {
+        Log.d(Utils.LOG_TAG, "MainActivity");
+        EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment = EditMonthDayBottomDialogFragment.newInstance();
+        editMonthDayBottomDialogFragment.show(getFragmentManager(), "edit_month_day_bottom_dialog_fragment");
+    }
+
+    @Override
+    public void onProgressStarted() {
+
+    }
+
+    @Override
+    public void onProgressFinished() {
+
+    }
+
+    @Override
+    public void showError(String message) {
+
     }
 }

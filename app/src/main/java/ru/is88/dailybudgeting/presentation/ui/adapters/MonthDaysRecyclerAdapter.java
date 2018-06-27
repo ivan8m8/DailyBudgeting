@@ -2,25 +2,55 @@ package ru.is88.dailybudgeting.presentation.ui.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.net.URL;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
+import ru.is88.dailybudgeting.presentation.presenters.MainPresenter;
+import ru.is88.dailybudgeting.presentation.ui.listeners.MonthDaysRecyclerViewListener;
+import ru.is88.dailybudgeting.utils.Utils;
 
-public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecyclerAdapter.ViewHolder> {
+public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecyclerAdapter.ViewHolder> implements MonthDaysRecyclerViewListener{
 
     private ArrayList<MonthDay> monthDays;
     private Calendar calendar;
     private DateFormatSymbols dateFormatSymbols;
 
-    public MonthDaysRecyclerAdapter(Calendar calendar) {
+    public final MainPresenter.View view;
+
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        private MonthDaysRecyclerViewListener monthDaysRecyclerViewListener;
+
+        private TextView dateTextView;
+
+        public ViewHolder(View itemView, final MonthDaysRecyclerViewListener monthDaysRecyclerViewListener) {
+            super(itemView);
+
+            this.monthDaysRecyclerViewListener = monthDaysRecyclerViewListener;
+            itemView.setOnClickListener(this);
+
+            dateTextView = itemView.findViewById(R.id.dateTextView);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Log.d(Utils.LOG_TAG, "1");
+            monthDaysRecyclerViewListener.onClickView(getAdapterPosition());
+        }
+    }
+
+    public MonthDaysRecyclerAdapter(MainPresenter.View view, Calendar calendar) {
+        this.view = view;
         this.calendar = calendar;
     }
 
@@ -29,7 +59,7 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_month_day, parent, false);
         dateFormatSymbols = new DateFormatSymbols();
-        return new ViewHolder(itemView);
+        return new ViewHolder(itemView, this);
     }
 
     @Override
@@ -45,14 +75,8 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
         return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        private TextView dateTextView;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-
-            dateTextView = itemView.findViewById(R.id.dateTextView);
-        }
+    @Override
+    public void onClickView(int position) {
+        view.onClickEditMonthDay(27062018, position);
     }
 }
