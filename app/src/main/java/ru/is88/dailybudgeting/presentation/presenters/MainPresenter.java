@@ -6,6 +6,6 @@ public interface MainPresenter extends BasePresenter {
 
     interface View extends BaseView {
 
-        void onClickEditMonthDay(int monthDayId, int position);
+        void onClickEditMonthDay(int monthDayId);
     }
 }

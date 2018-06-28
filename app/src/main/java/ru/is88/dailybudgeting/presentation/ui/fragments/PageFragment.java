@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import java.util.Calendar;
 
@@ -55,6 +56,21 @@ public class PageFragment extends Fragment implements MainPresenter.View {
         String title = getMonthNameForTheCurrentFragment() + " " + calendar.get(Calendar.YEAR);
         toolbar.setTitle(title);
 
+        // check layouts, someone overlays the button so it cannot be tapped
+        ImageButton overflowMenuImageButton = viewRoot.findViewById(R.id.overflowMenuImageButton);
+        overflowMenuImageButton.setClickable(true);
+        overflowMenuImageButton.setEnabled(true);
+        overflowMenuImageButton.setActivated(true);
+        overflowMenuImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(Utils.LOG_TAG, "clicked");
+            }
+        });
+
+        boolean bb = overflowMenuImageButton.isClickable() && overflowMenuImageButton.isActivated() && overflowMenuImageButton.isEnabled();
+        Log.d(Utils.LOG_TAG, String.valueOf(bb));
+
         RecyclerView recyclerView = viewRoot.findViewById(R.id.monthDaysRecyclerView);
         MonthDaysRecyclerAdapter monthDaysRecyclerAdapter = new MonthDaysRecyclerAdapter(this, calendar);
         recyclerView.setAdapter(monthDaysRecyclerAdapter);
@@ -82,9 +98,8 @@ public class PageFragment extends Fragment implements MainPresenter.View {
     }
 
     @Override
-    public void onClickEditMonthDay(int monthDayId, int position) {
-        Log.d(Utils.LOG_TAG, "MainActivity");
-        EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment = EditMonthDayBottomDialogFragment.newInstance();
+    public void onClickEditMonthDay(int monthDayId) {
+        EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment = EditMonthDayBottomDialogFragment.newInstance(monthDayId);
         editMonthDayBottomDialogFragment.show(getFragmentManager(), "edit_month_day_bottom_dialog_fragment");
     }
 

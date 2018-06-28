@@ -44,7 +44,6 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
 
         @Override
         public void onClick(View v) {
-            Log.d(Utils.LOG_TAG, "1");
             monthDaysRecyclerViewListener.onClickView(getAdapterPosition());
         }
     }
@@ -68,6 +67,8 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
                 + " "
                 + dateFormatSymbols.getMonths()[calendar.get(Calendar.MONTH)];
         holder.dateTextView.setText(dateString);
+
+        // here do id and edit
     }
 
     @Override
@@ -77,6 +78,13 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
 
     @Override
     public void onClickView(int position) {
-        view.onClickEditMonthDay(27062018, position);
+        String idString;
+        int monthWithoutLeadingNul = calendar.get(Calendar.MONTH) + 1;
+        idString = String.valueOf(position + 1) +
+                String.valueOf(monthWithoutLeadingNul < 10 ? "0" : "") + monthWithoutLeadingNul +
+                String.valueOf(calendar.get(Calendar.YEAR));
+
+        Log.d(Utils.LOG_TAG, "id " + idString);
+        view.onClickEditMonthDay(Integer.parseInt(idString));
     }
 }

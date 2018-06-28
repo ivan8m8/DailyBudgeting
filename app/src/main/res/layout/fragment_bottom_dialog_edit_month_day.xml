@@ -3,7 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="8dp"
+    android:paddingBottom="16dp"
+    android:background="@color/colorWhite">
+
+    <TextView
+        android:id="@+id/monthDayTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="28 июня"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/colorBlack"
+        android:paddingBottom="16dp"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -13,7 +26,11 @@
             android:id="@+id/editDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/edit_description_hint"/>
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:drawableStart="@drawable/ic_short_text"
+            android:hint="@string/edit_description_hint"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -24,7 +41,12 @@
             android:id="@+id/editAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/edit_amount_hint"/>
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/edit_amount_hint"
+            android:drawableStart="@drawable/ic_dollar_sign"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:inputType="numberDecimal"/>
     </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>
