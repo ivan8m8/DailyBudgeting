@@ -79,11 +79,11 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
     @Override
     public void onClickView(int position) {
         String idString;
-        int monthWithoutLeadingNul = calendar.get(Calendar.MONTH) + 1;
-        idString = String.valueOf(position + 1) +
-                String.valueOf(monthWithoutLeadingNul < 10 ? "0" : "") + monthWithoutLeadingNul +
-                String.valueOf(calendar.get(Calendar.YEAR));
-
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int dayOfMonth = position + 1;
+        idString = String.valueOf(calendar.get(Calendar.YEAR)) +
+                String.valueOf(month < 10 ? "0" : "") + month +
+                String.valueOf(dayOfMonth < 10 ? "0" : "") + dayOfMonth;
         Log.d(Utils.LOG_TAG, "id " + idString);
         view.onClickEditMonthDay(Integer.parseInt(idString));
     }

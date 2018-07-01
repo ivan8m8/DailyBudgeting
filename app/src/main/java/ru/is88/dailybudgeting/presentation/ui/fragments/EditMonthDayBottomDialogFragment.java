@@ -35,28 +35,13 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
 
         this.id = getArguments().getInt(ID_KEY, -1);
 
-        Log.d(Utils.LOG_TAG, String.valueOf(id));
-
         View viewRoot = inflater.inflate(R.layout.fragment_bottom_dialog_edit_month_day, container, false);
 
         TextView monthDayTitle = viewRoot.findViewById(R.id.monthDayTitleTextView);
 
-        /*
-         * As an Integer can never start with leading zero
-         */
         String idString = String.valueOf(id);
-        String monthDay = "??";
-        int month = -1; // because it then puts to Calendar
-        if (idString.length() == 7) {
-            monthDay = idString.substring(0, 1);
-            month = Integer.parseInt(idString.substring(1, 3));
-        } else if (idString.length() == 8) {
-            monthDay = idString.substring(0, 2);
-            month = Integer.parseInt(idString.substring(2, 4));
-        }
-
-        Log.d(Utils.LOG_TAG, idString);
-
+        String monthDay = idString.substring(6, 8);
+        int month = Integer.parseInt(idString.substring(4, 6)); // because it's put to DateFormatSymbols().getMonths() below
         monthDayTitle.setText(monthDay + " " + new DateFormatSymbols().getMonths()[month - 1]);
 
         return viewRoot;

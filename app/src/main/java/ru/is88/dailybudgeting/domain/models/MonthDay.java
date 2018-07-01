@@ -8,7 +8,7 @@ public class MonthDay {
 
     /**
      * Id is three numbers consists day, month and year
-     * example: 31122017
+     * example: 20170803
      */
     private int id;
 
