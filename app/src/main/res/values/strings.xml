@@ -4,4 +4,6 @@
 
     <string name="edit_description_hint">Descriptions</string>
     <string name="edit_amount_hint">Expenditures</string>
+
+    <string name="save">Save</string>
 </resources>

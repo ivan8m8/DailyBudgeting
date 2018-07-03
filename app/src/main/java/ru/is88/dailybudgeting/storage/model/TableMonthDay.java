@@ -8,7 +8,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 import ru.is88.dailybudgeting.storage.database.MonthDaysDatabase;
 
 @Table(database = MonthDaysDatabase.class)
-public class MonthDaysTable extends BaseModel {
+public class TableMonthDay extends BaseModel {
 
     @PrimaryKey
     private int id;
@@ -17,7 +17,13 @@ public class MonthDaysTable extends BaseModel {
     private String amountString;
 
     @Column
-    private String descriptionString;
+    private String desc;
+
+    @Column
+    public boolean synced;
+
+    public TableMonthDay() {
+    }
 
     public int getId() {
         return id;
@@ -35,11 +41,11 @@ public class MonthDaysTable extends BaseModel {
         this.amountString = amountString;
     }
 
-    public String getDescriptionString() {
-        return descriptionString;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDescriptionString(String descriptionString) {
-        this.descriptionString = descriptionString;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

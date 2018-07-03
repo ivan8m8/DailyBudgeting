@@ -84,7 +84,6 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
         idString = String.valueOf(calendar.get(Calendar.YEAR)) +
                 String.valueOf(month < 10 ? "0" : "") + month +
                 String.valueOf(dayOfMonth < 10 ? "0" : "") + dayOfMonth;
-        Log.d(Utils.LOG_TAG, "id " + idString);
         view.onClickEditMonthDay(Integer.parseInt(idString));
     }
 }

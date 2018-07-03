@@ -1,5 +1,7 @@
 package ru.is88.dailybudgeting.presentation.presenters.impl;
 
+import android.util.Log;
+
 import ru.is88.dailybudgeting.domain.executor.Executor;
 import ru.is88.dailybudgeting.domain.executor.MainThread;
 import ru.is88.dailybudgeting.domain.interactors.EditMonthDayInteractor;
@@ -48,14 +50,14 @@ public class EditMonthDayPresenterImpl extends AbstractPresenter
     }
 
     @Override
-    public void editMonthDay(MonthDay monthDay, String description, String amount) {
+    public void editMonthDay(int monthDayId, String description, String amount) {
         EditMonthDayInteractor editMonthDayInteractor =
                 new EditMonthDayInteractorImpl(
                         executor,
                         mainThread,
                         this,
                         monthDayRepository,
-                        monthDay, amount, description
+                        monthDayId, amount, description
                 );
         editMonthDayInteractor.execute();
     }

@@ -11,5 +11,5 @@ public interface EditMonthDayPresenter {
     }
 
     void getMonthDayById(int monthDayId);
-    void editMonthDay(MonthDay monthDay, String description, String amount);
+    void editMonthDay(int monthDayId, String amount, String description);
 }
