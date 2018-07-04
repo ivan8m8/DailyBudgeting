@@ -10,5 +10,5 @@ public interface MonthDayRepository {
     void insert(MonthDay monthDay);
 
     MonthDay getMonthDayById(int id);
-    List<MonthDay> getAllMonthDays();
+    List<MonthDay> getMonthDayList(int month, int year);
 }

@@ -43,7 +43,12 @@ public class MonthDayRepositoryImpl implements MonthDayRepository {
     }
 
     @Override
-    public List<MonthDay> getAllMonthDays() {
+    public List<MonthDay> getMonthDayList(int month, int year) {
+        List<TableMonthDay> result = SQLite
+                .select()
+                .from(TableMonthDay.class)
+                .where(TableMonthDay_Table.month.eq(month))
+                .queryList();
         return null;
     }
 }

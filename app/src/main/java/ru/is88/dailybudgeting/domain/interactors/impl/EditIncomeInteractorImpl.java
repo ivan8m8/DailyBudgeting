@@ -1,4 +1,4 @@
-package ru.is88.dailybudgeting.domain.interactors.base.impl;
+package ru.is88.dailybudgeting.domain.interactors.impl;
 
 import java.time.YearMonth;
 

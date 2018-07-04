@@ -35,7 +35,7 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
     private EditText mDescEditText;
     private EditText mAmountEditText;
 
-    public static EditMonthDayBottomDialogFragment newInstance(int id) {
+    public static EditMonthDayBottomDialogFragment newInstance(final int id) {
         EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment = new EditMonthDayBottomDialogFragment();
         Bundle args = new Bundle();
         args.putInt(ID_KEY, id);
@@ -83,7 +83,8 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
                         mDescEditText.getText().toString(),
                         mAmountEditText.getText().toString()
                 );
-                //TODO: close!
+                dismiss();
+
             }
         });
 

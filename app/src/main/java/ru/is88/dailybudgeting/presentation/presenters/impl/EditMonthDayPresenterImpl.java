@@ -1,13 +1,11 @@
 package ru.is88.dailybudgeting.presentation.presenters.impl;
 
-import android.util.Log;
-
 import ru.is88.dailybudgeting.domain.executor.Executor;
 import ru.is88.dailybudgeting.domain.executor.MainThread;
 import ru.is88.dailybudgeting.domain.interactors.EditMonthDayInteractor;
 import ru.is88.dailybudgeting.domain.interactors.GetMonthDayByIdInteractor;
-import ru.is88.dailybudgeting.domain.interactors.base.impl.GetMonthDayByIdInteractorImpl;
-import ru.is88.dailybudgeting.domain.interactors.base.impl.EditMonthDayInteractorImpl;
+import ru.is88.dailybudgeting.domain.interactors.impl.GetMonthDayByIdInteractorImpl;
+import ru.is88.dailybudgeting.domain.interactors.impl.EditMonthDayInteractorImpl;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
 import ru.is88.dailybudgeting.domain.repositories.MonthDayRepository;
 import ru.is88.dailybudgeting.presentation.presenters.AbstractPresenter;
