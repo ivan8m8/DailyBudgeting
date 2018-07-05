@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import java.net.URL;
 import java.text.DateFormatSymbols;
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
@@ -21,7 +21,7 @@ import ru.is88.dailybudgeting.utils.Utils;
 
 public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecyclerAdapter.ViewHolder> implements MonthDaysRecyclerViewListener{
 
-    private ArrayList<MonthDay> monthDays;
+    private List<MonthDay> monthDays;
     private Calendar calendar;
     private DateFormatSymbols dateFormatSymbols;
 
@@ -48,9 +48,12 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
         }
     }
 
-    public MonthDaysRecyclerAdapter(MainPresenter.View view, Calendar calendar) {
+    public MonthDaysRecyclerAdapter(MainPresenter.View view,
+                                    Calendar calendar,
+                                    List<MonthDay> monthDays) {
         this.view = view;
         this.calendar = calendar;
+        this.monthDays = monthDays;
     }
 
     @NonNull

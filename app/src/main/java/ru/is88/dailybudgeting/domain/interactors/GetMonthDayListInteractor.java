@@ -9,6 +9,5 @@ public interface GetMonthDayListInteractor extends Interactor {
 
     interface Callback {
         void onMonthDayListRetrieved(List<MonthDay> monthDays);
-        void onMonthDayListNotFound();
     }
 }

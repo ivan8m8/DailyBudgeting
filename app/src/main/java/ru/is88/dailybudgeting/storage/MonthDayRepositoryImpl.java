@@ -48,7 +48,8 @@ public class MonthDayRepositoryImpl implements MonthDayRepository {
                 .select()
                 .from(TableMonthDay.class)
                 .where(TableMonthDay_Table.month.eq(month))
+                .and(TableMonthDay_Table.year.eq(year))
                 .queryList();
-        return null;
+        return StorageModelConverter.convertListToDomainModel(result);
     }
 }

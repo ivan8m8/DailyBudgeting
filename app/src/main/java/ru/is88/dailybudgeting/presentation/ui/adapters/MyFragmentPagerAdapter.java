@@ -15,8 +15,8 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        int delta = position - Utils.VIEW_PAGER_START_POSITION;
-        return PageFragment.newInstance(delta);
+        int monthDelta = position - Utils.VIEW_PAGER_START_POSITION;
+        return PageFragment.newInstance(monthDelta);
     }
 
     @Override
