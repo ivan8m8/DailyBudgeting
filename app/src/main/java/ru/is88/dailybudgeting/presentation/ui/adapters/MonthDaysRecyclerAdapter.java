@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.net.URL;
 import java.text.DateFormatSymbols;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -17,7 +17,6 @@ import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
 import ru.is88.dailybudgeting.presentation.presenters.MainPresenter;
 import ru.is88.dailybudgeting.presentation.ui.listeners.MonthDaysRecyclerViewListener;
-import ru.is88.dailybudgeting.utils.Utils;
 
 public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecyclerAdapter.ViewHolder> implements MonthDaysRecyclerViewListener{
 
@@ -32,6 +31,9 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
         private MonthDaysRecyclerViewListener monthDaysRecyclerViewListener;
 
         private TextView dateTextView;
+        private TextView descTextView;
+        private TextView saldoTextView;
+        private TextView amountTextView;
 
         public ViewHolder(View itemView, final MonthDaysRecyclerViewListener monthDaysRecyclerViewListener) {
             super(itemView);
@@ -40,6 +42,9 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
             itemView.setOnClickListener(this);
 
             dateTextView = itemView.findViewById(R.id.dateTextView);
+            descTextView = itemView.findViewById(R.id.descTextView);
+            saldoTextView = itemView.findViewById(R.id.saldoTextView);
+            amountTextView = itemView.findViewById(R.id.amountTextView);
         }
 
         @Override
@@ -58,20 +63,39 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, final int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_month_day, parent, false);
         dateFormatSymbols = new DateFormatSymbols();
         return new ViewHolder(itemView, this);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String dateString = String.valueOf(position + 1)
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+
+        final int day = holder.getAdapterPosition() + 1;
+
+        String dateString = String.valueOf(day)
                 + " "
                 + dateFormatSymbols.getMonths()[calendar.get(Calendar.MONTH)];
         holder.dateTextView.setText(dateString);
 
-        // here do id and edit
+        if (monthDays.size() != 0) {
+            holder.descTextView.setText(monthDays.get(holder.getAdapterPosition()).getDescription());
+        }
+
+//        Log.d("KSI", String.valueOf(monthDays.get(0).getDay()));
+//        Log.d("KSI", String.valueOf(monthDays.get(1).getDay()));
+//        Log.d("KSI", String.valueOf(monthDays.get(2).getDay()));
+
+//        if (monthDays.size() > position && monthDays.get(position) != null) {
+//
+//            final int day = monthDays.get(position).getDay();
+//
+//            if (day == position + 1) {
+//                holder.descTextView.setText(monthDays.get(position).getDescription());
+//                holder.amountTextView.setText(monthDays.get(position).getAmountString());
+//            }
+//        }
     }
 
     @Override
@@ -80,7 +104,7 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
     }
 
     @Override
-    public void onClickView(int position) {
+    public void onClickView(final int position) {
         String idString;
         int month = calendar.get(Calendar.MONTH) + 1;
         int dayOfMonth = position + 1;

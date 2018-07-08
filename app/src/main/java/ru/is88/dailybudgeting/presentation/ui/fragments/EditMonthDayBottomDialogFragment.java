@@ -1,9 +1,11 @@
 package ru.is88.dailybudgeting.presentation.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,10 @@ import ru.is88.dailybudgeting.storage.MonthDayRepositoryImpl;
 
 public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment implements EditMonthDayPresenter.View {
 
+    public interface OnEditingFinishedListener {
+        void onEditingFinished();
+    }
+
     private static final String ID_KEY = "monthDayID";
 
     private EditMonthDayPresenter mEditMonthDayPresenter;
@@ -33,6 +39,8 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
 
     private EditText mDescEditText;
     private EditText mAmountEditText;
+
+    private OnEditingFinishedListener callback;
 
     public static EditMonthDayBottomDialogFragment newInstance(final int id) {
         EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment = new EditMonthDayBottomDialogFragment();
@@ -92,7 +100,20 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
         int month = Integer.parseInt(idString.substring(4, 6)); // because it's put to DateFormatSymbols().getMonths() below
         monthDayTitle.setText(monthDay + " " + new DateFormatSymbols().getMonths()[month - 1]);
 
+
+
         return viewRoot;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            callback = (OnEditingFinishedListener) getActivity().getSupportFragmentManager().findFragmentById(R.id.viewPager);
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.getPackageName() + " must implement OnEditingFinishedListener");
+        }
     }
 
     @Override
@@ -107,7 +128,8 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
 
     @Override
     public void onMonthDayUpdated(MonthDay monthDay) {
-
+        Log.d("KSI", "monthDayUpdated");
+        callback.onEditingFinished();
     }
 
     @Override

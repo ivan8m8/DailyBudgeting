@@ -30,7 +30,7 @@ import ru.is88.dailybudgeting.presentation.ui.adapters.MonthDaysRecyclerAdapter;
 import ru.is88.dailybudgeting.storage.MonthDayRepositoryImpl;
 import ru.is88.dailybudgeting.utils.Utils;
 
-public class PageFragment extends Fragment implements MainPresenter.View {
+public class PageFragment extends Fragment implements MainPresenter.View, EditMonthDayBottomDialogFragment.OnEditingFinishedListener {
 
     private static final String MONTH_DELTA_KEY = "month_delta_key";
 
@@ -83,6 +83,7 @@ public class PageFragment extends Fragment implements MainPresenter.View {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View viewRoot = inflater.inflate(R.layout.fragment_page, container, false);
 
         toolbar = viewRoot.findViewById(R.id.monthToolbar);
@@ -110,7 +111,8 @@ public class PageFragment extends Fragment implements MainPresenter.View {
 
     @Override
     public void showMonthDays(List<MonthDay> monthDays) {
-        this.monthDays = monthDays;
+        this.monthDays.clear();
+        this.monthDays.addAll(monthDays);
         monthDaysRecyclerAdapter.notifyDataSetChanged();
     }
 
@@ -119,6 +121,12 @@ public class PageFragment extends Fragment implements MainPresenter.View {
         final EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment =
                 EditMonthDayBottomDialogFragment.newInstance(monthDayId);
         editMonthDayBottomDialogFragment.show(getFragmentManager(), "edit_month_day_bottom_dialog_fragment");
+    }
+
+    @Override
+    public void onEditingFinished() {
+        Log.d("KSI", "??");
+        monthDaysRecyclerAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -169,10 +177,10 @@ public class PageFragment extends Fragment implements MainPresenter.View {
                         final float y = recyclerView.getY() + recyclerView.getChildAt(finalPosition).getY();
                         nestedScrollView.smoothScrollTo(0, (int) y);
                     }
-                }, 1000);
+                }, 100);
             } catch (Exception e) {
                 // Sometimes this method got called faster than recyclerView.getChildAt(finalPosition).getY()
-                Log.d("KSI", e.getMessage());
+                e.printStackTrace();
             }
 
         } else {

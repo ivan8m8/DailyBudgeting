@@ -6,4 +6,11 @@
     <string name="edit_amount_hint">Expenditures</string>
 
     <string name="save">Save</string>
+    <string name="loading">Loading…</string>
+
+    <string name="desc_text_view_def">pizza, IKEA, t-shirt, food, shower gel</string>
+    <string name="amount_text_view_def">$0</string>
+    <string name="saldo_text_view_def">$0</string>
+
+    <string name="error_1_date_text_view">Error 1</string>
 </resources>

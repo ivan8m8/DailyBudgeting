@@ -22,6 +22,7 @@ public class TableMonthDay extends BaseModel {
     @Column
     public boolean synced;
 
+    @Column public int day;
     @Column public int month;
     @Column public int year;
 
@@ -34,8 +35,6 @@ public class TableMonthDay extends BaseModel {
 
     public void setId(int id) {
         this.id = id;
-        this.month = Integer.parseInt(String.valueOf(id).substring(4, 6));
-        this.year = Integer.parseInt(String.valueOf(id).substring(0, 4));
     }
 
     public String getAmountString() {
@@ -54,11 +53,27 @@ public class TableMonthDay extends BaseModel {
         this.desc = desc;
     }
 
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
     public int getMonth() {
         return month;
     }
 
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
     public int getYear() {
         return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 }

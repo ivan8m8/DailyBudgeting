@@ -1,6 +1,8 @@
 package ru.is88.dailybudgeting.storage;
 
 
+import android.util.Log;
+
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.List;
@@ -50,6 +52,6 @@ public class MonthDayRepositoryImpl implements MonthDayRepository {
                 .where(TableMonthDay_Table.month.eq(month))
                 .and(TableMonthDay_Table.year.eq(year))
                 .queryList();
-        return StorageModelConverter.convertListToDomainModel(result);
+        return StorageModelConverter.convertListToRecyclerModel(result);
     }
 }

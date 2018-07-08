@@ -1,7 +1,5 @@
 package ru.is88.dailybudgeting.domain.interactors.impl;
 
-import android.util.Log;
-
 import java.util.List;
 
 import ru.is88.dailybudgeting.domain.executor.Executor;
@@ -45,7 +43,6 @@ public class GetMonthDayListInteractorImpl extends AbstractInteractor implements
         mainThread.post(new Runnable() {
             @Override
             public void run() {
-                Log.d("KSI", "size of retrieved costs " + monthDays.size());
                 callback.onMonthDayListRetrieved(monthDays);
             }
         });
