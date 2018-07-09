@@ -67,17 +67,15 @@ public class PageFragment extends Fragment implements MainPresenter.View, EditMo
                 this,
                 new MonthDayRepositoryImpl()
         );
-
-        monthDays = new ArrayList<>();
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        int month = calendar.get(Calendar.MONTH) + 1;
+        int month = calendar.get(Calendar.MONTH);
         int year = calendar.get(Calendar.YEAR);
-        mainPresenter.getMonthDayList(month, year);
+        mainPresenter.getMonthDayList(month + 1, year);
     }
 
     @Nullable
@@ -90,8 +88,8 @@ public class PageFragment extends Fragment implements MainPresenter.View, EditMo
         overflowMenuImageButton = viewRoot.findViewById(R.id.overflowMenuImageButton);
         initToolbar();
 
-        recyclerView = viewRoot.findViewById(R.id.monthDaysRecyclerView);
         nestedScrollView = viewRoot.findViewById(R.id.nestedScrollView);
+        recyclerView = viewRoot.findViewById(R.id.monthDaysRecyclerView);
         initRecycler();
 
         return viewRoot;
@@ -111,22 +109,22 @@ public class PageFragment extends Fragment implements MainPresenter.View, EditMo
 
     @Override
     public void showMonthDays(List<MonthDay> monthDays) {
-        this.monthDays.clear();
+        //this.monthDays.clear();
         this.monthDays.addAll(monthDays);
         monthDaysRecyclerAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onClickEditMonthDay(int monthDayId) {
+    public void onClickEditMonthDay(final int monthDayId, final int position) {
         final EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment =
-                EditMonthDayBottomDialogFragment.newInstance(monthDayId);
+                EditMonthDayBottomDialogFragment.newInstance(monthDayId, position);
         editMonthDayBottomDialogFragment.show(getFragmentManager(), "edit_month_day_bottom_dialog_fragment");
     }
 
     @Override
-    public void onEditingFinished() {
-        Log.d("KSI", "??");
-        monthDaysRecyclerAdapter.notifyDataSetChanged();
+    public void onEditingFinished(final MonthDay monthDay, final int postiton) {
+        this.monthDays.set(postiton, monthDay);
+        monthDaysRecyclerAdapter.notifyItemChanged(postiton);
     }
 
     @Override
@@ -145,6 +143,8 @@ public class PageFragment extends Fragment implements MainPresenter.View, EditMo
     }
 
     private void initRecycler() {
+
+        monthDays = new ArrayList<>();
 
         monthDaysRecyclerAdapter = new MonthDaysRecyclerAdapter(this, calendar, monthDays);
         recyclerView.setAdapter(monthDaysRecyclerAdapter);

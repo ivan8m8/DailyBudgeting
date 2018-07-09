@@ -26,14 +26,16 @@ import ru.is88.dailybudgeting.storage.MonthDayRepositoryImpl;
 public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment implements EditMonthDayPresenter.View {
 
     public interface OnEditingFinishedListener {
-        void onEditingFinished();
+        void onEditingFinished(MonthDay monthDay, int position);
     }
 
-    private static final String ID_KEY = "monthDayID";
+    private static final String ID_KEY = "monthDayID_key";
+    private static final String POSITION_KEY = "position_key";
 
     private EditMonthDayPresenter mEditMonthDayPresenter;
 
     private int mId;
+    private int position;
     private String mAmountString;
     private String mDesc;
 
@@ -42,10 +44,11 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
 
     private OnEditingFinishedListener callback;
 
-    public static EditMonthDayBottomDialogFragment newInstance(final int id) {
+    public static EditMonthDayBottomDialogFragment newInstance(final int id, final int position) {
         EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment = new EditMonthDayBottomDialogFragment();
         Bundle args = new Bundle();
         args.putInt(ID_KEY, id);
+        args.putInt(POSITION_KEY, position);
         editMonthDayBottomDialogFragment.setArguments(args);
         return editMonthDayBottomDialogFragment;
     }
@@ -60,6 +63,8 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
                 this,
                 new MonthDayRepositoryImpl()
         );
+
+        this.position = getArguments().getInt(POSITION_KEY, -1);
 
         this.mId = getArguments().getInt(ID_KEY, -1);
 
@@ -100,8 +105,6 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
         int month = Integer.parseInt(idString.substring(4, 6)); // because it's put to DateFormatSymbols().getMonths() below
         monthDayTitle.setText(monthDay + " " + new DateFormatSymbols().getMonths()[month - 1]);
 
-
-
         return viewRoot;
     }
 
@@ -110,9 +113,10 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
         super.onAttach(context);
 
         try {
-            callback = (OnEditingFinishedListener) getActivity().getSupportFragmentManager().findFragmentById(R.id.viewPager);
+            callback = (OnEditingFinishedListener) getActivity().getSupportFragmentManager()
+                    .findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + position);
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.getPackageName() + " must implement OnEditingFinishedListener");
+            throw new ClassCastException(callback.getClass().getName() + " must implement OnEditingFinishedListener");
         }
     }
 
@@ -127,9 +131,8 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
     }
 
     @Override
-    public void onMonthDayUpdated(MonthDay monthDay) {
-        Log.d("KSI", "monthDayUpdated");
-        callback.onEditingFinished();
+    public void onMonthDayUpdated(final MonthDay monthDay, final int position) {
+        callback.onEditingFinished(monthDay, position);
     }
 
     @Override

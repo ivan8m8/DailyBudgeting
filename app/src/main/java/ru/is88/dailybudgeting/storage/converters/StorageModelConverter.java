@@ -1,7 +1,5 @@
 package ru.is88.dailybudgeting.storage.converters;
 
-
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -42,38 +40,40 @@ public class StorageModelConverter {
 
         List<MonthDay> result = new ArrayList<>();
 
-        for (int i=0; i < tableMonthDays.size() - 1; i++){
-            result.add(convertToDomainModel(tableMonthDays.get(i)));
-        }
-
-        for (int i=0; i < calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - 1; i++) {
-
-            for (int j=0; j < result.size(); j++) {
-                // comparator
+        /*
+         * It's implemented to populate recycler view,
+         * otherwise, it'd be hard to parse empty month days within onBindViewHolder.
+         */
+        int j = 0;
+        for (int i=0; i < calendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
+            if (j < tableMonthDays.size() && tableMonthDays.get(j).getDay() == i + 1) {
+                result.add(convertToDomainModel(tableMonthDays.get(j)));
+                j++;
+            } else {
+                result.add(new MonthDay(buildMonthDayID(calendar, i+1), "", ""));
             }
-
-
-//            if (tableMonthDays.get(i) != null) {
-//                Log.d("KSI", " added null");
-//            } else {
-//                Log.d("KSI", " added NOT null");
-//            }
-
-//            if (tableMonthDays.get(i) != null && tableMonthDays.get(i).getDay() - 1 == i) {
-//                result.add(convertToDomainModel(tableMonthDays.get(i)));
-//                Log.d("KSI", " added NOT null");
-//            } else {
-//                result.add(null);
-//                Log.d("KSI", " added null");
-//            }
         }
 
-//        for (TableMonthDay tableMonthDay : tableMonthDays) {
-//            result.add(convertToDomainModel(tableMonthDay));
-//        }
-
-        Log.d("KSI", " size " + String.valueOf(result.size()));
+        //Log.d("KSI", " size " + String.valueOf(result.size()));
 
         return result;
+    }
+
+    /**
+     * Unable to move this function to Utils and make it general,
+     * because another one, which is within MonthDaysRecyclerAdapter,
+     * does Calendar.month + 1 to put correct value to the DB,
+     * while this one retrieves from the DB the month, that has already been turned to human-readable view.
+     */
+    private static int buildMonthDayID(Calendar calendar, int day) {
+
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+
+        String idString = year +
+                String.valueOf(month < 10 ? "0" : "") + month +
+                String.valueOf(day < 10 ? "0" : "") + day;
+
+        return Integer.parseInt(idString);
     }
 }

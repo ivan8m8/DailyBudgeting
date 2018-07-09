@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.text.DateFormatSymbols;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -18,7 +17,8 @@ import ru.is88.dailybudgeting.domain.models.MonthDay;
 import ru.is88.dailybudgeting.presentation.presenters.MainPresenter;
 import ru.is88.dailybudgeting.presentation.ui.listeners.MonthDaysRecyclerViewListener;
 
-public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecyclerAdapter.ViewHolder> implements MonthDaysRecyclerViewListener{
+public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecyclerAdapter.ViewHolder>
+        implements MonthDaysRecyclerViewListener{
 
     private List<MonthDay> monthDays;
     private Calendar calendar;
@@ -81,21 +81,8 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
 
         if (monthDays.size() != 0) {
             holder.descTextView.setText(monthDays.get(holder.getAdapterPosition()).getDescription());
+            holder.amountTextView.setText(monthDays.get(holder.getAdapterPosition()).getAmountString());
         }
-
-//        Log.d("KSI", String.valueOf(monthDays.get(0).getDay()));
-//        Log.d("KSI", String.valueOf(monthDays.get(1).getDay()));
-//        Log.d("KSI", String.valueOf(monthDays.get(2).getDay()));
-
-//        if (monthDays.size() > position && monthDays.get(position) != null) {
-//
-//            final int day = monthDays.get(position).getDay();
-//
-//            if (day == position + 1) {
-//                holder.descTextView.setText(monthDays.get(position).getDescription());
-//                holder.amountTextView.setText(monthDays.get(position).getAmountString());
-//            }
-//        }
     }
 
     @Override
@@ -108,9 +95,9 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
         String idString;
         int month = calendar.get(Calendar.MONTH) + 1;
         int dayOfMonth = position + 1;
-        idString = String.valueOf(calendar.get(Calendar.YEAR)) +
+        idString = calendar.get(Calendar.YEAR) +
                 String.valueOf(month < 10 ? "0" : "") + month +
                 String.valueOf(dayOfMonth < 10 ? "0" : "") + dayOfMonth;
-        view.onClickEditMonthDay(Integer.parseInt(idString));
+        view.onClickEditMonthDay(Integer.parseInt(idString), position);
     }
 }

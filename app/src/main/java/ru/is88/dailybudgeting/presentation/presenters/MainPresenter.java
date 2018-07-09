@@ -11,7 +11,7 @@ public interface MainPresenter extends BasePresenter {
 
         void showMonthDays(List<MonthDay> monthDays);
 
-        void onClickEditMonthDay(int monthDayId);
+        void onClickEditMonthDay(final int monthDayId, final int position);
     }
 
     void getMonthDayList(int month, int year);

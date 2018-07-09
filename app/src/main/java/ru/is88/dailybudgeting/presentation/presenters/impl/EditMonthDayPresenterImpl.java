@@ -61,7 +61,8 @@ public class EditMonthDayPresenterImpl extends AbstractPresenter
     }
 
     @Override
-    public void onMonthDayUpdated(MonthDay monthDay) {
+    public void onMonthDayUpdated(final MonthDay monthDay) {
         view.onMonthDayUpdated(monthDay);
     }
+
 }
