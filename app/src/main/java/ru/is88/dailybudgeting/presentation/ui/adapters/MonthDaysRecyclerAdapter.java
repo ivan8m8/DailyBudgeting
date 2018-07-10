@@ -15,6 +15,7 @@ import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
 import ru.is88.dailybudgeting.presentation.presenters.MainPresenter;
 import ru.is88.dailybudgeting.presentation.ui.listeners.MonthDaysRecyclerViewListener;
+import ru.is88.dailybudgeting.utils.Utils;
 
 public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecyclerAdapter.ViewHolder>
         implements MonthDaysRecyclerViewListener{
@@ -91,12 +92,10 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
 
     @Override
     public void onClickView(final int position) {
-        String idString;
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int dayOfMonth = position + 1;
-        idString = calendar.get(Calendar.YEAR) +
-                String.valueOf(month < 10 ? "0" : "") + month +
-                String.valueOf(dayOfMonth < 10 ? "0" : "") + dayOfMonth;
-        view.onClickEditMonthDay(Integer.parseInt(idString), position);
+        view.onClickEditMonthDay(Utils.buildMonthDayID(
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH) + 1,
+                position + 1),
+                position);
     }
 }

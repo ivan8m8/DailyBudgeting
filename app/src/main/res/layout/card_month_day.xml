@@ -52,7 +52,7 @@
                 android:textColor="@color/colorPrimaryLight"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:text="$323" />
+                android:text="@string/saldo_text_view_def" />
 
             <TextView
                 android:id="@+id/amountTextView"

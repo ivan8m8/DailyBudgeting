@@ -16,4 +16,12 @@ public final class Utils {
      * it' needed to start view pager from the middle items position.
      */
     public static final int VIEW_PAGER_START_POSITION = 5;
+
+    public static int buildMonthDayID(int year, int month, int day) {
+
+        String idString = String.valueOf(year) +
+                String.valueOf(month < 10 ? "0" : "") + month +
+                String.valueOf(day < 10 ? "0" : "") + day;
+        return Integer.parseInt(idString);
+    }
 }

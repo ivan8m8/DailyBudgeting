@@ -1,7 +1,5 @@
 package ru.is88.dailybudgeting.storage.converters;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -9,6 +7,7 @@ import java.util.List;
 
 import ru.is88.dailybudgeting.domain.models.MonthDay;
 import ru.is88.dailybudgeting.storage.model.TableMonthDay;
+import ru.is88.dailybudgeting.utils.Utils;
 
 public class StorageModelConverter {
 
@@ -50,30 +49,12 @@ public class StorageModelConverter {
                 result.add(convertToDomainModel(tableMonthDays.get(j)));
                 j++;
             } else {
-                result.add(new MonthDay(buildMonthDayID(calendar, i+1), "", ""));
+                result.add(new MonthDay(
+                        Utils.buildMonthDayID(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), i+1),
+                        "", ""));
             }
         }
 
-        //Log.d("KSI", " size " + String.valueOf(result.size()));
-
         return result;
-    }
-
-    /**
-     * Unable to move this function to Utils and make it general,
-     * because another one, which is within MonthDaysRecyclerAdapter,
-     * does Calendar.month + 1 to put correct value to the DB,
-     * while this one retrieves from the DB the month, that has already been turned to human-readable view.
-     */
-    private static int buildMonthDayID(Calendar calendar, int day) {
-
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-
-        String idString = year +
-                String.valueOf(month < 10 ? "0" : "") + month +
-                String.valueOf(day < 10 ? "0" : "") + day;
-
-        return Integer.parseInt(idString);
     }
 }
