@@ -2,7 +2,6 @@ package ru.is88.dailybudgeting.presentation.ui.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +34,7 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
         private TextView saldoTextView;
         private TextView amountTextView;
 
-        public ViewHolder(View itemView, final MonthDaysRecyclerViewListener monthDaysRecyclerViewListener) {
+        ViewHolder(View itemView, final MonthDaysRecyclerViewListener monthDaysRecyclerViewListener) {
             super(itemView);
 
             this.monthDaysRecyclerViewListener = monthDaysRecyclerViewListener;

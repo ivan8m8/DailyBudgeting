@@ -1,6 +1,5 @@
 package ru.is88.dailybudgeting.domain.interactors.impl;
 
-
 import ru.is88.dailybudgeting.domain.executor.Executor;
 import ru.is88.dailybudgeting.domain.executor.MainThread;
 import ru.is88.dailybudgeting.domain.interactors.EditMonthDayInteractor;

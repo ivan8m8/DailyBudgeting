@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +20,7 @@ import android.widget.ImageButton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import ru.is88.dailybudgeting.MainThreadImpl;
 import ru.is88.dailybudgeting.R;
@@ -34,7 +36,6 @@ public class PageFragment extends Fragment implements MainPresenter.View, EditMo
 
     private static final String MONTH_DELTA_KEY = "month_delta_key";
 
-    private int monthDelta;
     private Calendar calendar;
 
     private List<MonthDay> monthDays;
@@ -51,6 +52,7 @@ public class PageFragment extends Fragment implements MainPresenter.View, EditMo
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        int monthDelta;
         if (getArguments() != null) {
             monthDelta = getArguments().getInt(MONTH_DELTA_KEY);
         } else {
@@ -116,15 +118,22 @@ public class PageFragment extends Fragment implements MainPresenter.View, EditMo
 
     @Override
     public void onClickEditMonthDay(final int monthDayId, final int position) {
+
+        final ViewPager viewPager = Objects.requireNonNull(getActivity(),
+                this.getClass().getSimpleName() + " got null getActivity() or findViewById(R.id.viewPager)")
+                .findViewById(R.id.viewPager);
+
         final EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment =
-                EditMonthDayBottomDialogFragment.newInstance(monthDayId, position);
-        editMonthDayBottomDialogFragment.show(getFragmentManager(), "edit_month_day_bottom_dialog_fragment");
+                EditMonthDayBottomDialogFragment.newInstance(monthDayId, position, viewPager.getCurrentItem());
+        editMonthDayBottomDialogFragment.show(Objects.requireNonNull(getFragmentManager(),
+                this.getClass().getSimpleName() + " got null getFragmentManager()")
+                , "edit_month_day_bottom_dialog_fragment");
     }
 
     @Override
-    public void onEditingFinished(final MonthDay monthDay, final int postiton) {
-        this.monthDays.set(postiton, monthDay);
-        monthDaysRecyclerAdapter.notifyItemChanged(postiton);
+    public void onEditingFinished(final MonthDay monthDay, final int position) {
+        this.monthDays.set(position, monthDay);
+        monthDaysRecyclerAdapter.notifyItemChanged(position);
     }
 
     @Override
