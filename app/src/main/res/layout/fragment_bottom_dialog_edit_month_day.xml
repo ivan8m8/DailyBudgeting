@@ -11,7 +11,7 @@
         android:id="@+id/monthDayTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="28 июня"
+        android:text="@string/error_2_month_day_title_text_view"
         android:layout_gravity="center"
         android:textStyle="bold"
         android:textColor="@color/colorBlack"
@@ -44,8 +44,10 @@
             android:layout_marginEnd="16dp"
             android:hint="@string/edit_amount_hint"
             android:drawableStart="@drawable/ic_dollar_sign"
+            android:drawableEnd=""
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:inputType="numberDecimal"/>
+            android:inputType="numberDecimal"
+            android:digits="0123456789+." />
     </android.support.design.widget.TextInputLayout>
 
     <Button
@@ -56,5 +58,12 @@
         android:layout_margin="@dimen/text_margin"
         style="?android:buttonBarButtonStyle"
         android:text="@string/save"/>
+
+    <!--<ru.is88.dailybudgeting.utils.ExpendituresKeyboardCustomView-->
+        <!--android:id="@+id/expendituresKeyboardView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:visibility="gone"/>-->
 
 </LinearLayout>
