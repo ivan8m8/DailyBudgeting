@@ -81,8 +81,7 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
 
         if (monthDays.size() != 0) {
             holder.descTextView.setText(monthDays.get(holder.getAdapterPosition()).getDescription());
-            //TODO: getAmount not STRING!
-            holder.amountTextView.setText(monthDays.get(holder.getAdapterPosition()).getAmountString());
+            holder.amountTextView.setText(String.valueOf(monthDays.get(holder.getAdapterPosition()).getAmount()));
         }
     }
 

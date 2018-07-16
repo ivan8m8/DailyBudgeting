@@ -40,6 +40,14 @@ public class MonthDay {
 
     public double getAmount() {
         double result = 0;
+        if (amountString.trim().length() > 0) {
+            String[] stringAmounts = amountString.trim().split("\\s+");
+            double[] amounts = new double[stringAmounts.length];
+            for (int i = 0; i < stringAmounts.length; i++) {
+                amounts[i] = Double.parseDouble(stringAmounts[i]);
+                result += amounts[i];
+            }
+        }
         return result;
     }
 

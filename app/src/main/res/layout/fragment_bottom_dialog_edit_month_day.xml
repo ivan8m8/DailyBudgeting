@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="8dp"
-    android:background="@color/colorWhite">
+    android:background="@color/colorWhite"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
     <TextView
         android:id="@+id/monthDayTitleTextView"
@@ -25,8 +26,8 @@
             android:id="@+id/editDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
             android:drawableStart="@drawable/ic_short_text"
             android:hint="@string/edit_description_hint"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
@@ -40,14 +41,13 @@
             android:id="@+id/editAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
             android:hint="@string/edit_amount_hint"
             android:drawableStart="@drawable/ic_dollar_sign"
-            android:drawableEnd=""
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:inputType="numberDecimal"
-            android:digits="0123456789+." />
+            android:digits="0123456789+. " />
     </android.support.design.widget.TextInputLayout>
 
     <Button
@@ -57,13 +57,6 @@
         android:layout_gravity="end"
         android:layout_margin="@dimen/text_margin"
         style="?android:buttonBarButtonStyle"
-        android:text="@string/save"/>
-
-    <!--<ru.is88.dailybudgeting.utils.ExpendituresKeyboardCustomView-->
-        <!--android:id="@+id/expendituresKeyboardView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center_horizontal"-->
-        <!--android:visibility="gone"/>-->
+        android:text="@string/save" />
 
 </LinearLayout>

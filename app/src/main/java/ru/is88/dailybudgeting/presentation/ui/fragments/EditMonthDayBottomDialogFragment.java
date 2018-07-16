@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
-import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +28,8 @@ import ru.is88.dailybudgeting.utils.ExpendituresKeyboardCustomView;
 
 public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment implements EditMonthDayPresenter.View {
 
+    private static final String REGEX = "[0-9 ]+";
+
     public interface OnEditingFinishedListener {
         void onEditingFinished(MonthDay monthDay, int position);
     }
@@ -48,8 +50,6 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
     private EditText amountEditText;
 
     private OnEditingFinishedListener callback;
-
-//    private ExpendituresKeyboardCustomView expendituresKeyboardCustomView;
 
     public static EditMonthDayBottomDialogFragment newInstance(final int id, final int position, final int fragmentPosition) {
         EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment = new EditMonthDayBottomDialogFragment();
@@ -120,12 +120,18 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editMonthDayPresenter.editMonthDay(
-                        id,
-                        descriptionEditText.getText().toString(),
-                        amountEditText.getText().toString()
-                );
-                dismiss();
+
+                if (amountEditText.getText().toString().matches(REGEX)) {
+
+                    editMonthDayPresenter.editMonthDay(
+                            id,
+                            descriptionEditText.getText().toString(),
+                            amountEditText.getText().toString()
+                    );
+                    dismiss();
+                } else {
+                    Log.d("KSI", "NOO");
+                }
 
             }
         });
@@ -134,25 +140,6 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
         String monthDay = idString.substring(6, 8);
         int month = Integer.parseInt(idString.substring(4, 6)); // because it's put to DateFormatSymbols().getMonths() below
         monthDayTitle.setText(monthDay + " " + new DateFormatSymbols().getMonths()[month - 1]);
-
-//        expendituresKeyboardCustomView = viewRoot.findViewById(R.id.expendituresKeyboardView);
-
-        // prevent the system keyboard from appearing when this EditText is tapped
-//        amountEditText.setRawInputType(InputType.TYPE_CLASS_TEXT);
-//        amountEditText.setTextIsSelectable(true);
-
-//        amountEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (hasFocus) {
-//                    descriptionEditText.clearFocus();
-//                    expendituresKeyboardCustomView.setVisibility(View.VISIBLE);
-//                    amountEditText.setText("30+13");
-//                } else {
-//                    expendituresKeyboardCustomView.setVisibility(View.GONE);
-//                }
-//            }
-//        });
 
         return viewRoot;
     }
