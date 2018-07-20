@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.design.widget.TextInputLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +31,8 @@ import ru.is88.dailybudgeting.utils.ExpendituresKeyboardCustomView;
 
 public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment implements EditMonthDayPresenter.View {
 
-    private static final String REGEX = "[0-9 ]+";
+    private static final String REGEX = "\\d+(.\\d+)?(\\s\\d+(.\\d+)?)*";
+    private static final String REGEX_FINAL = "^\\d+(.\\d+)?(\\s\\d+(.\\d+)?)*$";
 
     public interface OnEditingFinishedListener {
         void onEditingFinished(MonthDay monthDay, int position);
@@ -115,24 +119,45 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
         descriptionEditText = viewRoot.findViewById(R.id.editDescription);
         amountEditText = viewRoot.findViewById(R.id.editAmount);
         TextView monthDayTitle = viewRoot.findViewById(R.id.monthDayTitleTextView);
-        Button save = viewRoot.findViewById(R.id.saveMonthDayButton);
+        final Button save = viewRoot.findViewById(R.id.saveMonthDayButton);
+
+        final TextInputLayout amountInputLayout = viewRoot.findViewById(R.id.amountInputLayout);
+        amountEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!amountEditText.getText().toString().matches(REGEX)) {
+                    amountInputLayout.setError(getString(R.string.error_3_amount_input));
+                    save.setEnabled(false);
+                } else {
+                    amountInputLayout.setErrorEnabled(false);
+                    save.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (amountEditText.getText().toString().matches(REGEX)) {
-
+                if (!amountEditText.getText().toString().matches(REGEX_FINAL)) {
+                    amountInputLayout.setError(getString(R.string.error_3_amount_input));
+                } else {
                     editMonthDayPresenter.editMonthDay(
                             id,
                             descriptionEditText.getText().toString(),
                             amountEditText.getText().toString()
                     );
                     dismiss();
-                } else {
-                    Log.d("KSI", "NOO");
                 }
-
             }
         });
 
