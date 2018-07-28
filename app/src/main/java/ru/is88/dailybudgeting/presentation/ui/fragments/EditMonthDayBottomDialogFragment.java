@@ -27,12 +27,10 @@ import ru.is88.dailybudgeting.domain.models.MonthDay;
 import ru.is88.dailybudgeting.presentation.presenters.EditMonthDayPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.impl.EditMonthDayPresenterImpl;
 import ru.is88.dailybudgeting.storage.MonthDayRepositoryImpl;
-import ru.is88.dailybudgeting.utils.ExpendituresKeyboardCustomView;
 
 public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment implements EditMonthDayPresenter.View {
 
-    private static final String REGEX = "\\d+(.\\d+)?(\\s\\d+(.\\d+)?)*";
-    private static final String REGEX_FINAL = "^\\d+(.\\d+)?(\\s\\d+(.\\d+)?)*$";
+    private static final String REGEX = "^\\d+(.\\d+)?(\\s\\d+(.\\d+)?)*$";
 
     public interface OnEditingFinishedListener {
         void onEditingFinished(MonthDay monthDay, int position);
@@ -54,6 +52,8 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
     private EditText amountEditText;
 
     private OnEditingFinishedListener callback;
+
+    private boolean inputErrorOccurred = false;
 
     public static EditMonthDayBottomDialogFragment newInstance(final int id, final int position, final int fragmentPosition) {
         EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment = new EditMonthDayBottomDialogFragment();
@@ -130,12 +130,12 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!amountEditText.getText().toString().matches(REGEX)) {
-                    amountInputLayout.setError(getString(R.string.error_3_amount_input));
-                    save.setEnabled(false);
-                } else {
-                    amountInputLayout.setErrorEnabled(false);
-                    save.setEnabled(true);
+                if (inputErrorOccurred) {
+                    if (!amountEditText.getText().toString().matches(REGEX)) {
+                        amountInputLayout.setError(getString(R.string.error_3_amount_input));
+                    } else {
+                        amountInputLayout.setErrorEnabled(false);
+                    }
                 }
             }
 
@@ -148,7 +148,8 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!amountEditText.getText().toString().matches(REGEX_FINAL)) {
+                if (!amountEditText.getText().toString().matches(REGEX)) {
+                    inputErrorOccurred = true;
                     amountInputLayout.setError(getString(R.string.error_3_amount_input));
                 } else {
                     editMonthDayPresenter.editMonthDay(

@@ -7,5 +7,5 @@ public interface AccountRepository {
     void insert(AbstractAccount abstractAccount);
     void update(AbstractAccount abstractAccount);
 
-    void getAccountById(long id);
+    AbstractAccount getAccountById(long id);
 }

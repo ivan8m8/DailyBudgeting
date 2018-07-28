@@ -2,6 +2,9 @@ package ru.is88.dailybudgeting.domain.models;
 
 import android.util.Log;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 /**
  * It's one of those card views.
  */
@@ -39,6 +42,8 @@ public class MonthDay {
     }
 
     public double getAmount() {
+        NumberFormat numberFormat = new DecimalFormat("##.##");
+        numberFormat.setMinimumFractionDigits(0);
         double result = 0;
         if (amountString.trim().length() > 0) {
             String[] stringAmounts = amountString.trim().split("\\s+");
@@ -48,7 +53,7 @@ public class MonthDay {
                 result += amounts[i];
             }
         }
-        return result;
+        return Double.parseDouble(numberFormat.format(result));
     }
 
     public int getId() {

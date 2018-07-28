@@ -14,7 +14,10 @@
 
     <string name="error_1_date_text_view">Error 1</string>
     <string name="error_2_month_day_title_text_view">Error 2</string>
-    <string name="error_3_amount_input">Multiple expenditures must be separated by a single space. Use a dot for decimals.</string>
+    <string name="error_3_amount_input">Multiple expenditures must be separated by a single space.
+        Use a dot for decimals. Example: 180 4567.23 23.1 1000</string>
 
     <string name="expenditures_ime_label">Expenditures input method</string>
+
+    <string name="remove_item">Remove this item</string>
 </resources>

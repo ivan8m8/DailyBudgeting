@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/incomeSourceDescTextView"
+            android:layout_width="0dp"
+            android:layout_weight="0.7"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:text="зарплата" />
+
+        <TextView
+            android:id="@+id/incomeSourceAmountTextView"
+            android:layout_width="0dp"
+            android:layout_weight="0.3"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="4dp"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:textColor="@color/colorAttentionOrange"
+            android:textStyle="bold"
+            android:text="30000"/>
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/deleteIncome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_delete_forever"
+        android:background="?android:selectableItemBackground"
+        android:layout_gravity="center_vertical"
+        android:contentDescription="@string/remove_item"/>
+
+</LinearLayout>

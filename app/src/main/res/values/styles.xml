@@ -27,7 +27,6 @@
     </style>
 
     <style name="InputLayoutErrorTextAppearance" parent="Widget.Design.TextInputLayout">
-        <item name="android:gravity">center_horizontal</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
 

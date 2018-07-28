@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.text.DateFormatSymbols;
+import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -25,6 +26,8 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
     private DateFormatSymbols dateFormatSymbols;
 
     public final MainPresenter.View view;
+
+    private NumberFormat numberFormat;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -59,6 +62,10 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
         this.view = view;
         this.calendar = calendar;
         this.monthDays = monthDays;
+
+        numberFormat = NumberFormat.getInstance();
+        numberFormat.setMinimumFractionDigits(0);
+        numberFormat.setGroupingUsed(false); // may be asked in preferences
     }
 
     @NonNull
@@ -81,7 +88,7 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
 
         if (monthDays.size() != 0) {
             holder.descTextView.setText(monthDays.get(holder.getAdapterPosition()).getDescription());
-            holder.amountTextView.setText(String.valueOf(monthDays.get(holder.getAdapterPosition()).getAmount()));
+            holder.amountTextView.setText(numberFormat.format(monthDays.get(holder.getAdapterPosition()).getAmount()));
         }
     }
 
