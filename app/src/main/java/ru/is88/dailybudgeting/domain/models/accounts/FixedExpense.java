@@ -1,10 +1,8 @@
 package ru.is88.dailybudgeting.domain.models.accounts;
 
-import java.time.YearMonth;
-
 public class FixedExpense extends AbstractAccount {
 
-    FixedExpense(String description, double amount, YearMonth yearMonth) {
+    public FixedExpense(String description, double amount, int yearMonth) {
         super(description, amount, yearMonth);
     }
 }

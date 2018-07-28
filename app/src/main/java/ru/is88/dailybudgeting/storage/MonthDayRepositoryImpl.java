@@ -1,8 +1,5 @@
 package ru.is88.dailybudgeting.storage;
 
-
-import android.util.Log;
-
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.List;

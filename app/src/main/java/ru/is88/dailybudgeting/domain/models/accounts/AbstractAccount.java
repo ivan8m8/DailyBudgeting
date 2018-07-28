@@ -1,6 +1,5 @@
 package ru.is88.dailybudgeting.domain.models.accounts;
 
-import java.time.YearMonth;
 import java.util.Date;
 
 public abstract class AbstractAccount {
@@ -8,9 +7,9 @@ public abstract class AbstractAccount {
     private long id;
     private String description;
     private double amount;
-    private YearMonth yearMonth;
+    private int yearMonth; // 201807 means July of 2018 year
 
-    AbstractAccount(String description, double amount, YearMonth yearMonth){
+    AbstractAccount(String description, double amount, int yearMonth){
         this.id = new Date().getTime();
         this.description = description;
         this.amount = amount;
@@ -29,7 +28,7 @@ public abstract class AbstractAccount {
         return amount;
     }
 
-    public YearMonth getYearMonth() {
+    public int getYearMonth() {
         return yearMonth;
     }
 
@@ -41,7 +40,7 @@ public abstract class AbstractAccount {
         this.amount = amount;
     }
 
-    public void setYearMonth(YearMonth yearMonth) {
+    public void setYearMonth(int yearMonth) {
         this.yearMonth = yearMonth;
     }
 }

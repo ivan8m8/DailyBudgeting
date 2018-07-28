@@ -26,8 +26,7 @@ public class TableMonthDay extends BaseModel {
     @Column public int month;
     @Column public int year;
 
-    public TableMonthDay() {
-    }
+    public TableMonthDay() {}
 
     public int getId() {
         return id;

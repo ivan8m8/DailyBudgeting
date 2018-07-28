@@ -1,35 +1,35 @@
 package ru.is88.dailybudgeting.domain.interactors.impl;
 
-import java.time.YearMonth;
-
 import ru.is88.dailybudgeting.domain.executor.Executor;
 import ru.is88.dailybudgeting.domain.executor.MainThread;
 import ru.is88.dailybudgeting.domain.interactors.EditAccountInteractor;
 import ru.is88.dailybudgeting.domain.interactors.base.AbstractInteractor;
-import ru.is88.dailybudgeting.domain.interactors.base.Interactor;
 import ru.is88.dailybudgeting.domain.models.accounts.Income;
 import ru.is88.dailybudgeting.domain.repositories.AccountRepository;
 
-public class EditIncomeInteractorImpl extends AbstractInteractor implements Interactor {
+public class EditIncomeInteractorImpl extends AbstractInteractor implements EditAccountInteractor {
 
-    private EditAccountInteractor.Callback callback;
-    private Income income;
-    private AccountRepository accountRepository;
+    private Income updatedIncome;
+
     private String description;
     private double amount;
-    private YearMonth yearMonth;
+    private int yearMonth;
+
+    private EditAccountInteractor.Callback callback;
+    private AccountRepository accountRepository;
 
     public EditIncomeInteractorImpl(Executor threadExecutor,
                                     MainThread mainThread,
-                                    EditAccountInteractor.Callback callback,
                                     Income income,
-                                    AccountRepository accountRepository,
                                     String description,
                                     double amount,
-                                    YearMonth yearMonth) {
+                                    int yearMonth,
+                                    EditAccountInteractor.Callback callback,
+                                    AccountRepository accountRepository) {
         super(threadExecutor, mainThread);
+
         this.callback = callback;
-        this.income = income;
+        this.updatedIncome = income;
         this.accountRepository = accountRepository;
         this.description = description;
         this.amount = amount;
@@ -38,9 +38,17 @@ public class EditIncomeInteractorImpl extends AbstractInteractor implements Inte
 
     @Override
     public void run() {
-        //TODO
-        // Check if this.income already exists in the database.
-        // I am actually not sure if it's really needed to be checked,
-        // but situation when might occur, I believe
+        updatedIncome.setDescription(description);
+        updatedIncome.setAmount(amount);
+        updatedIncome.setYearMonth(yearMonth);
+
+        accountRepository.update(updatedIncome);
+
+        mainThread.post(new Runnable() {
+            @Override
+            public void run() {
+                callback.onAccountUpdated(updatedIncome);
+            }
+        });
     }
 }
