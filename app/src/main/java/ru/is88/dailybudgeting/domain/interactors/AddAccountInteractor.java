@@ -6,6 +6,6 @@ import ru.is88.dailybudgeting.domain.models.accounts.AbstractAccount;
 public interface AddAccountInteractor extends Interactor {
 
     interface Callback {
-        void onAccountAdded(AbstractAccount abstractAccount);
+        void onAccountAdded();
     }
 }

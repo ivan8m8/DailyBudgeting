@@ -11,7 +11,8 @@ public class AddIncomeInteractorImpl extends AbstractInteractor implements AddAc
 
     private String description;
     private double amount;
-    private int yearMonth;
+    private int year;
+    private int month;
 
     private AccountRepository accountRepository;
     private AddAccountInteractor.Callback callback;
@@ -19,26 +20,28 @@ public class AddIncomeInteractorImpl extends AbstractInteractor implements AddAc
     public AddIncomeInteractorImpl(Executor threadExecutor, MainThread mainThread,
                                    String description,
                                    double amount,
-                                   int yearMonth,
+                                   int year,
+                                   int month,
                                    AccountRepository accountRepository,
                                    Callback callback) {
         super(threadExecutor, mainThread);
 
         this.description = description;
         this.amount = amount;
-        this.yearMonth = yearMonth;
+        this.year = year;
+        this.month = month;
         this.accountRepository = accountRepository;
         this.callback = callback;
     }
 
     @Override
     public void run() {
-        final Income income = new Income(description, amount, yearMonth);
+        final Income income = new Income(description, amount, year, month);
         accountRepository.insert(income);
         mainThread.post(new Runnable() {
             @Override
             public void run() {
-                callback.onAccountAdded(income);
+                callback.onAccountAdded();
             }
         });
     }

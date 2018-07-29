@@ -11,5 +11,5 @@ public interface EditAccountPresenter {
     }
 
     void getAccountById(long id);
-    void editAccount(AbstractAccount abstractAccount, String description, double amount, int yearMonth);
+    void editAccount(AbstractAccount abstractAccount, String description, double amount, int year, int month);
 }

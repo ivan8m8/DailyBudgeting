@@ -51,7 +51,7 @@ public class EditIncomePresenterImpl extends AbstractPresenter
     }
 
     @Override
-    public void editAccount(AbstractAccount abstractAccount, String description, double amount, int yearMonth) {
+    public void editAccount(AbstractAccount abstractAccount, String description, double amount, int year, int month) {
         EditAccountInteractor editAccountInteractor =
                 new EditIncomeInteractorImpl(
                         executor,
@@ -59,7 +59,8 @@ public class EditIncomePresenterImpl extends AbstractPresenter
                         (Income) abstractAccount,
                         description,
                         amount,
-                        yearMonth,
+                        year,
+                        month,
                         this,
                         accountRepository
                 );

@@ -13,7 +13,8 @@ public class EditIncomeInteractorImpl extends AbstractInteractor implements Edit
 
     private String description;
     private double amount;
-    private int yearMonth;
+    private int year;
+    private int month;
 
     private EditAccountInteractor.Callback callback;
     private AccountRepository accountRepository;
@@ -23,7 +24,8 @@ public class EditIncomeInteractorImpl extends AbstractInteractor implements Edit
                                     Income income,
                                     String description,
                                     double amount,
-                                    int yearMonth,
+                                    int year,
+                                    int month,
                                     EditAccountInteractor.Callback callback,
                                     AccountRepository accountRepository) {
         super(threadExecutor, mainThread);
@@ -33,14 +35,16 @@ public class EditIncomeInteractorImpl extends AbstractInteractor implements Edit
         this.accountRepository = accountRepository;
         this.description = description;
         this.amount = amount;
-        this.yearMonth = yearMonth;
+        this.year = year;
+        this.month = month;
     }
 
     @Override
     public void run() {
         updatedIncome.setDescription(description);
         updatedIncome.setAmount(amount);
-        updatedIncome.setYearMonth(yearMonth);
+        updatedIncome.setYear(year);
+        updatedIncome.setMonth(month);
 
         accountRepository.update(updatedIncome);
 

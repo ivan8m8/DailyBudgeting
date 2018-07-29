@@ -10,10 +10,23 @@ import ru.is88.dailybudgeting.storage.database.AccountsDatabase;
 @Table(database = AccountsDatabase.class)
 public class TableFixedExpense extends BaseModel {
 
-    @PrimaryKey long id;
-    @Column String description;
-    @Column double amount;
-    @Column int yearMonth;
+    @PrimaryKey
+    private long id;
+
+    @Column
+    private String description;
+
+    @Column
+    private double amount;
+
+    @Column
+    private int year;
+
+    @Column
+    private int month;
+
+    @Column
+    public boolean synced;
 
     public TableFixedExpense() {}
 
@@ -41,11 +54,19 @@ public class TableFixedExpense extends BaseModel {
         this.amount = amount;
     }
 
-    public int getYearMonth() {
-        return yearMonth;
+    public int getYear() {
+        return year;
     }
 
-    public void setYearMonth(int yearMonth) {
-        this.yearMonth = yearMonth;
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
     }
 }

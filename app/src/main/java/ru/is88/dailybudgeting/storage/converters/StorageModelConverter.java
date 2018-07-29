@@ -6,6 +6,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import ru.is88.dailybudgeting.domain.models.MonthDay;
+import ru.is88.dailybudgeting.domain.models.accounts.Income;
+import ru.is88.dailybudgeting.storage.model.TableIncome;
 import ru.is88.dailybudgeting.storage.model.TableMonthDay;
 import ru.is88.dailybudgeting.utils.Utils;
 
@@ -19,6 +21,16 @@ public class StorageModelConverter {
         result.setDay(monthDay.getDay());
         result.setMonth(monthDay.getMonth());
         result.setYear(monthDay.getYear());
+        return result;
+    }
+
+    public static TableIncome convertToStorageModel(Income income) {
+        TableIncome result = new TableIncome();
+        result.setId(income.getId());
+        result.setDescription(income.getDescription());
+        result.setAmount(income.getAmount());
+        result.setYear(income.getYear());
+        result.setMonth(income.getMonth());
         return result;
     }
 
