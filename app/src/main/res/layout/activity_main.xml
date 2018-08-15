@@ -1,9 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.view.ViewPager
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/viewPager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".presentation.ui.activities.MainActivity" />
+    tools:context=".presentation.ui.activities.MainActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:toolbarId="@+id/toolbar"
+            app:expandedTitleTextAppearance="@style/ToolbarTextAppearance"
+            app:expandedTitleMarginBottom="20dp"
+            app:expandedTitleMarginStart="18dp"
+            app:collapsedTitleTextAppearance="@style/ToolbarTextAppearance"
+            app:title="Daily budget: 0">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/monthToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="parallax"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:titleTextAppearance="@style/ToolbarTextAppearance"
+                app:title="January 2000" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:titleTextAppearance="@style/ToolbarTextAppearance" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="?attr/actionBarSize"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="?attr/actionBarSize">
+
+                <TextView
+                    android:id="@+id/incomeTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginStart="15dp"
+                    android:text="@string/income_title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/incomeAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/incomeTitle"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@id/incomeTitle"
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:text="@string/zero"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/expensesTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/incomeTitle"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginStart="15dp"
+                    android:text="@string/expenses_title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/expensesAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/expensesTitle"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@id/expensesTitle"
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:text="@string/zero"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/monthSavingsTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/expensesTitle"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/month_savings_title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/monthSavings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/monthSavingsTitle"
+                    android:layout_marginStart="3dp"
+                    android:layout_toEndOf="@id/monthSavingsTitle"
+                    android:text="@string/zero"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/yearSavingsTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/monthSavingsTitle"
+                    android:layout_marginTop="-4dp"
+                    android:text="@string/year_savings_title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/yearSavings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/yearSavingsTitle"
+                    android:layout_marginStart="3dp"
+                    android:layout_toEndOf="@id/yearSavingsTitle"
+                    android:text="@string/zero"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+</android.support.design.widget.CoordinatorLayout>

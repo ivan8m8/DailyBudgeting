@@ -77,7 +77,7 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         final int day = holder.getAdapterPosition() + 1;
 
@@ -98,7 +98,7 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
     }
 
     @Override
-    public void onClickView(final int position) {
+    public void onClickView(int position) {
         view.onClickEditMonthDay(Utils.buildMonthDayID(
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH) + 1,
