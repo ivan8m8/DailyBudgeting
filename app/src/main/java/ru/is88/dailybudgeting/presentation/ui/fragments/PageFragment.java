@@ -9,13 +9,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,11 +38,9 @@ public class PageFragment extends Fragment implements MainPresenter.View, EditMo
     private MonthDaysRecyclerAdapter monthDaysRecyclerAdapter;
     private RecyclerView recyclerView;
 
-    private MainPresenter mainPresenter;
-
-    private Toolbar toolbar;
-    private ImageButton overflowMenuImageButton;
     private NestedScrollView nestedScrollView;
+
+    private MainPresenter mainPresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +65,19 @@ public class PageFragment extends Fragment implements MainPresenter.View, EditMo
         );
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        View viewRoot = inflater.inflate(R.layout.fragment_page, container, false);
+
+        nestedScrollView = viewRoot.findViewById(R.id.nestedScrollView);
+        recyclerView = viewRoot.findViewById(R.id.monthDaysRecyclerView);
+        initRecycler();
+
+        return viewRoot;
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -78,23 +85,6 @@ public class PageFragment extends Fragment implements MainPresenter.View, EditMo
         int month = calendar.get(Calendar.MONTH);
         int year = calendar.get(Calendar.YEAR);
         mainPresenter.getMonthDayList(month + 1, year);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        View viewRoot = inflater.inflate(R.layout.fragment_page, container, false);
-
-        toolbar = viewRoot.findViewById(R.id.monthToolbar);
-        overflowMenuImageButton = viewRoot.findViewById(R.id.overflowMenuImageButton);
-        initToolbar();
-
-        nestedScrollView = viewRoot.findViewById(R.id.nestedScrollView);
-        recyclerView = viewRoot.findViewById(R.id.monthDaysRecyclerView);
-        initRecycler();
-
-        return viewRoot;
     }
 
     /**
@@ -134,7 +124,7 @@ public class PageFragment extends Fragment implements MainPresenter.View, EditMo
     public void onEditingFinished(final MonthDay monthDay, final int position) {
 
         if (this.monthDays.size() == 0) {
-            for (int i=0; i < calendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
+            for (int i=0; i <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
                 this.monthDays.add(new MonthDay(
                         Utils.buildMonthDayID(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, i + 1),
                         "", ""));
@@ -204,23 +194,5 @@ public class PageFragment extends Fragment implements MainPresenter.View, EditMo
         } else {
             recyclerView.scrollToPosition(position);
         }
-    }
-
-    private void initToolbar() {
-
-        String title = getMonthNameForTheCurrentFragment() + " " + calendar.get(Calendar.YEAR);
-        toolbar.setTitle(title);
-
-        overflowMenuImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(Utils.LOG_TAG, "three dots button clicked");
-            }
-        });
-    }
-
-    private String getMonthNameForTheCurrentFragment() {
-        return DateUtils.formatDateTime(getContext(), calendar.getTimeInMillis(),
-                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_MONTH_DAY | DateUtils.FORMAT_NO_YEAR);
     }
 }

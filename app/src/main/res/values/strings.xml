@@ -7,6 +7,7 @@
 
     <string name="save">Save</string>
     <string name="loading">Loading…</string>
+    <string name="zero">0</string>
 
     <string name="desc_text_view_def">pizza, IKEA, t-shirt, food, shower gel</string>
     <string name="amount_text_view_def">$0</string>
@@ -20,4 +21,9 @@
     <string name="expenditures_ime_label">Expenditures input method</string>
 
     <string name="remove_item">Remove this item</string>
+
+    <string name="income_title">Income:</string>
+    <string name="expenses_title">Expenses:</string>
+    <string name="month_savings_title">This month you save:</string>
+    <string name="year_savings_title">This year you\'d save:</string>
 </resources>
