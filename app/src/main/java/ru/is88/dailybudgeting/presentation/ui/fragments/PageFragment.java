@@ -124,7 +124,8 @@ public class PageFragment extends Fragment implements MainPresenter.View, EditMo
     public void onEditingFinished(final MonthDay monthDay, final int position) {
 
         if (this.monthDays.size() == 0) {
-            for (int i=0; i < calendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
+            for (int i=0; i <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
+                // done?!
                 this.monthDays.add(new MonthDay(
                         Utils.buildMonthDayID(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, i + 1),
                         "", ""));
