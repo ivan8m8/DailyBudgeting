@@ -1,5 +1,6 @@
 package ru.is88.dailybudgeting.presentation.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,11 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.Calendar;
 
+import ru.is88.dailybudgeting.AccountsActivity;
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.presentation.ui.adapters.MyFragmentPagerAdapter;
 import ru.is88.dailybudgeting.utils.Utils;
@@ -24,8 +27,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ViewPager viewPager = findViewById(R.id.viewPager);
+        // the need of the following is to show the three dots menu
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
+        updateAppBar(Utils.VIEW_PAGER_START_POSITION);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AccountsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ViewPager viewPager = findViewById(R.id.viewPager);
         MyFragmentPagerAdapter fragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(fragmentPagerAdapter);
         viewPager.setCurrentItem(Utils.VIEW_PAGER_START_POSITION);
@@ -44,20 +61,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageScrollStateChanged(int state) {
 
-            }
-        });
-
-        Toolbar toolbar = findViewById(R.id.toolbar); // delete, there is no toolbar for the activity
-        setSupportActionBar(toolbar);
-
-        updateAppBar(Utils.VIEW_PAGER_START_POSITION);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
     }
@@ -85,5 +88,19 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
