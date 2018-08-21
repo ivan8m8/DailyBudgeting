@@ -56,7 +56,7 @@ public class StorageModelConverter {
          * otherwise, it'd be hard to parse empty month days within onBindViewHolder.
          */
         int j = 0;
-        for (int i=0; i < calendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
+        for (int i=0; i <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
             if (j < tableMonthDays.size() && tableMonthDays.get(j).getDay() == i + 1) {
                 result.add(convertToDomainModel(tableMonthDays.get(j)));
                 j++;
