@@ -28,7 +28,7 @@ import ru.is88.dailybudgeting.presentation.ui.adapters.MonthDaysRecyclerAdapter;
 import ru.is88.dailybudgeting.storage.MonthDayRepositoryImpl;
 import ru.is88.dailybudgeting.utils.Utils;
 
-public class PageFragment extends Fragment implements MainPresenter.View, EditMonthDayBottomDialogFragment.OnEditingFinishedListener {
+public class MonthDaysPageFragment extends Fragment implements MainPresenter.View, EditMonthDayBottomDialogFragment.OnEditingFinishedListener {
 
     private static final String MONTH_DELTA_KEY = "month_delta_key";
 
@@ -91,12 +91,12 @@ public class PageFragment extends Fragment implements MainPresenter.View, EditMo
      * This method is called within MyFragmentPagerAdapter.getItem(int position)
      * @param monthDelta !!!
      */
-    public static PageFragment newInstance(int monthDelta) {
-        PageFragment pageFragment = new PageFragment();
+    public static MonthDaysPageFragment newInstance(int monthDelta) {
+        MonthDaysPageFragment monthDaysPageFragment = new MonthDaysPageFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(MONTH_DELTA_KEY, monthDelta);
-        pageFragment.setArguments(bundle);
-        return pageFragment;
+        monthDaysPageFragment.setArguments(bundle);
+        return monthDaysPageFragment;
     }
 
     @Override

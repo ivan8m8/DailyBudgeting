@@ -4,19 +4,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import ru.is88.dailybudgeting.presentation.ui.fragments.PageFragment;
+import ru.is88.dailybudgeting.presentation.ui.fragments.MonthDaysPageFragment;
 import ru.is88.dailybudgeting.utils.Utils;
 
-public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
+public class MonthDaysFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    public MyFragmentPagerAdapter(FragmentManager fm) {
+    public MonthDaysFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
     @Override
     public Fragment getItem(int position) {
         int monthDelta = position - Utils.VIEW_PAGER_START_POSITION;
-        return PageFragment.newInstance(monthDelta);
+        return MonthDaysPageFragment.newInstance(monthDelta);
     }
 
     @Override

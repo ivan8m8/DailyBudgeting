@@ -3,7 +3,6 @@ package ru.is88.dailybudgeting.presentation.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,7 +16,7 @@ import java.util.Calendar;
 
 import ru.is88.dailybudgeting.AccountsActivity;
 import ru.is88.dailybudgeting.R;
-import ru.is88.dailybudgeting.presentation.ui.adapters.MyFragmentPagerAdapter;
+import ru.is88.dailybudgeting.presentation.ui.adapters.MonthDaysFragmentPagerAdapter;
 import ru.is88.dailybudgeting.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         ViewPager viewPager = findViewById(R.id.viewPager);
-        MyFragmentPagerAdapter fragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(fragmentPagerAdapter);
+        MonthDaysFragmentPagerAdapter monthDaysFragmentPagerAdapter = new MonthDaysFragmentPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(monthDaysFragmentPagerAdapter);
         viewPager.setCurrentItem(Utils.VIEW_PAGER_START_POSITION);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
