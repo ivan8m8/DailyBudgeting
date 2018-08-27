@@ -31,5 +31,4 @@
     <string name="month_savings_title">This month you save:</string>
     <string name="year_savings_title">This year you\'d save:</string>
 
-    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

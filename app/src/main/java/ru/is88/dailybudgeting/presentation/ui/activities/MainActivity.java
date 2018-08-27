@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
-import ru.is88.dailybudgeting.AccountsActivity;
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.presentation.ui.adapters.MonthDaysFragmentPagerAdapter;
 import ru.is88.dailybudgeting.utils.Utils;

@@ -13,7 +13,7 @@
         android:weightSum="1">
 
         <TextView
-            android:id="@+id/incomeSourceDescTextView"
+            android:id="@+id/accountDescTextView"
             android:layout_width="0dp"
             android:layout_weight="0.7"
             android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
             android:text="зарплата" />
 
         <TextView
-            android:id="@+id/incomeSourceAmountTextView"
+            android:id="@+id/accountAmountTextView"
             android:layout_width="0dp"
             android:layout_weight="0.3"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/deleteIncome"
+        android:id="@+id/deleteAccountImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_delete_forever"

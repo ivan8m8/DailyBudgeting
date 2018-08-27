@@ -1,4 +1,4 @@
-package ru.is88.dailybudgeting;
+package ru.is88.dailybudgeting.presentation.ui.activities;
 
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -10,11 +10,12 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.View;
 
-import ru.is88.dailybudgeting.presentation.ui.adapters.AccountsPagerAdapter;
+import ru.is88.dailybudgeting.R;
+import ru.is88.dailybudgeting.presentation.ui.adapters.AccountsFragmentPagerAdapter;
 
 public class AccountsActivity extends AppCompatActivity {
 
-    private AccountsPagerAdapter accountsPagerAdapter;
+    private AccountsFragmentPagerAdapter accountsFragmentPagerAdapter;
 
     private ViewPager mViewPager;
 
@@ -32,11 +33,11 @@ public class AccountsActivity extends AppCompatActivity {
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        accountsPagerAdapter = new AccountsPagerAdapter(getSupportFragmentManager());
+        accountsFragmentPagerAdapter = new AccountsFragmentPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = findViewById(R.id.container);
-        mViewPager.setAdapter(accountsPagerAdapter);
+        mViewPager = findViewById(R.id.accountsViewPager);
+        mViewPager.setAdapter(accountsFragmentPagerAdapter);
 
         TabLayout tabLayout = findViewById(R.id.tabs);
 

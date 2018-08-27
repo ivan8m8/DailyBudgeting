@@ -19,7 +19,7 @@ import ru.is88.dailybudgeting.presentation.ui.listeners.MonthDaysRecyclerViewLis
 import ru.is88.dailybudgeting.utils.Utils;
 
 public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecyclerAdapter.ViewHolder>
-        implements MonthDaysRecyclerViewListener{
+        implements MonthDaysRecyclerViewListener {
 
     private List<MonthDay> monthDays;
     private Calendar calendar;
@@ -65,7 +65,7 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
 
         numberFormat = NumberFormat.getInstance();
         numberFormat.setMinimumFractionDigits(0);
-        numberFormat.setGroupingUsed(false); // may be asked in preferences
+        numberFormat.setGroupingUsed(false); // TODO: to be asked on the preferences
     }
 
     @NonNull
