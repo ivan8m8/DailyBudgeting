@@ -14,7 +14,7 @@ import java.util.List;
 
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
-import ru.is88.dailybudgeting.presentation.presenters.MainPresenter;
+import ru.is88.dailybudgeting.presentation.presenters.MonthDayMainPresenter;
 import ru.is88.dailybudgeting.presentation.ui.listeners.MonthDaysRecyclerViewListener;
 import ru.is88.dailybudgeting.utils.Utils;
 
@@ -25,7 +25,7 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
     private Calendar calendar;
     private DateFormatSymbols dateFormatSymbols;
 
-    public final MainPresenter.View view;
+    public final MonthDayMainPresenter.View view;
 
     private NumberFormat numberFormat;
 
@@ -56,7 +56,7 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
         }
     }
 
-    public MonthDaysRecyclerAdapter(MainPresenter.View view,
+    public MonthDaysRecyclerAdapter(MonthDayMainPresenter.View view,
                                     Calendar calendar,
                                     List<MonthDay> monthDays) {
         this.view = view;

@@ -22,13 +22,13 @@ import ru.is88.dailybudgeting.MainThreadImpl;
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.domain.executor.impl.ThreadExecutor;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
-import ru.is88.dailybudgeting.presentation.presenters.MainPresenter;
-import ru.is88.dailybudgeting.presentation.presenters.impl.MainPresenterImpl;
+import ru.is88.dailybudgeting.presentation.presenters.MonthDayMainPresenter;
+import ru.is88.dailybudgeting.presentation.presenters.impl.MonthDayMainPresenterImpl;
 import ru.is88.dailybudgeting.presentation.ui.adapters.MonthDaysRecyclerAdapter;
 import ru.is88.dailybudgeting.storage.MonthDayRepositoryImpl;
 import ru.is88.dailybudgeting.utils.Utils;
 
-public class MonthDaysPageFragment extends Fragment implements MainPresenter.View, EditMonthDayBottomDialogFragment.OnEditingFinishedListener {
+public class MonthDaysPageFragment extends Fragment implements MonthDayMainPresenter.View, EditMonthDayBottomDialogFragment.OnEditingFinishedListener {
 
     private static final String MONTH_DELTA_KEY = "month_delta_key";
 
@@ -40,7 +40,7 @@ public class MonthDaysPageFragment extends Fragment implements MainPresenter.Vie
 
     private NestedScrollView nestedScrollView;
 
-    private MainPresenter mainPresenter;
+    private MonthDayMainPresenter monthDayMainPresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class MonthDaysPageFragment extends Fragment implements MainPresenter.Vie
         calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, monthDelta);
 
-        mainPresenter = new MainPresenterImpl(
+        monthDayMainPresenter = new MonthDayMainPresenterImpl(
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
                 this,
@@ -84,7 +84,7 @@ public class MonthDaysPageFragment extends Fragment implements MainPresenter.Vie
 
         int month = calendar.get(Calendar.MONTH);
         int year = calendar.get(Calendar.YEAR);
-        mainPresenter.getMonthDayList(month + 1, year);
+        monthDayMainPresenter.getMonthDayList(month + 1, year);
     }
 
     /**

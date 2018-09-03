@@ -1,6 +1,9 @@
 package ru.is88.dailybudgeting.storage;
 
-import ru.is88.dailybudgeting.domain.models.accounts.AbstractAccount;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+
+import java.util.List;
+
 import ru.is88.dailybudgeting.domain.models.accounts.FixedExpense;
 import ru.is88.dailybudgeting.domain.models.accounts.Income;
 import ru.is88.dailybudgeting.domain.repositories.AccountRepository;
@@ -26,6 +29,16 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
+    public Income getIncomeById(long id) {
+        return null;
+    }
+
+    @Override
+    public List<Income> getIncomeList(int month, int year) {
+        return null;
+    }
+
+    @Override
     public void insert(FixedExpense fixedExpense) {
 
     }
@@ -36,7 +49,12 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public AbstractAccount getAccountById(long id) {
+    public FixedExpense getFixedExpenseById(long id) {
+        return null;
+    }
+
+    @Override
+    public List<FixedExpense> getFixedExpenseList(int month, int year) {
         return null;
     }
 }

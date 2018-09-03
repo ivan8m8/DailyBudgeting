@@ -5,9 +5,9 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import ru.is88.dailybudgeting.storage.database.AccountsDatabase;
+import ru.is88.dailybudgeting.storage.database.DailyBudgetingDatabase;
 
-@Table(database = AccountsDatabase.class)
+@Table(database = DailyBudgetingDatabase.class)
 public class TableFixedExpense extends BaseModel {
 
     @PrimaryKey
