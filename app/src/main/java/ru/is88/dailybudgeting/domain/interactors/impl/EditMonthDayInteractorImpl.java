@@ -5,12 +5,12 @@ import ru.is88.dailybudgeting.domain.executor.MainThread;
 import ru.is88.dailybudgeting.domain.interactors.EditMonthDayInteractor;
 import ru.is88.dailybudgeting.domain.interactors.base.AbstractInteractor;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
-import ru.is88.dailybudgeting.domain.repositories.MonthDayRepository;
+import ru.is88.dailybudgeting.domain.Repository;
 
 public class EditMonthDayInteractorImpl extends AbstractInteractor implements EditMonthDayInteractor {
 
     private EditMonthDayInteractor.Callback callback;
-    private MonthDayRepository monthDayRepository;
+    private Repository<MonthDay> monthDayRepository;
 
     private MonthDay mUpdatedMonthDay;
 
@@ -21,7 +21,7 @@ public class EditMonthDayInteractorImpl extends AbstractInteractor implements Ed
     public EditMonthDayInteractorImpl(Executor threadExecutor,
                                       MainThread mainThread,
                                       EditMonthDayInteractor.Callback callback,
-                                      MonthDayRepository monthDayRepository,
+                                      Repository<MonthDay> monthDayRepository,
                                       int id,
                                       String amountString,
                                       String description) {
@@ -37,7 +37,7 @@ public class EditMonthDayInteractorImpl extends AbstractInteractor implements Ed
     @Override
     public void run() {
         // check if it exists in the database
-        mUpdatedMonthDay = monthDayRepository.getMonthDayById(mId);
+        mUpdatedMonthDay = monthDayRepository.getItemById(mId);
         if (mUpdatedMonthDay == null){
             mUpdatedMonthDay = new MonthDay(mId, mAmountString, mDescription);
             monthDayRepository.insert(mUpdatedMonthDay);

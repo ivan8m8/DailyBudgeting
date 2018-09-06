@@ -7,19 +7,19 @@ import ru.is88.dailybudgeting.domain.executor.MainThread;
 import ru.is88.dailybudgeting.domain.interactors.GetMonthDayListInteractor;
 import ru.is88.dailybudgeting.domain.interactors.impl.GetMonthDayListInteractorImpl;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
-import ru.is88.dailybudgeting.domain.repositories.MonthDayRepository;
+import ru.is88.dailybudgeting.domain.Repository;
 import ru.is88.dailybudgeting.presentation.presenters.AbstractPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.MonthDayMainPresenter;
 
 public class MonthDayMainPresenterImpl extends AbstractPresenter implements MonthDayMainPresenter, GetMonthDayListInteractor.Callback {
 
     private MonthDayMainPresenter.View view;
-    private MonthDayRepository monthDayRepository;
+    private Repository<MonthDay> monthDayRepository;
 
     public MonthDayMainPresenterImpl(Executor executor,
                                      MainThread mainThread,
                                      MonthDayMainPresenter.View view,
-                                     MonthDayRepository monthDayRepository) {
+                                     Repository<MonthDay> monthDayRepository) {
         super(executor, mainThread);
 
         this.view = view;

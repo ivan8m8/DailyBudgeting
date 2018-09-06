@@ -6,8 +6,6 @@ import ru.is88.dailybudgeting.domain.executor.Executor;
 import ru.is88.dailybudgeting.domain.executor.MainThread;
 import ru.is88.dailybudgeting.domain.interactors.GetAccountListInteractor;
 import ru.is88.dailybudgeting.domain.models.accounts.AbstractAccount;
-import ru.is88.dailybudgeting.domain.models.accounts.FixedExpense;
-import ru.is88.dailybudgeting.domain.models.accounts.Income;
 import ru.is88.dailybudgeting.domain.repositories.AccountRepository;
 import ru.is88.dailybudgeting.presentation.presenters.AbstractPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.AccountMainPresenter;
@@ -57,7 +55,7 @@ public class AccountMainPresenterImpl extends AbstractPresenter implements Accou
     }
 
     @Override
-    public void onAccountListRetrieved(List<AbstractAccount> accounts) {
+    public void onAccountListRetrieved(List<? extends AbstractAccount> accounts) {
 
     }
 }

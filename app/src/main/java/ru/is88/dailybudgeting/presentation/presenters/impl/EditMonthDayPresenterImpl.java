@@ -7,7 +7,7 @@ import ru.is88.dailybudgeting.domain.interactors.GetMonthDayByIdInteractor;
 import ru.is88.dailybudgeting.domain.interactors.impl.GetMonthDayByIdInteractorImpl;
 import ru.is88.dailybudgeting.domain.interactors.impl.EditMonthDayInteractorImpl;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
-import ru.is88.dailybudgeting.domain.repositories.MonthDayRepository;
+import ru.is88.dailybudgeting.domain.Repository;
 import ru.is88.dailybudgeting.presentation.presenters.AbstractPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.EditMonthDayPresenter;
 
@@ -15,10 +15,10 @@ public class EditMonthDayPresenterImpl extends AbstractPresenter
         implements EditMonthDayPresenter, GetMonthDayByIdInteractor.Callback, EditMonthDayInteractor.Callback {
 
     private EditMonthDayPresenter.View view;
-    private MonthDayRepository monthDayRepository;
+    private Repository<MonthDay> monthDayRepository;
 
     public EditMonthDayPresenterImpl(Executor executor, MainThread mainThread,
-                                     View view, MonthDayRepository monthDayRepository) {
+                                     View view, Repository<MonthDay> monthDayRepository) {
         super(executor, mainThread);
         this.view = view;
         this.monthDayRepository = monthDayRepository;

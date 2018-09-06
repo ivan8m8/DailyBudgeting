@@ -7,21 +7,21 @@ import ru.is88.dailybudgeting.domain.executor.MainThread;
 import ru.is88.dailybudgeting.domain.interactors.base.AbstractInteractor;
 import ru.is88.dailybudgeting.domain.interactors.GetMonthDayListInteractor;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
-import ru.is88.dailybudgeting.domain.repositories.MonthDayRepository;
+import ru.is88.dailybudgeting.domain.Repository;
 
 public class GetMonthDayListInteractorImpl extends AbstractInteractor implements GetMonthDayListInteractor {
 
     private int month;
     private int year;
 
-    private MonthDayRepository monthDayRepository;
+    private Repository<MonthDay> monthDayRepository;
     private GetMonthDayListInteractor.Callback callback;
 
     public GetMonthDayListInteractorImpl(Executor threadExecutor,
                                          MainThread mainThread,
                                          int month,
                                          int year,
-                                         MonthDayRepository monthDayRepository,
+                                         Repository<MonthDay> monthDayRepository,
                                          GetMonthDayListInteractor.Callback callback) {
         super(threadExecutor, mainThread);
 
@@ -38,7 +38,7 @@ public class GetMonthDayListInteractorImpl extends AbstractInteractor implements
     @Override
     public void run() {
 
-        final List<MonthDay> monthDays = monthDayRepository.getMonthDayList(month, year);
+        final List<MonthDay> monthDays = monthDayRepository.getItemList(month, year);
 
         mainThread.post(new Runnable() {
             @Override
