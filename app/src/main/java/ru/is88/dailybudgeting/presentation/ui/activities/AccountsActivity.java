@@ -7,12 +7,14 @@ import android.support.v7.widget.Toolbar;
 
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import java.util.Objects;
 
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.presentation.ui.adapters.AccountsFragmentPagerAdapter;
+import ru.is88.dailybudgeting.utils.Utils;
 
 public class AccountsActivity extends AppCompatActivity {
 
@@ -23,7 +25,8 @@ public class AccountsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accounts);
 
-        //TODO: must know from what month this activity has been called
+        Log.d("KSI", " " + getIntent().getIntExtra(MainActivity.MONTH_KEY, Utils.DEFAULT_VALUE));
+        Log.d("KSI", " " + getIntent().getIntExtra(MainActivity.YEAR_KEY, Utils.DEFAULT_VALUE));
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

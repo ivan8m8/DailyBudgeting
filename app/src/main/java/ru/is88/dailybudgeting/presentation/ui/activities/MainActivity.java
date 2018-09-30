@@ -20,6 +20,12 @@ import ru.is88.dailybudgeting.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * 0 indexed
+     */
+    public static final String MONTH_KEY = "month_key";
+    public static final String YEAR_KEY = "year_key";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,21 +37,12 @@ public class MainActivity extends AppCompatActivity {
 
         updateAppBar(Utils.VIEW_PAGER_START_POSITION);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AccountsActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        ViewPager viewPager = findViewById(R.id.viewPager);
+        final ViewPager viewPager = findViewById(R.id.viewPager);
         MonthDaysFragmentPagerAdapter monthDaysFragmentPagerAdapter = new MonthDaysFragmentPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(monthDaysFragmentPagerAdapter);
         viewPager.setCurrentItem(Utils.VIEW_PAGER_START_POSITION);
 
-        // Violation of SRP by Google Android :)
+        // Violation of ISP by Google Android :)
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -62,6 +59,17 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AccountsActivity.class);
+                intent.putExtra(MONTH_KEY, Utils.getActualCalendarByViewPagerPosition(viewPager.getCurrentItem()).get(Calendar.MONTH));
+                intent.putExtra(YEAR_KEY, Utils.getActualCalendarByViewPagerPosition(viewPager.getCurrentItem()).get(Calendar.YEAR));
+                startActivity(intent);
+            }
+        });
     }
 
     private void updateAppBar(int position){
@@ -70,11 +78,7 @@ public class MainActivity extends AppCompatActivity {
         TextView incomeTextView = findViewById(R.id.incomeAmount);
         TextView expensesTextView = findViewById(R.id.expensesAmount);
 
-        Calendar calendar = Calendar.getInstance();
-
-        int monthDelta = position - Utils.VIEW_PAGER_START_POSITION;
-        calendar.add(Calendar.MONTH, monthDelta);
-
+        Calendar calendar = Utils.getActualCalendarByViewPagerPosition(position);
         monthToolbar.setTitle(getMonthNameForTheCurrentFragment(calendar) + " " + calendar.get(Calendar.YEAR));
     }
 

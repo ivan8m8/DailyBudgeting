@@ -1,8 +1,12 @@
 package ru.is88.dailybudgeting.utils;
 
+import java.util.Calendar;
+
 public final class Utils {
 
     public static final String LOG_TAG = "KSI";
+
+    public static final int DEFAULT_VALUE = -1008;
 
     /**
      * The amount of pages within the viewpager.
@@ -23,5 +27,15 @@ public final class Utils {
                 String.valueOf(month < 10 ? "0" : "") + month +
                 String.valueOf(day < 10 ? "0" : "") + day;
         return Integer.parseInt(idString);
+    }
+
+    /**
+     *
+     * This method returns 0-indexed calendar.
+     */
+    public static Calendar getActualCalendarByViewPagerPosition(int viewPagerPosition) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, viewPagerPosition - VIEW_PAGER_START_POSITION);
+        return calendar;
     }
 }

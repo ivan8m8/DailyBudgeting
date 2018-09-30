@@ -27,6 +27,7 @@ import ru.is88.dailybudgeting.presentation.presenters.EditItemPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.EditMonthDayPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.impl.EditMonthDayPresenterImpl;
 import ru.is88.dailybudgeting.storage.MonthDayRepositoryImpl;
+import ru.is88.dailybudgeting.utils.Utils;
 
 public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment implements EditItemPresenter.View<MonthDay> {
 
@@ -39,8 +40,6 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
     private static final String ID_KEY = "month_day_ID_key";
     private static final String POSITION_KEY = "position_key";
     private static final String FRAGMENT_POSITION_KEY = "fragment_position_key";
-
-    private static final int DEFAULT_VALUE = -1000;
 
     private EditMonthDayPresenter mEditMonthDayPresenter;
 
@@ -74,7 +73,7 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
 
         mFragmentPosition = Objects.requireNonNull(getArguments(),
                 this.getClass().getSimpleName() + " got null getArguments() or getInt()")
-                .getInt(FRAGMENT_POSITION_KEY, DEFAULT_VALUE);
+                .getInt(FRAGMENT_POSITION_KEY, Utils.DEFAULT_VALUE);
 
         try {
             mCallback = (OnEditingFinishedListener) Objects.requireNonNull(getActivity(),
@@ -92,11 +91,11 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
 
         mId = Objects.requireNonNull(
                 getArguments(), this.getClass().getSimpleName() + " got null getArguments() or getInt()")
-                .getInt(ID_KEY, DEFAULT_VALUE);
-        mPosition = getArguments().getInt(POSITION_KEY, DEFAULT_VALUE);
+                .getInt(ID_KEY, Utils.DEFAULT_VALUE);
+        mPosition = getArguments().getInt(POSITION_KEY, Utils.DEFAULT_VALUE);
 
         //noinspection StatementWithEmptyBody
-        if (mId == DEFAULT_VALUE || mPosition == DEFAULT_VALUE || mFragmentPosition == DEFAULT_VALUE){
+        if (mId == Utils.DEFAULT_VALUE || mPosition == Utils.DEFAULT_VALUE || mFragmentPosition == Utils.DEFAULT_VALUE){
             //mId was not sent
         }
 
