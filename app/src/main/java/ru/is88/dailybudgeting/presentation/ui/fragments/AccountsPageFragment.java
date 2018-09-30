@@ -1,10 +1,10 @@
 package ru.is88.dailybudgeting.presentation.ui.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,13 +24,13 @@ public class AccountsPageFragment extends Fragment {
      * The fragment argument representing the section number for this
      * fragment.
      */
-    private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final String SECTION_NUMBER_KEY = "section_number_key";
 
-    private RecyclerView recyclerView;
-    private AccountsRecyclerAdapter accountsRecyclerAdapter;
-    private List<AbstractAccount> accounts;
+    private RecyclerView mRecyclerView;
+    private AccountsRecyclerAdapter mAccountsRecyclerAdapter;
+    private List<AbstractAccount> mAccounts;
 
-    private boolean income = false;
+    private boolean mIsThisIncome = false;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -39,7 +39,7 @@ public class AccountsPageFragment extends Fragment {
     public static AccountsPageFragment newInstance(int sectionNumber) {
         AccountsPageFragment fragment = new AccountsPageFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        args.putInt(SECTION_NUMBER_KEY, sectionNumber);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,27 +49,27 @@ public class AccountsPageFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            if (getArguments().getInt(ARG_SECTION_NUMBER) == 1) {
-                income = true;
-            } else if (getArguments().getInt(ARG_SECTION_NUMBER) == 2) {
-                income = false;
+            if (getArguments().getInt(SECTION_NUMBER_KEY) == 1) {
+                mIsThisIncome = true;
+            } else if (getArguments().getInt(SECTION_NUMBER_KEY) == 2) {
+                mIsThisIncome = false;
             }
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.fragment_accounts, container, false);
 
-        recyclerView = viewRoot.findViewById(R.id.accountsRecyclerView);
+        mRecyclerView = viewRoot.findViewById(R.id.accountsRecyclerView);
         initRecycler();
 
         return viewRoot;
     }
 
     private void initRecycler() {
-        accounts = new ArrayList<>();
-        if (income) {
+        mAccounts = new ArrayList<>();
+        if (mIsThisIncome) {
             initIncomeRecycler();
         } else {
             initExpensesRecycler();
@@ -77,14 +77,14 @@ public class AccountsPageFragment extends Fragment {
     }
 
     private void initIncomeRecycler(){
-        accounts.add(new Income("desc", 1000, 2018, 8));
-        accountsRecyclerAdapter = new AccountsRecyclerAdapter(accounts);
-        recyclerView.setAdapter(accountsRecyclerAdapter);
+        mAccounts.add(new Income(2018, 9, 1000, "зп от Кирилла"));
+        mAccountsRecyclerAdapter = new AccountsRecyclerAdapter(mAccounts);
+        mRecyclerView.setAdapter(mAccountsRecyclerAdapter);
     }
 
     private void initExpensesRecycler(){
-        accounts.add(new FixedExpense("desc2", 100, 2018, 8));
-        accountsRecyclerAdapter = new AccountsRecyclerAdapter(accounts);
-        recyclerView.setAdapter(accountsRecyclerAdapter);
+        mAccounts.add(new FixedExpense(2018, 9, 23600, "аренда"));
+        mAccountsRecyclerAdapter = new AccountsRecyclerAdapter(mAccounts);
+        mRecyclerView.setAdapter(mAccountsRecyclerAdapter);
     }
 }

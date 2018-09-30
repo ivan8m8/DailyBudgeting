@@ -44,14 +44,14 @@ public class MonthDayRepositoryImpl implements Repository<MonthDay> {
     }
 
     @Override
-    public List<MonthDay> getItemList(int month, int year) {
+    public List<MonthDay> getItemList(int year, int month) {
         List<TableMonthDay> result = SQLite
                 .select()
                 .from(TableMonthDay.class)
-                .where(TableMonthDay_Table.month.eq(month))
-                .and(TableMonthDay_Table.year.eq(year))
+                .where(TableMonthDay_Table.year.eq(year))
+                .and(TableMonthDay_Table.month.eq(month))
                 .queryList();
-        return StorageModelConverter.convertListToRecyclerModel(result);
+        return StorageModelConverter.convertMonthDayListToRecyclerModel(result);
     }
 
 //    @Override
@@ -91,6 +91,6 @@ public class MonthDayRepositoryImpl implements Repository<MonthDay> {
 //                .where(TableMonthDay_Table.month.eq(month))
 //                .and(TableMonthDay_Table.year.eq(year))
 //                .queryList();
-//        return StorageModelConverter.convertListToRecyclerModel(result);
+//        return StorageModelConverter.convertMonthDayListToRecyclerModel(result);
 //    }
 }

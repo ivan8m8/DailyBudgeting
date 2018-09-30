@@ -2,55 +2,54 @@ package ru.is88.dailybudgeting.domain.interactors.impl;
 
 import ru.is88.dailybudgeting.domain.executor.Executor;
 import ru.is88.dailybudgeting.domain.executor.MainThread;
-import ru.is88.dailybudgeting.domain.interactors.EditMonthDayInteractor;
+import ru.is88.dailybudgeting.domain.interactors.EditItemInteractor;
 import ru.is88.dailybudgeting.domain.interactors.base.AbstractInteractor;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
 import ru.is88.dailybudgeting.domain.Repository;
 
-public class EditMonthDayInteractorImpl extends AbstractInteractor implements EditMonthDayInteractor {
-
-    private EditMonthDayInteractor.Callback callback;
-    private Repository<MonthDay> monthDayRepository;
-
-    private MonthDay mUpdatedMonthDay;
+public class EditMonthDayInteractorImpl extends AbstractInteractor implements EditItemInteractor {
 
     private int mId;
     private String mAmountString;
     private String mDescription;
 
-    public EditMonthDayInteractorImpl(Executor threadExecutor,
-                                      MainThread mainThread,
-                                      EditMonthDayInteractor.Callback callback,
-                                      Repository<MonthDay> monthDayRepository,
+    private Repository<MonthDay> mMonthDayRepository;
+    private EditItemInteractor.Callback<MonthDay> mCallback;
+
+    private MonthDay mUpdatedMonthDay;
+
+    public EditMonthDayInteractorImpl(Executor threadExecutor, MainThread mainThread,
                                       int id,
                                       String amountString,
-                                      String description) {
+                                      String description,
+                                      Repository<MonthDay> monthDayRepository,
+                                      EditItemInteractor.Callback<MonthDay> callback) {
         super(threadExecutor, mainThread);
 
-        this.callback = callback;
-        this.monthDayRepository = monthDayRepository;
-        this.mId = id;
-        this.mAmountString = amountString;
-        this.mDescription = description;
+        mId = id;
+        mAmountString = amountString;
+        mDescription = description;
+        mMonthDayRepository = monthDayRepository;
+        mCallback = callback;
     }
 
     @Override
     public void run() {
         // check if it exists in the database
-        mUpdatedMonthDay = monthDayRepository.getItemById(mId);
+        mUpdatedMonthDay = mMonthDayRepository.getItemById(mId);
         if (mUpdatedMonthDay == null){
             mUpdatedMonthDay = new MonthDay(mId, mAmountString, mDescription);
-            monthDayRepository.insert(mUpdatedMonthDay);
+            mMonthDayRepository.insert(mUpdatedMonthDay);
         } else {
             mUpdatedMonthDay.setAmountString(mAmountString);
             mUpdatedMonthDay.setDescription(mDescription);
-            monthDayRepository.update(mUpdatedMonthDay);
+            mMonthDayRepository.update(mUpdatedMonthDay);
         }
 
         mainThread.post(new Runnable() {
             @Override
             public void run() {
-                callback.onMonthDayUpdated(mUpdatedMonthDay);
+                mCallback.onItemUpdated(mUpdatedMonthDay);
             }
         });
     }

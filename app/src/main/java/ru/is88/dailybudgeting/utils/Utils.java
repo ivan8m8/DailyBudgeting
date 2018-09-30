@@ -13,7 +13,7 @@ public final class Utils {
 
     /**
      * Since I want user to have ability to watch previous and future months,
-     * it' needed to start view pager from the middle items position.
+     * it' needed to start mView pager from the middle items position.
      */
     public static final int VIEW_PAGER_START_POSITION = 5;
 

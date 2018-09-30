@@ -16,10 +16,10 @@ import ru.is88.dailybudgeting.domain.models.accounts.AbstractAccount;
 
 public class AccountsRecyclerAdapter extends RecyclerView.Adapter<AccountsRecyclerAdapter.ViewHolder> {
 
-    private List<AbstractAccount> accounts;
+    private List<AbstractAccount> mAccounts;
 
     public AccountsRecyclerAdapter(List<AbstractAccount> accounts) {
-        this.accounts = accounts;
+        mAccounts = accounts;
     }
 
     @NonNull
@@ -30,13 +30,13 @@ public class AccountsRecyclerAdapter extends RecyclerView.Adapter<AccountsRecycl
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.desc.setText(accounts.get(holder.getAdapterPosition()).getDescription());
-        holder.amount.setText(String.valueOf(accounts.get(holder.getAdapterPosition()).getAmount()));
+        holder.desc.setText(mAccounts.get(holder.getAdapterPosition()).getDescription());
+        holder.amount.setText(String.valueOf(mAccounts.get(holder.getAdapterPosition()).getAmount()));
     }
 
     @Override
     public int getItemCount() {
-        return accounts.size();
+        return mAccounts.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

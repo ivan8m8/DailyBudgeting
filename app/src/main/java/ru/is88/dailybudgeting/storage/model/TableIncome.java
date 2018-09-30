@@ -14,10 +14,10 @@ public class TableIncome extends BaseModel {
     private long id;
 
     @Column
-    private String description;
+    private double amount;
 
     @Column
-    private double amount;
+    private String description;
 
     @Column
     private int year;

@@ -9,12 +9,12 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.View;
 
+import java.util.Objects;
+
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.presentation.ui.adapters.AccountsFragmentPagerAdapter;
 
 public class AccountsActivity extends AppCompatActivity {
-
-    private AccountsFragmentPagerAdapter accountsFragmentPagerAdapter;
 
     private ViewPager mViewPager;
 
@@ -27,12 +27,12 @@ public class AccountsActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        accountsFragmentPagerAdapter = new AccountsFragmentPagerAdapter(getSupportFragmentManager());
+        AccountsFragmentPagerAdapter accountsFragmentPagerAdapter = new AccountsFragmentPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = findViewById(R.id.accountsViewPager);

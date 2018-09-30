@@ -10,5 +10,5 @@ public interface Repository<T> {
     void update(@NonNull T item);
 
     T getItemById(long id);
-    List<T> getItemList(int month, int year);
+    List<T> getItemList(int year, int month);
 }

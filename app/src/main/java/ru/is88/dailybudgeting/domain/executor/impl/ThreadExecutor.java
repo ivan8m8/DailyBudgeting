@@ -43,7 +43,7 @@ public class ThreadExecutor implements Executor {
     }
 
     /**
-     * Returns a singleton instance of this executor.
+     * Returns a singleton instance of this mExecutor.
      */
     public static Executor getInstance() {
         if (sThreadExecutor == null) {

@@ -5,11 +5,11 @@ import ru.is88.dailybudgeting.domain.executor.MainThread;
 
 public abstract class AbstractPresenter {
 
-    protected Executor executor;
-    protected MainThread mainThread;
+    protected Executor mExecutor;
+    protected MainThread mMainThread;
 
     public AbstractPresenter(Executor executor, MainThread mainThread) {
-        this.executor = executor;
-        this.mainThread = mainThread;
+        mExecutor = executor;
+        mMainThread = mainThread;
     }
 }

@@ -4,53 +4,64 @@ import java.util.Date;
 
 public abstract class AbstractAccount {
 
-    private long id;
-    private String description;
-    private double amount;
-    private int year;
-    private int month;
+    private long mId;
+    private int mYear;
+    private int mMonth;
+    private double mAmount;
+    private String mDescription;
 
-    AbstractAccount(String description, double amount, int year, int month){
-        this.id = new Date().getTime();
-        this.description = description;
-        this.amount = amount;
-        this.year = year;
-        this.month = month;
+    AbstractAccount(int year, int month, double amount, String description){
+        mId = new Date().getTime();
+        mYear = year;
+        mMonth = month;
+        mAmount = amount;
+        mDescription = description;
+    }
+
+    /*
+    This constructor is for an already existing account that should be converted to domain model.
+     */
+    AbstractAccount(long id, int year, int month, double amount, String description) {
+        mId = id;
+        mDescription = description;
+        mAmount = amount;
+        mYear = year;
+        mMonth = month;
     }
 
     public long getId() {
-        return id;
+        return mId;
     }
 
     public String getDescription() {
-        return description;
+        return mDescription;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        mDescription = description;
     }
 
     public double getAmount() {
-        return amount;
+        return mAmount;
     }
 
     public void setAmount(double amount) {
-        this.amount = amount;
+        mAmount = amount;
     }
 
     public int getYear() {
-        return year;
+        return mYear;
     }
 
     public void setYear(int year) {
-        this.year = year;
+        mYear = year;
     }
 
     public int getMonth() {
-        return month;
+        return mMonth;
     }
 
     public void setMonth(int month) {
-        this.month = month;
+        mMonth = month;
     }
 }

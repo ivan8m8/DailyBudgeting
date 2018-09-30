@@ -1,57 +1,49 @@
 package ru.is88.dailybudgeting.domain.interactors.impl;
 
+import ru.is88.dailybudgeting.domain.Repository;
 import ru.is88.dailybudgeting.domain.executor.Executor;
 import ru.is88.dailybudgeting.domain.executor.MainThread;
-import ru.is88.dailybudgeting.domain.interactors.EditAccountInteractor;
+import ru.is88.dailybudgeting.domain.interactors.EditItemInteractor;
 import ru.is88.dailybudgeting.domain.interactors.base.AbstractInteractor;
 import ru.is88.dailybudgeting.domain.models.accounts.Income;
-import ru.is88.dailybudgeting.domain.repositories.AccountRepository;
 
-public class EditIncomeInteractorImpl extends AbstractInteractor implements EditAccountInteractor {
+public class EditIncomeInteractorImpl extends AbstractInteractor implements EditItemInteractor {
 
-    private Income updatedIncome;
+    private Income mUpdatedIncome;
 
-    private String description;
-    private double amount;
-    private int year;
-    private int month;
+    private double mAmount;
+    private String mDescription;
 
-    private EditAccountInteractor.Callback callback;
-    private AccountRepository accountRepository;
+    private Repository<Income> mIncomeRepository;
+    private EditItemInteractor.Callback<Income> mCallback;
 
-    public EditIncomeInteractorImpl(Executor threadExecutor,
-                                    MainThread mainThread,
+    public EditIncomeInteractorImpl(Executor threadExecutor, MainThread mainThread,
                                     Income income,
-                                    String description,
                                     double amount,
-                                    int year,
-                                    int month,
-                                    EditAccountInteractor.Callback callback,
-                                    AccountRepository accountRepository) {
+                                    String description,
+                                    Repository<Income> incomeRepository,
+                                    EditItemInteractor.Callback<Income> callback) {
         super(threadExecutor, mainThread);
 
-        this.callback = callback;
-        this.updatedIncome = income;
-        this.accountRepository = accountRepository;
-        this.description = description;
-        this.amount = amount;
-        this.year = year;
-        this.month = month;
+        mUpdatedIncome = income;
+
+        mAmount = amount;
+        mDescription = description;
+        mIncomeRepository = incomeRepository;
+        mCallback = callback;
     }
 
     @Override
     public void run() {
-        updatedIncome.setDescription(description);
-        updatedIncome.setAmount(amount);
-        updatedIncome.setYear(year);
-        updatedIncome.setMonth(month);
+        mUpdatedIncome.setAmount(mAmount);
+        mUpdatedIncome.setDescription(mDescription);
 
-        accountRepository.update(updatedIncome);
+        mIncomeRepository.update(mUpdatedIncome);
 
         mainThread.post(new Runnable() {
             @Override
             public void run() {
-                callback.onAccountUpdated(updatedIncome);
+                mCallback.onItemUpdated(mUpdatedIncome);
             }
         });
     }

@@ -1,36 +1,58 @@
 package ru.is88.dailybudgeting.storage.converters;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 import ru.is88.dailybudgeting.domain.models.MonthDay;
+import ru.is88.dailybudgeting.domain.models.accounts.FixedExpense;
 import ru.is88.dailybudgeting.domain.models.accounts.Income;
+import ru.is88.dailybudgeting.storage.model.TableFixedExpense;
 import ru.is88.dailybudgeting.storage.model.TableIncome;
 import ru.is88.dailybudgeting.storage.model.TableMonthDay;
 import ru.is88.dailybudgeting.utils.Utils;
 
 public class StorageModelConverter {
 
-    public static TableMonthDay convertToStorageModel(MonthDay monthDay){
+    @NonNull
+    public static TableMonthDay convertToStorageModel(@NonNull MonthDay monthDay){
         TableMonthDay result = new TableMonthDay();
         result.setId(monthDay.getId());
-        result.setDesc(monthDay.getDescription());
-        result.setAmountString(monthDay.getAmountString());
-        result.setDay(monthDay.getDay());
-        result.setMonth(monthDay.getMonth());
         result.setYear(monthDay.getYear());
+        result.setMonth(monthDay.getMonth());
+        result.setDay(monthDay.getDay());
+        result.setAmountString(monthDay.getAmountString());
+        result.setDesc(monthDay.getDescription());
         return result;
     }
 
-    public static TableIncome convertToStorageModel(Income income) {
+    /*
+    Can not using the wildcard <? extends AbstractAccount> for the following 2 methods,
+    since the method convertToDomainModel works with the specific table classes
+    TableIncome & TableFixedExpense that do not extend any related abstract class.
+     */
+    @NonNull
+    public static TableIncome convertToStorageModel(@NonNull Income income) {
         TableIncome result = new TableIncome();
         result.setId(income.getId());
-        result.setDescription(income.getDescription());
-        result.setAmount(income.getAmount());
         result.setYear(income.getYear());
         result.setMonth(income.getMonth());
+        result.setAmount(income.getAmount());
+        result.setDescription(income.getDescription());
+        return result;
+    }
+
+    @NonNull
+    public static TableFixedExpense convertToStorageModel(@NonNull FixedExpense fixedExpense) {
+        TableFixedExpense result = new TableFixedExpense();
+        result.setId(fixedExpense.getId());
+        result.setYear(fixedExpense.getYear());
+        result.setMonth(fixedExpense.getMonth());
+        result.setAmount(fixedExpense.getAmount());
+        result.setDescription(fixedExpense.getDescription());
         return result;
     }
 
@@ -42,7 +64,28 @@ public class StorageModelConverter {
         );
     }
 
-    public static List<MonthDay> convertListToRecyclerModel(List<TableMonthDay> tableMonthDays) {
+    public static Income convertToDomainModel(TableIncome tableIncome) {
+        return new Income(
+                tableIncome.getId(),
+                tableIncome.getYear(),
+                tableIncome.getMonth(),
+                tableIncome.getAmount(),
+                tableIncome.getDescription()
+        );
+    }
+
+    public static FixedExpense convertToDomainModel(TableFixedExpense tableFixedExpense) {
+        return new FixedExpense(
+                tableFixedExpense.getId(),
+                tableFixedExpense.getYear(),
+                tableFixedExpense.getMonth(),
+                tableFixedExpense.getAmount(),
+                tableFixedExpense.getDescription()
+        );
+    }
+
+    @NonNull
+    public static List<MonthDay> convertMonthDayListToRecyclerModel(List<TableMonthDay> tableMonthDays) {
 
         Calendar calendar = new GregorianCalendar(
                 tableMonthDays.get(0).getYear(),
@@ -52,7 +95,7 @@ public class StorageModelConverter {
         List<MonthDay> result = new ArrayList<>();
 
         /*
-         * It's implemented to populate recycler view,
+         * It's implemented to populate the recycler mView,
          * otherwise, it'd be hard to parse empty month days within onBindViewHolder.
          */
         int j = 0;
@@ -66,6 +109,39 @@ public class StorageModelConverter {
                         "", ""));
             }
         }
+
+        //cleanup
+        tableMonthDays.clear();
+
+        return result;
+    }
+
+    /*
+    Can not using overloading, because it causes clashing & same erasure in this case.
+     */
+    public static List<Income> convertIncomeListToDomainModel(List<TableIncome> tableIncomes) {
+
+        List<Income> result = new ArrayList<>();
+
+        for (TableIncome tableIncome : tableIncomes) {
+            result.add(convertToDomainModel(tableIncome));
+        }
+
+        //cleanup
+        tableIncomes.clear();
+
+        return result;
+    }
+
+    public static List<FixedExpense> convertFixedExpenseListToDomainModel(List<TableFixedExpense> tableFixedExpenses) {
+
+        List<FixedExpense> result = new ArrayList<>();
+
+        for (TableFixedExpense tableFixedExpense : tableFixedExpenses) {
+            result.add(convertToDomainModel(tableFixedExpense));
+        }
+
+        tableFixedExpenses.clear();
 
         return result;
     }

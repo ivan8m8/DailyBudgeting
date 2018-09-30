@@ -1,68 +1,102 @@
 package ru.is88.dailybudgeting.presentation.presenters.impl;
 
+import android.support.annotation.NonNull;
+
 import ru.is88.dailybudgeting.domain.executor.Executor;
 import ru.is88.dailybudgeting.domain.executor.MainThread;
-import ru.is88.dailybudgeting.domain.interactors.EditMonthDayInteractor;
-import ru.is88.dailybudgeting.domain.interactors.GetMonthDayByIdInteractor;
-import ru.is88.dailybudgeting.domain.interactors.impl.GetMonthDayByIdInteractorImpl;
+import ru.is88.dailybudgeting.domain.interactors.EditItemInteractor;
+import ru.is88.dailybudgeting.domain.interactors.GetItemByIdInteractor;
 import ru.is88.dailybudgeting.domain.interactors.impl.EditMonthDayInteractorImpl;
+import ru.is88.dailybudgeting.domain.interactors.impl.GetItemByIdInteractorImpl;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
 import ru.is88.dailybudgeting.domain.Repository;
 import ru.is88.dailybudgeting.presentation.presenters.AbstractPresenter;
+import ru.is88.dailybudgeting.presentation.presenters.EditItemPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.EditMonthDayPresenter;
 
 public class EditMonthDayPresenterImpl extends AbstractPresenter
-        implements EditMonthDayPresenter, GetMonthDayByIdInteractor.Callback, EditMonthDayInteractor.Callback {
+        implements EditMonthDayPresenter, GetItemByIdInteractor.Callback<MonthDay>, EditItemInteractor.Callback<MonthDay> {
 
-    private EditMonthDayPresenter.View view;
-    private Repository<MonthDay> monthDayRepository;
+    private Repository<MonthDay> mRepository;
+    private EditItemPresenter.View<MonthDay> mView;
 
     public EditMonthDayPresenterImpl(Executor executor, MainThread mainThread,
-                                     View view, Repository<MonthDay> monthDayRepository) {
+                                     Repository<MonthDay> repository,
+                                     EditItemPresenter.View<MonthDay> view) {
         super(executor, mainThread);
-        this.view = view;
-        this.monthDayRepository = monthDayRepository;
+        mRepository = repository;
+        mView = view;
     }
 
     @Override
     public void getMonthDayById(int monthDayId) {
-        GetMonthDayByIdInteractor getMonthDayByIdInteractor =
-                new GetMonthDayByIdInteractorImpl(
-                        executor,
-                        mainThread,
+        GetItemByIdInteractor getMonthDayByIdInteractor =
+                new GetItemByIdInteractorImpl<>(
+                        mExecutor,
+                        mMainThread,
                         monthDayId,
-                        monthDayRepository,
+                        mRepository,
                         this
                 );
         getMonthDayByIdInteractor.execute();
     }
 
     @Override
-    public void onMonthDayRetrieved(MonthDay monthDay) {
-        view.onMonthDayRetrieved(monthDay);
+    public void onItemRetrieved(MonthDay item) {
+        mView.onItemRetrieved(item);
     }
 
     @Override
-    public void onMonthDayNotFound() {
-        view.showError("No month day found");
+    public void onItemNotFound() {
+        mView.showError("No month day found");
     }
 
+//    @Override
+//    public void onMonthDayRetrieved(@NonNull MonthDay monthDay) {
+//        mView.onItemRetrieved(monthDay);
+//    }
+
+//    @Override
+//    public void onMonthDayNotFound() {
+//        mView.showError("No month day found");
+//    }
+
     @Override
-    public void editMonthDay(int monthDayId, String description, String amount) {
-        EditMonthDayInteractor editMonthDayInteractor =
+    public void editMonthDay(int monthDayId, String amountString, String description) {
+        EditItemInteractor editItemInteractor =
                 new EditMonthDayInteractorImpl(
-                        executor,
-                        mainThread,
-                        this,
-                        monthDayRepository,
-                        monthDayId, amount, description
+                        mExecutor,
+                        mMainThread,
+                        monthDayId,
+                        amountString,
+                        description,
+                        mRepository,
+                        this
                 );
-        editMonthDayInteractor.execute();
+        editItemInteractor.execute();
     }
+
+
+//    @Override
+//    public void editMonthDay(int monthDayId, String description, String amount) {
+//        EditItemInteractor editMonthDayInteractor =
+//                new EditMonthDayInteractorImpl(
+//                        mExecutor,
+//                        mMainThread,
+//                        this,
+//                        monthDayRepository,
+//                        monthDayId, amount, description
+//                );
+//        editMonthDayInteractor.execute();
+//    }
+
+//    @Override
+//    public void onMonthDayUpdated(final MonthDay monthDay) {
+//        mView.onMonthDayUpdated(monthDay);
+//    }
 
     @Override
-    public void onMonthDayUpdated(final MonthDay monthDay) {
-        view.onMonthDayUpdated(monthDay);
+    public void onItemUpdated(@NonNull MonthDay item) {
+        mView.onItemUpdated(item);
     }
-
 }

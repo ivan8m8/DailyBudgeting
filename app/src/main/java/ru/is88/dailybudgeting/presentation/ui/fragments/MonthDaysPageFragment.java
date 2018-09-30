@@ -22,25 +22,26 @@ import ru.is88.dailybudgeting.MainThreadImpl;
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.domain.executor.impl.ThreadExecutor;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
-import ru.is88.dailybudgeting.presentation.presenters.MonthDayMainPresenter;
+import ru.is88.dailybudgeting.presentation.presenters.MainPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.impl.MonthDayMainPresenterImpl;
 import ru.is88.dailybudgeting.presentation.ui.adapters.MonthDaysRecyclerAdapter;
 import ru.is88.dailybudgeting.storage.MonthDayRepositoryImpl;
 import ru.is88.dailybudgeting.utils.Utils;
 
-public class MonthDaysPageFragment extends Fragment implements MonthDayMainPresenter.View, EditMonthDayBottomDialogFragment.OnEditingFinishedListener {
+public class MonthDaysPageFragment extends Fragment
+        implements MainPresenter.View<MonthDay>, EditMonthDayBottomDialogFragment.OnEditingFinishedListener {
 
     private static final String MONTH_DELTA_KEY = "month_delta_key";
 
-    private Calendar calendar;
+    private Calendar mCalendar;
 
-    private List<MonthDay> monthDays;
-    private MonthDaysRecyclerAdapter monthDaysRecyclerAdapter;
-    private RecyclerView recyclerView;
+    private List<MonthDay> mMonthDays;
+    private MonthDaysRecyclerAdapter mMonthDaysRecyclerAdapter;
+    private RecyclerView mRecyclerView;
 
-    private NestedScrollView nestedScrollView;
+    private NestedScrollView mNestedScrollView;
 
-    private MonthDayMainPresenter monthDayMainPresenter;
+    private MonthDayMainPresenterImpl mMonthDayMainPresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,14 +55,14 @@ public class MonthDaysPageFragment extends Fragment implements MonthDayMainPrese
             // handle a mistake. The PageFragment hasn't received delta.
         }
 
-        calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, monthDelta);
+        mCalendar = Calendar.getInstance();
+        mCalendar.add(Calendar.MONTH, monthDelta);
 
-        monthDayMainPresenter = new MonthDayMainPresenterImpl(
+        mMonthDayMainPresenter = new MonthDayMainPresenterImpl(
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
-                this,
-                new MonthDayRepositoryImpl()
+                new MonthDayRepositoryImpl(),
+                this
         );
     }
 
@@ -71,8 +72,8 @@ public class MonthDaysPageFragment extends Fragment implements MonthDayMainPrese
 
         View viewRoot = inflater.inflate(R.layout.fragment_page, container, false);
 
-        nestedScrollView = viewRoot.findViewById(R.id.nestedScrollView);
-        recyclerView = viewRoot.findViewById(R.id.monthDaysRecyclerView);
+        mNestedScrollView = viewRoot.findViewById(R.id.nestedScrollView);
+        mRecyclerView = viewRoot.findViewById(R.id.monthDaysRecyclerView);
         initRecycler();
 
         return viewRoot;
@@ -82,9 +83,9 @@ public class MonthDaysPageFragment extends Fragment implements MonthDayMainPrese
     public void onResume() {
         super.onResume();
 
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
-        monthDayMainPresenter.getMonthDayList(month + 1, year);
+        int month = mCalendar.get(Calendar.MONTH);
+        int year = mCalendar.get(Calendar.YEAR);
+        mMonthDayMainPresenter.getItemList(year, month + 1);
     }
 
     /**
@@ -93,46 +94,53 @@ public class MonthDaysPageFragment extends Fragment implements MonthDayMainPrese
      */
     public static MonthDaysPageFragment newInstance(int monthDelta) {
         MonthDaysPageFragment monthDaysPageFragment = new MonthDaysPageFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(MONTH_DELTA_KEY, monthDelta);
-        monthDaysPageFragment.setArguments(bundle);
+        Bundle args = new Bundle();
+        args.putInt(MONTH_DELTA_KEY, monthDelta);
+        monthDaysPageFragment.setArguments(args);
         return monthDaysPageFragment;
     }
 
     @Override
-    public void showMonthDays(List<MonthDay> monthDays) {
-        //this.monthDays.clear();
-        this.monthDays.addAll(monthDays);
-        monthDaysRecyclerAdapter.notifyDataSetChanged();
+    public void showItemList(List<MonthDay> monthDays) {
+        //mMonthDays.clear();
+        mMonthDays.addAll(monthDays);
+        mMonthDaysRecyclerAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onClickEditMonthDay(final int monthDayId, final int position) {
+//    @Override
+//    public void showMonthDays(List<MonthDay> monthDays) {
+//        //this.mMonthDays.clear();
+//        this.mMonthDays.addAll(monthDays);
+//        mMonthDaysRecyclerAdapter.notifyDataSetChanged();
+//    }
 
+
+    @Override
+    public void onClickItem(long id, int position) {
         final ViewPager viewPager = Objects.requireNonNull(getActivity(),
                 this.getClass().getSimpleName() + " got null getActivity() or findViewById(R.id.viewPager)")
                 .findViewById(R.id.viewPager);
 
         final EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment =
-                EditMonthDayBottomDialogFragment.newInstance(monthDayId, position, viewPager.getCurrentItem());
+                EditMonthDayBottomDialogFragment.newInstance((int) id, position, viewPager.getCurrentItem());
         editMonthDayBottomDialogFragment.show(Objects.requireNonNull(getFragmentManager(),
                 this.getClass().getSimpleName() + " got null getFragmentManager()")
                 , "edit_month_day_bottom_dialog_fragment");
     }
 
     @Override
-    public void onEditingFinished(final MonthDay monthDay, final int position) {
+    public void onEditingFinished(MonthDay monthDay, int position) {
 
-        if (this.monthDays.size() == 0) {
-            for (int i=0; i <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
-                this.monthDays.add(new MonthDay(
-                        Utils.buildMonthDayID(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, i + 1),
+        if (mMonthDays.size() == 0) {
+            for (int i = 0; i <= mCalendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
+                mMonthDays.add(new MonthDay(
+                        Utils.buildMonthDayID(mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH) + 1, i + 1),
                         "", ""));
             }
         }
 
-        this.monthDays.set(position, monthDay);
-        monthDaysRecyclerAdapter.notifyItemChanged(position);
+        mMonthDays.set(position, monthDay);
+        mMonthDaysRecyclerAdapter.notifyItemChanged(position);
     }
 
     @Override
@@ -152,11 +160,11 @@ public class MonthDaysPageFragment extends Fragment implements MonthDayMainPrese
 
     private void initRecycler() {
 
-        monthDays = new ArrayList<>();
+        mMonthDays = new ArrayList<>();
 
-        monthDaysRecyclerAdapter = new MonthDaysRecyclerAdapter(this, calendar, monthDays);
-        recyclerView.setAdapter(monthDaysRecyclerAdapter);
-        recyclerView.setHasFixedSize(true);
+        mMonthDaysRecyclerAdapter = new MonthDaysRecyclerAdapter(mMonthDays, mCalendar, this);
+        mRecyclerView.setAdapter(mMonthDaysRecyclerAdapter);
+        mRecyclerView.setHasFixedSize(true);
 
         performScrollingToCurrentDay();
     }
@@ -164,7 +172,7 @@ public class MonthDaysPageFragment extends Fragment implements MonthDayMainPrese
     private void performScrollingToCurrentDay(){
 
         // calendarDayOfMonth is the same as the real day of month, NOT 0-indexed
-        int position = calendar.get(Calendar.DAY_OF_MONTH) - 1;
+        int position = mCalendar.get(Calendar.DAY_OF_MONTH) - 1;
 
         if (position > 3) {
             position -= 3;
@@ -182,17 +190,17 @@ public class MonthDaysPageFragment extends Fragment implements MonthDayMainPrese
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        final float y = recyclerView.getY() + recyclerView.getChildAt(finalPosition).getY();
-                        nestedScrollView.smoothScrollTo(0, (int) y);
+                        final float y = mRecyclerView.getY() + mRecyclerView.getChildAt(finalPosition).getY();
+                        mNestedScrollView.smoothScrollTo(0, (int) y);
                     }
                 }, 100);
             } catch (Exception e) {
-                // Sometimes this method got called faster than recyclerView.getChildAt(finalPosition).getY()
+                // Sometimes this method got called faster than mRecyclerView.getChildAt(finalPosition).getY()
                 e.printStackTrace();
             }
 
         } else {
-            recyclerView.scrollToPosition(position);
+            mRecyclerView.scrollToPosition(position);
         }
     }
 }

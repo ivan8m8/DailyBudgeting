@@ -5,26 +5,26 @@ import ru.is88.dailybudgeting.domain.executor.Executor;
 import ru.is88.dailybudgeting.domain.executor.MainThread;
 import ru.is88.dailybudgeting.domain.interactors.EditItemInteractor;
 import ru.is88.dailybudgeting.domain.interactors.GetItemByIdInteractor;
-import ru.is88.dailybudgeting.domain.interactors.impl.EditIncomeInteractorImpl;
+import ru.is88.dailybudgeting.domain.interactors.impl.EditFixedExpenseInteractorImpl;
 import ru.is88.dailybudgeting.domain.interactors.impl.GetItemByIdInteractorImpl;
 import ru.is88.dailybudgeting.domain.models.accounts.AbstractAccount;
-import ru.is88.dailybudgeting.domain.models.accounts.Income;
+import ru.is88.dailybudgeting.domain.models.accounts.FixedExpense;
 import ru.is88.dailybudgeting.presentation.presenters.AbstractPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.EditAccountPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.EditItemPresenter;
 
-public class EditIncomePresenterImpl extends AbstractPresenter
-        implements EditAccountPresenter, GetItemByIdInteractor.Callback<Income>, EditItemInteractor.Callback<Income> {
+public class EditFixedExpensePresenterImpl extends AbstractPresenter
+        implements EditAccountPresenter, EditItemInteractor.Callback<FixedExpense>, GetItemByIdInteractor.Callback<FixedExpense> {
 
-    private Repository<Income> mRepository;
-    private EditItemPresenter.View<Income> mView;
+    private Repository<FixedExpense> mRepository;
+    private EditItemPresenter.View<FixedExpense> mView;
 
-    public EditIncomePresenterImpl(Executor executor, MainThread mainThread,
-                                   Repository<Income> repository,
-                                   EditItemPresenter.View<Income> view) {
+    public EditFixedExpensePresenterImpl(Executor executor, MainThread mainThread,
+                                         Repository<FixedExpense> repository,
+                                         EditItemPresenter.View<FixedExpense> view) {
         super(executor, mainThread);
-        mView = view;
         mRepository = repository;
+        mView = view;
     }
 
     @Override
@@ -41,22 +41,22 @@ public class EditIncomePresenterImpl extends AbstractPresenter
     }
 
     @Override
-    public void onItemRetrieved(Income item) {
+    public void onItemRetrieved(FixedExpense item) {
         mView.onItemRetrieved(item);
     }
 
     @Override
     public void onItemNotFound() {
-        mView.showError("No income found");
+        mView.showError("No fixed expense found");
     }
 
     @Override
     public void editAccount(AbstractAccount abstractAccountToEdit, double amount, String description) {
         EditItemInteractor editItemInteractor =
-                new EditIncomeInteractorImpl(
+                new EditFixedExpenseInteractorImpl(
                         mExecutor,
                         mMainThread,
-                        (Income) abstractAccountToEdit,
+                        (FixedExpense) abstractAccountToEdit,
                         amount,
                         description,
                         mRepository,
@@ -66,7 +66,7 @@ public class EditIncomePresenterImpl extends AbstractPresenter
     }
 
     @Override
-    public void onItemUpdated(Income item) {
+    public void onItemUpdated(FixedExpense item) {
         mView.onItemUpdated(item);
     }
 }

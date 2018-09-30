@@ -1,7 +1,5 @@
 package ru.is88.dailybudgeting.domain.models;
 
-import android.util.Log;
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -12,18 +10,18 @@ import java.text.NumberFormat;
 public class MonthDay {
 
     /**
-     * Id is three numbers consists day, month and year
+     * Id is three values that are: year, month and day
      * example: 20170803
      */
-    private int id;
+    private int mId;
 
     /**
      * This is String, because it's easier to user to sum up all his expenses.
      * Moreover, it's more like an Excel cell.
      */
-    private String amountString;
+    private String mAmountString;
 
-    private String description;
+    private String mDescription;
 
     private int day;
     private int month;
@@ -32,21 +30,21 @@ public class MonthDay {
     public MonthDay(int id,
                     String amountString,
                     String description){
-        this.id = id;
-        this.amountString = amountString;
-        this.description = description;
+        mId = id;
+        mAmountString = amountString;
+        mDescription = description;
 
-        this.day = Integer.parseInt(String.valueOf(id).substring(6, 8));
-        this.month = Integer.parseInt(String.valueOf(id).substring(4, 6));
         this.year = Integer.parseInt(String.valueOf(id).substring(0, 4));
+        this.month = Integer.parseInt(String.valueOf(id).substring(4, 6));
+        this.day = Integer.parseInt(String.valueOf(id).substring(6, 8));
     }
 
     public double getAmount() {
         NumberFormat numberFormat = new DecimalFormat("##.##");
         numberFormat.setMinimumFractionDigits(0);
         double result = 0;
-        if (amountString.trim().length() > 0) {
-            String[] stringAmounts = amountString.trim().split("\\s+");
+        if (mAmountString.trim().length() > 0) {
+            String[] stringAmounts = mAmountString.trim().split("\\s+");
             double[] amounts = new double[stringAmounts.length];
             for (int i = 0; i < stringAmounts.length; i++) {
                 amounts[i] = Double.parseDouble(stringAmounts[i]);
@@ -57,27 +55,27 @@ public class MonthDay {
     }
 
     public int getId() {
-        return id;
+        return mId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        mId = id;
     }
 
     public String getAmountString() {
-        return amountString;
+        return mAmountString;
     }
 
     public void setAmountString(String amountString) {
-        this.amountString = amountString;
+        mAmountString = amountString;
     }
 
     public String getDescription() {
-        return description;
+        return mDescription;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        mDescription = description;
     }
 
     public int getDay() {

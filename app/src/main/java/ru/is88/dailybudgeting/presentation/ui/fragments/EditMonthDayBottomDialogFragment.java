@@ -23,11 +23,12 @@ import ru.is88.dailybudgeting.MainThreadImpl;
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.domain.executor.impl.ThreadExecutor;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
+import ru.is88.dailybudgeting.presentation.presenters.EditItemPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.EditMonthDayPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.impl.EditMonthDayPresenterImpl;
 import ru.is88.dailybudgeting.storage.MonthDayRepositoryImpl;
 
-public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment implements EditMonthDayPresenter.View {
+public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment implements EditItemPresenter.View<MonthDay> {
 
     private static final String REGEX = "^\\d+(.\\d+)?(\\s\\d+(.\\d+)?)*$";
 
@@ -41,20 +42,21 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
 
     private static final int DEFAULT_VALUE = -1000;
 
-    private EditMonthDayPresenter editMonthDayPresenter;
+    private EditMonthDayPresenter mEditMonthDayPresenter;
 
-    private int id;
-    private int position;
-    private int fragmentPosition;
+    private int mId;
+    private int mPosition;
+    private int mFragmentPosition; // is actually the month
 
-    private EditText descriptionEditText;
-    private EditText amountEditText;
+    private EditText mDescriptionEditText;
+    private EditText mAmountEditText;
 
-    private OnEditingFinishedListener callback;
+    private OnEditingFinishedListener mCallback;
 
-    private boolean inputErrorOccurred = false;
+    private boolean mInputErrorOccurred = false;
 
-    public static EditMonthDayBottomDialogFragment newInstance(final int id, final int position, final int fragmentPosition) {
+    public static EditMonthDayBottomDialogFragment newInstance(int id, int position, int fragmentPosition) {
+
         EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment = new EditMonthDayBottomDialogFragment();
         Bundle args = new Bundle();
 
@@ -70,17 +72,17 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        this.fragmentPosition = Objects.requireNonNull(getArguments(),
+        mFragmentPosition = Objects.requireNonNull(getArguments(),
                 this.getClass().getSimpleName() + " got null getArguments() or getInt()")
                 .getInt(FRAGMENT_POSITION_KEY, DEFAULT_VALUE);
 
         try {
-            callback = (OnEditingFinishedListener) Objects.requireNonNull(getActivity(),
+            mCallback = (OnEditingFinishedListener) Objects.requireNonNull(getActivity(),
                     this.getClass().getSimpleName() + " got null getActivity() or getSupportFragmentManager()")
                     .getSupportFragmentManager()
-                    .findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + fragmentPosition);
+                    .findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + mFragmentPosition);
         } catch (ClassCastException e) {
-            throw new ClassCastException(callback.getClass().getName() + " must implement OnEditingFinishedListener");
+            throw new ClassCastException(mCallback.getClass().getName() + " must implement OnEditingFinishedListener");
         }
     }
 
@@ -88,24 +90,25 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.id = Objects.requireNonNull(getArguments(),
-                this.getClass().getSimpleName() + " got null getArguments() or getInt()")
+        mId = Objects.requireNonNull(
+                getArguments(), this.getClass().getSimpleName() + " got null getArguments() or getInt()")
                 .getInt(ID_KEY, DEFAULT_VALUE);
-        this.position = getArguments().getInt(POSITION_KEY, DEFAULT_VALUE);
+        mPosition = getArguments().getInt(POSITION_KEY, DEFAULT_VALUE);
 
-        if (this.id == DEFAULT_VALUE || this.position == DEFAULT_VALUE || this.fragmentPosition == DEFAULT_VALUE){
-            //id was not sent
+        //noinspection StatementWithEmptyBody
+        if (mId == DEFAULT_VALUE || mPosition == DEFAULT_VALUE || mFragmentPosition == DEFAULT_VALUE){
+            //mId was not sent
         }
 
-        editMonthDayPresenter = new EditMonthDayPresenterImpl(
+        mEditMonthDayPresenter = new EditMonthDayPresenterImpl(
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
-                this,
-                new MonthDayRepositoryImpl()
+                new MonthDayRepositoryImpl(),
+                this
         );
 
         // first get the old month day data from the DB
-        editMonthDayPresenter.getMonthDayById(id);
+        mEditMonthDayPresenter.getMonthDayById(mId);
     }
 
     @SuppressLint("SetTextI18n")
@@ -115,13 +118,18 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
 
         View viewRoot = inflater.inflate(R.layout.fragment_bottom_dialog_edit_month_day, container, false);
 
-        descriptionEditText = viewRoot.findViewById(R.id.editDescription);
-        amountEditText = viewRoot.findViewById(R.id.editAmount);
+        mDescriptionEditText = viewRoot.findViewById(R.id.editDescription);
+        mAmountEditText = viewRoot.findViewById(R.id.editAmount);
         TextView monthDayTitle = viewRoot.findViewById(R.id.monthDayTitleTextView);
-        final Button save = viewRoot.findViewById(R.id.saveMonthDayButton);
+        Button save = viewRoot.findViewById(R.id.saveMonthDayButton);
+
+        String idString = String.valueOf(mId);
+        String monthDayString = idString.substring(6, 8);
+        int month = Integer.parseInt(idString.substring(4, 6)); // because it's put to DateFormatSymbols().getMonths() below
+        monthDayTitle.setText(monthDayString + " " + new DateFormatSymbols().getMonths()[month - 1]);
 
         final TextInputLayout amountInputLayout = viewRoot.findViewById(R.id.amountInputLayout);
-        amountEditText.addTextChangedListener(new TextWatcher() {
+        mAmountEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -129,8 +137,8 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (inputErrorOccurred) {
-                    if (!amountEditText.getText().toString().matches(REGEX)) {
+                if (mInputErrorOccurred) {
+                    if (!mAmountEditText.getText().toString().matches(REGEX)) {
                         amountInputLayout.setError(getString(R.string.error_3_amount_input));
                     } else {
                         amountInputLayout.setErrorEnabled(false);
@@ -147,41 +155,36 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!amountEditText.getText().toString().matches(REGEX)) {
-                    inputErrorOccurred = true;
+                if (!mAmountEditText.getText().toString().matches(REGEX)) {
+                    mInputErrorOccurred = true;
                     amountInputLayout.setError(getString(R.string.error_3_amount_input));
                 } else {
-                    editMonthDayPresenter.editMonthDay(
-                            id,
-                            descriptionEditText.getText().toString(),
-                            amountEditText.getText().toString()
+                    mEditMonthDayPresenter.editMonthDay(
+                            mId,
+                            mAmountEditText.getText().toString(),
+                            mDescriptionEditText.getText().toString()
                     );
                     dismiss();
                 }
             }
         });
 
-        String idString = String.valueOf(id);
-        String monthDay = idString.substring(6, 8);
-        int month = Integer.parseInt(idString.substring(4, 6)); // because it's put to DateFormatSymbols().getMonths() below
-        monthDayTitle.setText(monthDay + " " + new DateFormatSymbols().getMonths()[month - 1]);
-
         return viewRoot;
     }
 
     @Override
-    public void onMonthDayRetrieved(@NonNull MonthDay monthDay) {
+    public void onItemRetrieved(MonthDay item) {
 
-        String description = monthDay.getDescription();
-        String amountString = monthDay.getAmountString();
+        String description = item.getDescription();
+        String amountString = item.getAmountString();
 
-        descriptionEditText.setText(description);
-        amountEditText.setText(amountString);
+        mDescriptionEditText.setText(description);
+        mAmountEditText.setText(amountString);
     }
 
     @Override
-    public void onMonthDayUpdated(final MonthDay monthDay) {
-        callback.onEditingFinished(monthDay, position);
+    public void onItemUpdated(MonthDay item) {
+        mCallback.onEditingFinished(item, mPosition);
     }
 
     @Override

@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(monthDaysFragmentPagerAdapter);
         viewPager.setCurrentItem(Utils.VIEW_PAGER_START_POSITION);
 
+        // Violation of SRP by Google Android :)
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    void updateAppBar(int position){
+    private void updateAppBar(int position){
 
         Toolbar monthToolbar = findViewById(R.id.monthToolbar);
         TextView incomeTextView = findViewById(R.id.incomeAmount);
