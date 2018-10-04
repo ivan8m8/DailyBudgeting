@@ -7,13 +7,13 @@ import android.support.v7.widget.Toolbar;
 
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import java.util.Objects;
 
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.presentation.ui.adapters.AccountsFragmentPagerAdapter;
+import ru.is88.dailybudgeting.presentation.ui.fragments.AddAccountDialogFragment;
 import ru.is88.dailybudgeting.utils.Utils;
 
 public class AccountsActivity extends AppCompatActivity {
@@ -25,17 +25,17 @@ public class AccountsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accounts);
 
-        Log.d("KSI", " " + getIntent().getIntExtra(MainActivity.MONTH_KEY, Utils.DEFAULT_VALUE));
-        Log.d("KSI", " " + getIntent().getIntExtra(MainActivity.YEAR_KEY, Utils.DEFAULT_VALUE));
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        int year = getIntent().getIntExtra(MainActivity.YEAR_KEY, Utils.DEFAULT_VALUE);
+        int month = getIntent().getIntExtra(MainActivity.MONTH_KEY, Utils.DEFAULT_VALUE);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        AccountsFragmentPagerAdapter accountsFragmentPagerAdapter = new AccountsFragmentPagerAdapter(getSupportFragmentManager());
+        final AccountsFragmentPagerAdapter accountsFragmentPagerAdapter = new AccountsFragmentPagerAdapter(getSupportFragmentManager(), year, month);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = findViewById(R.id.accountsViewPager);
@@ -52,6 +52,8 @@ public class AccountsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (mViewPager.getCurrentItem() == 0) {
                     //TODO: add an income + the animation
+                    AddAccountDialogFragment addAccountDialogFragment = AddAccountDialogFragment.newInstance();
+                    addAccountDialogFragment.show(getSupportFragmentManager(), "add_account_dialog_fragment");
                 } else if (mViewPager.getCurrentItem() == 1) {
                     //TODO: add a fixed expense + the animation
                 }

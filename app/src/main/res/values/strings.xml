@@ -4,8 +4,8 @@
 
     <string name="title_activity_accounts">Income/Expenses</string>
 
-    <string name="edit_description_hint">Descriptions</string>
-    <string name="edit_amount_hint">Expenditures</string>
+    <string name="edit_month_day_description_hint">Descriptions</string>
+    <string name="edit_month_day_amount_hint">Expenditures</string>
 
     <string name="save">Save</string>
     <string name="loading">Loading…</string>
@@ -30,5 +30,10 @@
     <string name="expenses_title">Expenses:</string>
     <string name="month_savings_title">This month you save:</string>
     <string name="year_savings_title">This year you\'d save:</string>
+
+    <string name="description">Description</string>
+    <string name="amount">Amount</string>
+
+    <string name="add">add</string>
 
 </resources>
