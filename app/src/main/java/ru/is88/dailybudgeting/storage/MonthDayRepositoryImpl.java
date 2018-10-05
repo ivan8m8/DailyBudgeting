@@ -53,44 +53,4 @@ public class MonthDayRepositoryImpl implements Repository<MonthDay> {
                 .queryList();
         return StorageModelConverter.convertMonthDayListToRecyclerModel(result);
     }
-
-//    @Override
-//    public void update(MonthDay monthDay) {
-//        TableMonthDay dbItem = StorageModelConverter.convertToStorageModel(monthDay);
-//        dbItem.synced = false;
-//        dbItem.update();
-//        //TODO: Sync
-//    }
-
-//    @Override
-//    public void insert(MonthDay monthDay) {
-//        TableMonthDay dbItem = StorageModelConverter.convertToStorageModel(monthDay);
-//        dbItem.synced = false;
-//        dbItem.insert();
-//        //TODO: Sync
-//    }
-
-//    @Override
-//    public MonthDay getMonthDayById(int id) {
-//        TableMonthDay result = SQLite
-//                .select()
-//                .from(TableMonthDay.class)
-//                .where(TableMonthDay_Table.id.eq(id))
-//                .querySingle();
-//        if (result == null) {
-//            return null;
-//        }
-//        return StorageModelConverter.convertToDomainModel(result);
-//    }
-
-//    @Override
-//    public List<MonthDay> getMonthDayList(int month, int year) {
-//        List<TableMonthDay> result = SQLite
-//                .select()
-//                .from(TableMonthDay.class)
-//                .where(TableMonthDay_Table.month.eq(month))
-//                .and(TableMonthDay_Table.year.eq(year))
-//                .queryList();
-//        return StorageModelConverter.convertMonthDayListToRecyclerModel(result);
-//    }
 }

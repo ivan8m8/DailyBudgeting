@@ -15,10 +15,6 @@ public class MonthDay {
      */
     private int mId;
 
-    /**
-     * This is String, because it's easier to user to sum up all his expenses.
-     * Moreover, it's more like an Excel cell.
-     */
     private String mAmountString;
 
     private String mDescription;

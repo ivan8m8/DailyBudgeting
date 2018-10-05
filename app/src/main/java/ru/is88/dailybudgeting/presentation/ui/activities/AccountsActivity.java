@@ -13,7 +13,8 @@ import java.util.Objects;
 
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.presentation.ui.adapters.AccountsFragmentPagerAdapter;
-import ru.is88.dailybudgeting.presentation.ui.fragments.AddAccountDialogFragment;
+import ru.is88.dailybudgeting.presentation.ui.fragments.AddFixedExpenseDialogFragment;
+import ru.is88.dailybudgeting.presentation.ui.fragments.AddIncomeDialogFragment;
 import ru.is88.dailybudgeting.utils.Utils;
 
 public class AccountsActivity extends AppCompatActivity {
@@ -52,10 +53,12 @@ public class AccountsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (mViewPager.getCurrentItem() == 0) {
                     //TODO: add an income + the animation
-                    AddAccountDialogFragment addAccountDialogFragment = AddAccountDialogFragment.newInstance();
-                    addAccountDialogFragment.show(getSupportFragmentManager(), "add_account_dialog_fragment");
+                    AddIncomeDialogFragment addIncomeDialogFragment = AddIncomeDialogFragment.newInstance();
+                    addIncomeDialogFragment.show(getSupportFragmentManager(), "add_income_dialog_fragment");
                 } else if (mViewPager.getCurrentItem() == 1) {
-                    //TODO: add a fixed expense + the animation
+                    //TODO: add the animation
+                    AddFixedExpenseDialogFragment addFixedExpenseDialogFragment = AddFixedExpenseDialogFragment.newInstance();
+                    addFixedExpenseDialogFragment.show(getSupportFragmentManager(), "add_fixed_expense_dialog_fragment");
                 }
             }
         });

@@ -36,4 +36,7 @@
 
     <string name="add">add</string>
 
+    <string name="adding_income">Add an income</string>
+    <string name="adding_fixed_expense">Add a fixed expense</string>
+
 </resources>

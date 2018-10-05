@@ -6,6 +6,17 @@
     android:layout_height="wrap_content"
     android:background="@color/colorWhite">
 
+    <TextView
+        android:id="@+id/addAccountTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/text_margin"
+        android:layout_marginBottom="@dimen/text_margin"
+        android:textStyle="bold"
+        android:textColor="@color/colorBlack"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -38,7 +49,7 @@
             android:digits="0123456789"/>
     </android.support.design.widget.TextInputLayout>
 
-    <LinearLayout
+    <android.support.v7.widget.ButtonBarLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -48,12 +59,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonBarStyle"
+            style="?android:attr/buttonBarButtonStyle"
+            android:textStyle="bold"
             android:text="@android:string/cancel"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonBarStyle"
+            style="?android:attr/buttonBarButtonStyle"
+            android:textStyle="bold"
             android:text="@string/add"/>
-    </LinearLayout>
+    </android.support.v7.widget.ButtonBarLayout>
 </LinearLayout>
