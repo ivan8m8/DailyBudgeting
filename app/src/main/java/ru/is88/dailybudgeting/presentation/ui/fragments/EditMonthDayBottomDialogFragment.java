@@ -22,6 +22,7 @@ import java.util.Objects;
 import ru.is88.dailybudgeting.MainThreadImpl;
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.domain.executor.impl.ThreadExecutor;
+import ru.is88.dailybudgeting.domain.models.Cell;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
 import ru.is88.dailybudgeting.presentation.presenters.EditItemPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.EditMonthDayPresenter;
@@ -160,7 +161,7 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
                 } else {
                     mEditMonthDayPresenter.editMonthDay(
                             mId,
-                            mAmountEditText.getText().toString(),
+                            new Cell(mAmountEditText.getText().toString()),
                             mDescriptionEditText.getText().toString()
                     );
                     dismiss();
@@ -175,7 +176,7 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
     public void onItemRetrieved(MonthDay item) {
 
         String description = item.getDescription();
-        String amountString = item.getAmountString();
+        String amountString = item.getAmountCell().getValue();
 
         mDescriptionEditText.setText(description);
         mAmountEditText.setText(amountString);

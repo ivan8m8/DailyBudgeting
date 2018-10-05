@@ -5,13 +5,14 @@ import ru.is88.dailybudgeting.domain.executor.Executor;
 import ru.is88.dailybudgeting.domain.executor.MainThread;
 import ru.is88.dailybudgeting.domain.interactors.EditItemInteractor;
 import ru.is88.dailybudgeting.domain.interactors.base.AbstractInteractor;
+import ru.is88.dailybudgeting.domain.models.Cell;
 import ru.is88.dailybudgeting.domain.models.accounts.Income;
 
 public class EditIncomeInteractorImpl extends AbstractInteractor implements EditItemInteractor {
 
     private Income mUpdatedIncome;
 
-    private double mAmount;
+    private Cell mAmountCell;
     private String mDescription;
 
     private Repository<Income> mIncomeRepository;
@@ -19,7 +20,7 @@ public class EditIncomeInteractorImpl extends AbstractInteractor implements Edit
 
     public EditIncomeInteractorImpl(Executor threadExecutor, MainThread mainThread,
                                     Income income,
-                                    double amount,
+                                    Cell amountCell,
                                     String description,
                                     Repository<Income> incomeRepository,
                                     EditItemInteractor.Callback<Income> callback) {
@@ -27,7 +28,7 @@ public class EditIncomeInteractorImpl extends AbstractInteractor implements Edit
 
         mUpdatedIncome = income;
 
-        mAmount = amount;
+        mAmountCell = amountCell;
         mDescription = description;
         mIncomeRepository = incomeRepository;
         mCallback = callback;
@@ -35,7 +36,7 @@ public class EditIncomeInteractorImpl extends AbstractInteractor implements Edit
 
     @Override
     public void run() {
-        mUpdatedIncome.setAmount(mAmount);
+        mUpdatedIncome.setAmountCell(mAmountCell);
         mUpdatedIncome.setDescription(mDescription);
 
         mIncomeRepository.update(mUpdatedIncome);

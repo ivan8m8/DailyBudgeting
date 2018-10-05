@@ -31,7 +31,7 @@ public class AccountsRecyclerAdapter extends RecyclerView.Adapter<AccountsRecycl
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.desc.setText(mAccounts.get(holder.getAdapterPosition()).getDescription());
-        holder.amount.setText(String.valueOf(mAccounts.get(holder.getAdapterPosition()).getAmount()));
+        holder.amount.setText(String.valueOf(mAccounts.get(holder.getAdapterPosition()).getAmountCell().getDouble()));
     }
 
     @Override

@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import ru.is88.dailybudgeting.domain.models.Cell;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
 import ru.is88.dailybudgeting.domain.models.accounts.FixedExpense;
 import ru.is88.dailybudgeting.domain.models.accounts.Income;
@@ -24,7 +25,7 @@ public class StorageModelConverter {
         result.setYear(monthDay.getYear());
         result.setMonth(monthDay.getMonth());
         result.setDay(monthDay.getDay());
-        result.setAmountString(monthDay.getAmountString());
+        result.setAmountCell(monthDay.getAmountCell());
         result.setDesc(monthDay.getDescription());
         return result;
     }
@@ -40,7 +41,7 @@ public class StorageModelConverter {
         result.setId(income.getId());
         result.setYear(income.getYear());
         result.setMonth(income.getMonth());
-        result.setAmount(income.getAmount());
+        result.setAmountCell(income.getAmountCell());
         result.setDescription(income.getDescription());
         return result;
     }
@@ -51,7 +52,7 @@ public class StorageModelConverter {
         result.setId(fixedExpense.getId());
         result.setYear(fixedExpense.getYear());
         result.setMonth(fixedExpense.getMonth());
-        result.setAmount(fixedExpense.getAmount());
+        result.setAmountCell(fixedExpense.getAmountCell());
         result.setDescription(fixedExpense.getDescription());
         return result;
     }
@@ -59,7 +60,7 @@ public class StorageModelConverter {
     public static MonthDay convertToDomainModel(TableMonthDay tableMonthDay) {
         return new MonthDay(
                 tableMonthDay.getId(),
-                tableMonthDay.getAmountString(),
+                tableMonthDay.getAmountCell(),
                 tableMonthDay.getDesc()
         );
     }
@@ -69,7 +70,7 @@ public class StorageModelConverter {
                 tableIncome.getId(),
                 tableIncome.getYear(),
                 tableIncome.getMonth(),
-                tableIncome.getAmount(),
+                tableIncome.getAmountCell(),
                 tableIncome.getDescription()
         );
     }
@@ -79,7 +80,7 @@ public class StorageModelConverter {
                 tableFixedExpense.getId(),
                 tableFixedExpense.getYear(),
                 tableFixedExpense.getMonth(),
-                tableFixedExpense.getAmount(),
+                tableFixedExpense.getAmountCell(),
                 tableFixedExpense.getDescription()
         );
     }
@@ -106,7 +107,7 @@ public class StorageModelConverter {
             } else {
                 result.add(new MonthDay(
                         Utils.buildMonthDayID(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), i+1),
-                        "", ""));
+                        new Cell(""), ""));
             }
         }
 

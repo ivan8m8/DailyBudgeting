@@ -5,6 +5,7 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
+import ru.is88.dailybudgeting.domain.models.Cell;
 import ru.is88.dailybudgeting.storage.database.DailyBudgetingDatabase;
 
 @Table(database = DailyBudgetingDatabase.class)
@@ -14,7 +15,7 @@ public class TableIncome extends BaseModel {
     private long id;
 
     @Column
-    private double amount;
+    private Cell amountCell;
 
     @Column
     private String description;
@@ -46,12 +47,12 @@ public class TableIncome extends BaseModel {
         this.description = description;
     }
 
-    public double getAmount() {
-        return amount;
+    public Cell getAmountCell() {
+        return amountCell;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setAmountCell (Cell amountCell) {
+        this.amountCell = amountCell;
     }
 
     public int getYear() {

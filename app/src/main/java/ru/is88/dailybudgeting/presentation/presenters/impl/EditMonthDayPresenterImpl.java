@@ -8,6 +8,7 @@ import ru.is88.dailybudgeting.domain.interactors.EditItemInteractor;
 import ru.is88.dailybudgeting.domain.interactors.GetItemByIdInteractor;
 import ru.is88.dailybudgeting.domain.interactors.impl.EditMonthDayInteractorImpl;
 import ru.is88.dailybudgeting.domain.interactors.impl.GetItemByIdInteractorImpl;
+import ru.is88.dailybudgeting.domain.models.Cell;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
 import ru.is88.dailybudgeting.domain.Repository;
 import ru.is88.dailybudgeting.presentation.presenters.AbstractPresenter;
@@ -51,49 +52,20 @@ public class EditMonthDayPresenterImpl extends AbstractPresenter
         mView.showError("No month day found");
     }
 
-//    @Override
-//    public void onMonthDayRetrieved(@NonNull MonthDay monthDay) {
-//        mView.onItemRetrieved(monthDay);
-//    }
-
-//    @Override
-//    public void onMonthDayNotFound() {
-//        mView.showError("No month day found");
-//    }
-
     @Override
-    public void editMonthDay(int monthDayId, String amountString, String description) {
+    public void editMonthDay(int monthDayId, Cell amountCell, String description) {
         EditItemInteractor editItemInteractor =
                 new EditMonthDayInteractorImpl(
                         mExecutor,
                         mMainThread,
                         monthDayId,
-                        amountString,
+                        amountCell,
                         description,
                         mRepository,
                         this
                 );
         editItemInteractor.execute();
     }
-
-
-//    @Override
-//    public void editMonthDay(int monthDayId, String description, String amount) {
-//        EditItemInteractor editMonthDayInteractor =
-//                new EditMonthDayInteractorImpl(
-//                        mExecutor,
-//                        mMainThread,
-//                        this,
-//                        monthDayRepository,
-//                        monthDayId, amount, description
-//                );
-//        editMonthDayInteractor.execute();
-//    }
-
-//    @Override
-//    public void onMonthDayUpdated(final MonthDay monthDay) {
-//        mView.onMonthDayUpdated(monthDay);
-//    }
 
     @Override
     public void onItemUpdated(@NonNull MonthDay item) {

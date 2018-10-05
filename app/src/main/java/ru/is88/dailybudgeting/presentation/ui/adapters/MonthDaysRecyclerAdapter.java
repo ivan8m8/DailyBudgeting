@@ -90,10 +90,6 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
 
         final int day = holder.getAdapterPosition() + 1;
 
-//        String dateString = String.valueOf(day)
-//                + " "
-//                + mDateFormatSymbols.getMonths()[mCalendar.get(Calendar.MONTH)];
-
         String dateString = mDateFormatSymbols.getMonths()[mCalendar.get(Calendar.MONTH)]
                 + " "
                 + String.valueOf(day);
@@ -107,7 +103,7 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
 
         if (mMonthDays.size() != 0) {
             holder.descTextView.setText(mMonthDays.get(holder.getAdapterPosition()).getDescription());
-            holder.amountTextView.setText(mNumberFormat.format(mMonthDays.get(holder.getAdapterPosition()).getAmount()));
+            holder.amountTextView.setText(mNumberFormat.format(mMonthDays.get(holder.getAdapterPosition()).getAmountCell().getDouble()));
         }
     }
 

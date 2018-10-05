@@ -5,6 +5,7 @@ import ru.is88.dailybudgeting.domain.executor.Executor;
 import ru.is88.dailybudgeting.domain.executor.MainThread;
 import ru.is88.dailybudgeting.domain.interactors.AddItemInteractor;
 import ru.is88.dailybudgeting.domain.interactors.impl.AddFixedExpenseInteractorImpl;
+import ru.is88.dailybudgeting.domain.models.Cell;
 import ru.is88.dailybudgeting.domain.models.accounts.FixedExpense;
 import ru.is88.dailybudgeting.presentation.presenters.AbstractPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.AddAccountPresenter;
@@ -25,14 +26,14 @@ public class AddFixedExpensePresenterImpl extends AbstractPresenter
     }
 
     @Override
-    public void addNewAccount(int year, int month, double amount, String description) {
+    public void addNewAccount(int year, int month, Cell amountCell, String description) {
         AddItemInteractor addItemInteractor =
                 new AddFixedExpenseInteractorImpl(
                         mExecutor,
                         mMainThread,
                         year,
                         month,
-                        amount,
+                        amountCell,
                         description,
                         mRepository,
                         this

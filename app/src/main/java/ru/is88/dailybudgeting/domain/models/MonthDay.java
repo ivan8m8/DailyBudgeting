@@ -1,8 +1,5 @@
 package ru.is88.dailybudgeting.domain.models;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
 /**
  * It's one of those card views.
  */
@@ -15,7 +12,7 @@ public class MonthDay {
      */
     private int mId;
 
-    private String mAmountString;
+    private Cell mAmountCell;
 
     private String mDescription;
 
@@ -24,30 +21,15 @@ public class MonthDay {
     private int year;
 
     public MonthDay(int id,
-                    String amountString,
+                    Cell amountCell,
                     String description){
         mId = id;
-        mAmountString = amountString;
+        mAmountCell = amountCell;
         mDescription = description;
 
         this.year = Integer.parseInt(String.valueOf(id).substring(0, 4));
         this.month = Integer.parseInt(String.valueOf(id).substring(4, 6));
         this.day = Integer.parseInt(String.valueOf(id).substring(6, 8));
-    }
-
-    public double getAmount() {
-        NumberFormat numberFormat = new DecimalFormat("##.##");
-        numberFormat.setMinimumFractionDigits(0);
-        double result = 0;
-        if (mAmountString.trim().length() > 0) {
-            String[] stringAmounts = mAmountString.trim().split("\\s+");
-            double[] amounts = new double[stringAmounts.length];
-            for (int i = 0; i < stringAmounts.length; i++) {
-                amounts[i] = Double.parseDouble(stringAmounts[i]);
-                result += amounts[i];
-            }
-        }
-        return Double.parseDouble(numberFormat.format(result));
     }
 
     public int getId() {
@@ -58,12 +40,12 @@ public class MonthDay {
         mId = id;
     }
 
-    public String getAmountString() {
-        return mAmountString;
+    public Cell getAmountCell() {
+        return mAmountCell;
     }
 
-    public void setAmountString(String amountString) {
-        mAmountString = amountString;
+    public void setAmountCell(Cell amountCell) {
+        mAmountCell = amountCell;
     }
 
     public String getDescription() {

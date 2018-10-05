@@ -3,9 +3,18 @@ package ru.is88.dailybudgeting.domain.models;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+/**
+ * It's almost 100% similar to String,
+ * but this class has getDouble method that sums up all the Cell values
+ */
+
 public class Cell {
 
     private String mValue;
+
+    public Cell(String amountString) {
+        mValue = amountString;
+    }
 
     public String getValue() {
         return mValue;
@@ -23,9 +32,5 @@ public class Cell {
             }
         }
         return Double.parseDouble(numberFormat.format(result));
-    }
-
-    public void setValue(String value) {
-        mValue = value;
     }
 }

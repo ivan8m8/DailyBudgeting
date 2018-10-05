@@ -5,6 +5,7 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
+import ru.is88.dailybudgeting.domain.models.Cell;
 import ru.is88.dailybudgeting.storage.database.DailyBudgetingDatabase;
 
 @Table(database = DailyBudgetingDatabase.class)
@@ -14,7 +15,7 @@ public class TableMonthDay extends BaseModel {
     private int id;
 
     @Column
-    private String amountString;
+    private Cell amountCell;
 
     @Column
     private String desc;
@@ -36,12 +37,12 @@ public class TableMonthDay extends BaseModel {
         this.id = id;
     }
 
-    public String getAmountString() {
-        return amountString;
+    public Cell getAmountCell() {
+        return amountCell;
     }
 
-    public void setAmountString(String amountString) {
-        this.amountString = amountString;
+    public void setAmountCell(Cell amountCell) {
+        this.amountCell = amountCell;
     }
 
     public String getDesc() {

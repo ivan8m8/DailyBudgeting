@@ -7,6 +7,7 @@ import ru.is88.dailybudgeting.domain.interactors.EditItemInteractor;
 import ru.is88.dailybudgeting.domain.interactors.GetItemByIdInteractor;
 import ru.is88.dailybudgeting.domain.interactors.impl.EditFixedExpenseInteractorImpl;
 import ru.is88.dailybudgeting.domain.interactors.impl.GetItemByIdInteractorImpl;
+import ru.is88.dailybudgeting.domain.models.Cell;
 import ru.is88.dailybudgeting.domain.models.accounts.AbstractAccount;
 import ru.is88.dailybudgeting.domain.models.accounts.FixedExpense;
 import ru.is88.dailybudgeting.presentation.presenters.AbstractPresenter;
@@ -51,13 +52,13 @@ public class EditFixedExpensePresenterImpl extends AbstractPresenter
     }
 
     @Override
-    public void editAccount(AbstractAccount abstractAccountToEdit, double amount, String description) {
+    public void editAccount(AbstractAccount abstractAccountToEdit, Cell amountCell, String description) {
         EditItemInteractor editItemInteractor =
                 new EditFixedExpenseInteractorImpl(
                         mExecutor,
                         mMainThread,
                         (FixedExpense) abstractAccountToEdit,
-                        amount,
+                        amountCell,
                         description,
                         mRepository,
                         this

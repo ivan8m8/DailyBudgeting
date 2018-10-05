@@ -5,13 +5,14 @@ import ru.is88.dailybudgeting.domain.executor.Executor;
 import ru.is88.dailybudgeting.domain.executor.MainThread;
 import ru.is88.dailybudgeting.domain.interactors.AddItemInteractor;
 import ru.is88.dailybudgeting.domain.interactors.base.AbstractInteractor;
+import ru.is88.dailybudgeting.domain.models.Cell;
 import ru.is88.dailybudgeting.domain.models.accounts.Income;
 
 public class AddIncomeInteractorImpl extends AbstractInteractor implements AddItemInteractor {
 
     private int mYear;
     private int mMonth;
-    private double mAmount;
+    private Cell mAmountCell;
     private String mDescription;
 
     private Repository<Income> mRepository;
@@ -20,7 +21,7 @@ public class AddIncomeInteractorImpl extends AbstractInteractor implements AddIt
     public AddIncomeInteractorImpl(Executor threadExecutor, MainThread mainThread,
                                    int year,
                                    int month,
-                                   double amount,
+                                   Cell amountCell,
                                    String description,
                                    Repository<Income> incomeRepository,
                                    Callback callback) {
@@ -28,7 +29,7 @@ public class AddIncomeInteractorImpl extends AbstractInteractor implements AddIt
 
         mYear = year;
         mMonth = month;
-        mAmount = amount;
+        mAmountCell = amountCell;
         mDescription = description;
         mRepository = incomeRepository;
         mCallback = callback;
@@ -36,7 +37,7 @@ public class AddIncomeInteractorImpl extends AbstractInteractor implements AddIt
 
     @Override
     public void run() {
-        final Income income = new Income(mYear, mMonth, mAmount, mDescription);
+        final Income income = new Income(mYear, mMonth, mAmountCell, mDescription);
         mRepository.insert(income);
         mainThread.post(new Runnable() {
             @Override

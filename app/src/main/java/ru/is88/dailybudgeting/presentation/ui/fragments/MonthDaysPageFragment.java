@@ -21,6 +21,7 @@ import java.util.Objects;
 import ru.is88.dailybudgeting.MainThreadImpl;
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.domain.executor.impl.ThreadExecutor;
+import ru.is88.dailybudgeting.domain.models.Cell;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
 import ru.is88.dailybudgeting.presentation.presenters.MainPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.impl.MonthDayMainPresenterImpl;
@@ -107,14 +108,6 @@ public class MonthDaysPageFragment extends Fragment
         mMonthDaysRecyclerAdapter.notifyDataSetChanged();
     }
 
-//    @Override
-//    public void showMonthDays(List<MonthDay> monthDays) {
-//        //this.mMonthDays.clear();
-//        this.mMonthDays.addAll(monthDays);
-//        mMonthDaysRecyclerAdapter.notifyDataSetChanged();
-//    }
-
-
     @Override
     public void onClickItem(long id, int position) {
         final ViewPager viewPager = Objects.requireNonNull(getActivity(),
@@ -135,7 +128,7 @@ public class MonthDaysPageFragment extends Fragment
             for (int i = 0; i <= mCalendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
                 mMonthDays.add(new MonthDay(
                         Utils.buildMonthDayID(mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH) + 1, i + 1),
-                        "", ""));
+                        new Cell(""), ""));
             }
         }
 
