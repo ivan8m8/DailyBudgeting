@@ -52,11 +52,9 @@ public class AccountsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (mViewPager.getCurrentItem() == 0) {
-                    //TODO: add an income + the animation
                     AddIncomeDialogFragment addIncomeDialogFragment = AddIncomeDialogFragment.newInstance();
                     addIncomeDialogFragment.show(getSupportFragmentManager(), "add_income_dialog_fragment");
                 } else if (mViewPager.getCurrentItem() == 1) {
-                    //TODO: add the animation
                     AddFixedExpenseDialogFragment addFixedExpenseDialogFragment = AddFixedExpenseDialogFragment.newInstance();
                     addFixedExpenseDialogFragment.show(getSupportFragmentManager(), "add_fixed_expense_dialog_fragment");
                 }

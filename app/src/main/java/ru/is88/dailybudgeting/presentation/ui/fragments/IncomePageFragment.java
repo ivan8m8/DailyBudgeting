@@ -39,25 +39,18 @@ public class IncomePageFragment extends Fragment implements MainPresenter.View<I
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mIncomeMainPresenter = new IncomeMainPresenterImpl(
-                ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance(),
-                new IncomeRepositoryImpl(),
-                this
-        );
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
         if (getArguments() != null) {
 
             mYear = getArguments().getInt(MainActivity.YEAR_KEY, Utils.DEFAULT_VALUE);
             mMonth = getArguments().getInt(MainActivity.MONTH_KEY, Utils.DEFAULT_VALUE);
         }
 
-        mIncomeMainPresenter.getItemList(mYear, mMonth);
+        mIncomeMainPresenter = new IncomeMainPresenterImpl(
+                ThreadExecutor.getInstance(),
+                MainThreadImpl.getInstance(),
+                new IncomeRepositoryImpl(),
+                this
+        );
     }
 
     @Nullable
@@ -67,6 +60,13 @@ public class IncomePageFragment extends Fragment implements MainPresenter.View<I
         mRecyclerView = viewRoot.findViewById(R.id.accountsRecyclerView);
         initRecycler();
         return viewRoot;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        mIncomeMainPresenter.getItemList(mYear, mMonth);
     }
 
     @Override
@@ -100,6 +100,7 @@ public class IncomePageFragment extends Fragment implements MainPresenter.View<I
         mAccounts = new ArrayList<>();
         mIncomeRecyclerAdapter = new AccountsRecyclerAdapter(mAccounts);
         mRecyclerView.setAdapter(mIncomeRecyclerAdapter);
+        mRecyclerView.setHasFixedSize(true);
     }
 
     public static IncomePageFragment newInstance(int year, int month) {
