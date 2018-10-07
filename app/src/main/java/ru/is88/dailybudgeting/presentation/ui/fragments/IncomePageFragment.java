@@ -19,12 +19,13 @@ import ru.is88.dailybudgeting.domain.models.accounts.AbstractAccount;
 import ru.is88.dailybudgeting.domain.models.accounts.Income;
 import ru.is88.dailybudgeting.presentation.presenters.MainPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.impl.IncomeMainPresenterImpl;
-import ru.is88.dailybudgeting.presentation.ui.activities.MainActivity;
 import ru.is88.dailybudgeting.presentation.ui.adapters.AccountsRecyclerAdapter;
+import ru.is88.dailybudgeting.presentation.ui.listeners.OnItemAddedToRecyclerListener;
 import ru.is88.dailybudgeting.storage.IncomeRepositoryImpl;
 import ru.is88.dailybudgeting.utils.Utils;
 
-public class IncomePageFragment extends Fragment implements MainPresenter.View<Income> {
+public class IncomePageFragment extends Fragment
+        implements MainPresenter.View<Income>, OnItemAddedToRecyclerListener {
 
     private int mYear;
     private int mMonth;
@@ -35,14 +36,23 @@ public class IncomePageFragment extends Fragment implements MainPresenter.View<I
     private AccountsRecyclerAdapter mIncomeRecyclerAdapter;
     private List<AbstractAccount> mAccounts;
 
+    public static IncomePageFragment newInstance(int year, int month) {
+        IncomePageFragment incomePageFragment = new IncomePageFragment();
+        Bundle args = new Bundle();
+        args.putInt(Utils.YEAR_KEY, year);
+        args.putInt(Utils.MONTH_KEY, month);
+        incomePageFragment.setArguments(args);
+        return incomePageFragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
 
-            mYear = getArguments().getInt(MainActivity.YEAR_KEY, Utils.DEFAULT_VALUE);
-            mMonth = getArguments().getInt(MainActivity.MONTH_KEY, Utils.DEFAULT_VALUE);
+            mYear = getArguments().getInt(Utils.YEAR_KEY, Utils.DEFAULT_VALUE);
+            mMonth = getArguments().getInt(Utils.MONTH_KEY, Utils.DEFAULT_VALUE);
         }
 
         mIncomeMainPresenter = new IncomeMainPresenterImpl(
@@ -56,10 +66,15 @@ public class IncomePageFragment extends Fragment implements MainPresenter.View<I
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View viewRoot = inflater.inflate(R.layout.fragment_accounts, container, false);
-        mRecyclerView = viewRoot.findViewById(R.id.accountsRecyclerView);
+        return inflater.inflate(R.layout.fragment_accounts, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mRecyclerView = view.findViewById(R.id.accountsRecyclerView);
         initRecycler();
-        return viewRoot;
     }
 
     @Override
@@ -74,6 +89,11 @@ public class IncomePageFragment extends Fragment implements MainPresenter.View<I
         mAccounts.clear();
         mAccounts.addAll(incomes);
         mIncomeRecyclerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemAdded() {
+        mIncomeRecyclerAdapter.notifyItemInserted(mIncomeRecyclerAdapter.getItemCount());
     }
 
     @Override
@@ -101,14 +121,5 @@ public class IncomePageFragment extends Fragment implements MainPresenter.View<I
         mIncomeRecyclerAdapter = new AccountsRecyclerAdapter(mAccounts);
         mRecyclerView.setAdapter(mIncomeRecyclerAdapter);
         mRecyclerView.setHasFixedSize(true);
-    }
-
-    public static IncomePageFragment newInstance(int year, int month) {
-        IncomePageFragment incomePageFragment = new IncomePageFragment();
-        Bundle args = new Bundle();
-        args.putInt(MainActivity.YEAR_KEY, year);
-        args.putInt(MainActivity.MONTH_KEY, month);
-        incomePageFragment.setArguments(args);
-        return incomePageFragment;
     }
 }

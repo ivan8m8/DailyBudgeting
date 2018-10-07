@@ -31,8 +31,8 @@ public class AccountsActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        int year = getIntent().getIntExtra(MainActivity.YEAR_KEY, Utils.DEFAULT_VALUE);
-        int month = getIntent().getIntExtra(MainActivity.MONTH_KEY, Utils.DEFAULT_VALUE);
+        final int year = getIntent().getIntExtra(Utils.YEAR_KEY, Utils.DEFAULT_VALUE);
+        final int month = getIntent().getIntExtra(Utils.MONTH_KEY, Utils.DEFAULT_VALUE);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -52,11 +52,16 @@ public class AccountsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (mViewPager.getCurrentItem() == 0) {
-                    AddIncomeDialogFragment addIncomeDialogFragment = AddIncomeDialogFragment.newInstance();
+                    AddIncomeDialogFragment addIncomeDialogFragment = AddIncomeDialogFragment.newInstance(year, month);
                     addIncomeDialogFragment.show(getSupportFragmentManager(), "add_income_dialog_fragment");
+
+                    // sets IncomePageFragment as the target Fragment for AddIncomeDialogFragment, to
+                    // be able to retrieve an just added Income from AddIncomeDialogFragment
+                    addIncomeDialogFragment.setTargetFragment(accountsFragmentPagerAdapter.getItem(mViewPager.getCurrentItem()), 0);
                 } else if (mViewPager.getCurrentItem() == 1) {
-                    AddFixedExpenseDialogFragment addFixedExpenseDialogFragment = AddFixedExpenseDialogFragment.newInstance();
+                    AddFixedExpenseDialogFragment addFixedExpenseDialogFragment = AddFixedExpenseDialogFragment.newInstance(year, month);
                     addFixedExpenseDialogFragment.show(getSupportFragmentManager(), "add_fixed_expense_dialog_fragment");
+                    addFixedExpenseDialogFragment.setTargetFragment(accountsFragmentPagerAdapter.getItem(mViewPager.getCurrentItem()), 0);
                 }
             }
         });

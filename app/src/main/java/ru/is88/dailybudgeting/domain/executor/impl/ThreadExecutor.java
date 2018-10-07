@@ -19,10 +19,10 @@ public class ThreadExecutor implements Executor {
     private static final TimeUnit          TIME_UNIT       = TimeUnit.SECONDS;
     private static BlockingQueue<Runnable> WORK_QUEUE      = new LinkedBlockingQueue<>();
 
-    private ThreadPoolExecutor threadPoolExecutor;
+    private ThreadPoolExecutor mThreadPoolExecutor;
 
     private ThreadExecutor() {
-        threadPoolExecutor = new ThreadPoolExecutor(
+        mThreadPoolExecutor = new ThreadPoolExecutor(
                 CORE_PULL_SIZE,
                 MAX_POOL_SIZE,
                 KEEP_ALIVE_TIME,
@@ -33,7 +33,7 @@ public class ThreadExecutor implements Executor {
 
     @Override
     public void execute(final AbstractInteractor abstractInteractor) {
-        threadPoolExecutor.submit(new Runnable() {
+        mThreadPoolExecutor.submit(new Runnable() {
             @Override
             public void run() {
                 abstractInteractor.run();
@@ -43,7 +43,7 @@ public class ThreadExecutor implements Executor {
     }
 
     /**
-     * Returns a singleton instance of this mExecutor.
+     * Returns a singleton instance of this executor.
      */
     public static Executor getInstance() {
         if (sThreadExecutor == null) {

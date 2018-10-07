@@ -164,7 +164,6 @@ public class MonthDaysPageFragment extends Fragment
 
     private void performScrollingToCurrentDay(){
 
-        // calendarDayOfMonth is the same as the real day of month, NOT 0-indexed
         int position = mCalendar.get(Calendar.DAY_OF_MONTH) - 1;
 
         if (position > 3) {

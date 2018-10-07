@@ -23,8 +23,6 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 0 indexed
      */
-    public static final String MONTH_KEY = "month_key";
-    public static final String YEAR_KEY = "year_key";
 
     private ViewPager mViewPager;
 
@@ -65,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AccountsActivity.class);
-                intent.putExtra(MONTH_KEY, Utils.getActualCalendarByViewPagerPosition(mViewPager.getCurrentItem()).get(Calendar.MONTH));
-                intent.putExtra(YEAR_KEY, Utils.getActualCalendarByViewPagerPosition(mViewPager.getCurrentItem()).get(Calendar.YEAR));
+                intent.putExtra(Utils.YEAR_KEY, Utils.getActualCalendarByViewPagerPosition(mViewPager.getCurrentItem()).get(Calendar.YEAR));
+                intent.putExtra(Utils.MONTH_KEY, Utils.getActualCalendarByViewPagerPosition(mViewPager.getCurrentItem()).get(Calendar.MONTH));
                 startActivity(intent);
             }
         });

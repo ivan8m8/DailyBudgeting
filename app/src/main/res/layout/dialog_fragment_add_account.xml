@@ -33,6 +33,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
+        android:id="@+id/accountAmountInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -46,7 +47,7 @@
             android:drawableStart="@drawable/ic_dollar_sign"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:inputType="numberDecimal"
-            android:digits="0123456789"/>
+            android:digits="0123456789. "/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.v7.widget.ButtonBarLayout
@@ -57,12 +58,14 @@
         android:layout_gravity="end">
 
         <Button
+            android:id="@+id/cancelAddingAccountButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="?android:attr/buttonBarButtonStyle"
             android:textStyle="bold"
             android:text="@android:string/cancel"/>
         <Button
+            android:id="@+id/addAccountButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="?android:attr/buttonBarButtonStyle"

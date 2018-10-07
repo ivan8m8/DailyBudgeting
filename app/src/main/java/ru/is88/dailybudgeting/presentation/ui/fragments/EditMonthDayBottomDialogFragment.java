@@ -32,8 +32,6 @@ import ru.is88.dailybudgeting.utils.Utils;
 
 public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment implements EditItemPresenter.View<MonthDay> {
 
-    private static final String REGEX = "^\\d+(.\\d+)?(\\s\\d+(.\\d+)?)*$";
-
     public interface OnEditingFinishedListener {
         void onEditingFinished(MonthDay monthDay, int position);
     }
@@ -111,24 +109,28 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
         mEditMonthDayPresenter.getMonthDayById(mId);
     }
 
-    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_bottom_dialog_edit_month_day, container, false);
+    }
 
-        View viewRoot = inflater.inflate(R.layout.fragment_bottom_dialog_edit_month_day, container, false);
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        mDescriptionEditText = viewRoot.findViewById(R.id.editDescription);
-        mAmountEditText = viewRoot.findViewById(R.id.editAmount);
-        TextView monthDayTitle = viewRoot.findViewById(R.id.monthDayTitleTextView);
-        Button save = viewRoot.findViewById(R.id.saveMonthDayButton);
+        mDescriptionEditText = view.findViewById(R.id.editDescription);
+        mAmountEditText = view.findViewById(R.id.editAmount);
+        TextView monthDayTitle = view.findViewById(R.id.monthDayTitleTextView);
+        Button save = view.findViewById(R.id.saveMonthDayButton);
 
         String idString = String.valueOf(mId);
         String monthDayString = idString.substring(6, 8);
         int month = Integer.parseInt(idString.substring(4, 6)); // because it's put to DateFormatSymbols().getMonths() below
         monthDayTitle.setText(monthDayString + " " + new DateFormatSymbols().getMonths()[month - 1]);
 
-        final TextInputLayout amountInputLayout = viewRoot.findViewById(R.id.amountInputLayout);
+        final TextInputLayout amountInputLayout = view.findViewById(R.id.monthDayAmountInputLayout);
         mAmountEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -138,7 +140,7 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (mInputErrorOccurred) {
-                    if (!mAmountEditText.getText().toString().matches(REGEX)) {
+                    if (!mAmountEditText.getText().toString().matches(Utils.AMOUNT_REGEX)) {
                         amountInputLayout.setError(getString(R.string.error_3_amount_input));
                     } else {
                         amountInputLayout.setErrorEnabled(false);
@@ -155,7 +157,7 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mAmountEditText.getText().toString().matches(REGEX)) {
+                if (!mAmountEditText.getText().toString().matches(Utils.AMOUNT_REGEX)) {
                     mInputErrorOccurred = true;
                     amountInputLayout.setError(getString(R.string.error_3_amount_input));
                 } else {
@@ -168,8 +170,6 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
                 }
             }
         });
-
-        return viewRoot;
     }
 
     @Override

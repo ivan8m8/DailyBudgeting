@@ -8,6 +8,11 @@ public final class Utils {
 
     public static final int DEFAULT_VALUE = -1008;
 
+    public static final String AMOUNT_REGEX = "^\\d+(.\\d+)?(\\s\\d+(.\\d+)?)*$";
+
+    public static final String MONTH_KEY = "month_key";
+    public static final String YEAR_KEY = "year_key";
+
     /**
      * The amount of pages within the viewpager.
      * In this app, this value is equal to the number of months in a year.

@@ -21,7 +21,7 @@ public class AddFixedExpenseDialogFragment extends AppCompatDialogFragment {
     public AddFixedExpenseDialogFragment() {
     }
 
-    public static AddFixedExpenseDialogFragment newInstance() {
+    public static AddFixedExpenseDialogFragment newInstance(int year, int month) {
         return new AddFixedExpenseDialogFragment();
     }
 
