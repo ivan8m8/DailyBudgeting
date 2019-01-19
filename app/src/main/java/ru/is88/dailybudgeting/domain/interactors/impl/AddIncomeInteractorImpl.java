@@ -16,7 +16,7 @@ public class AddIncomeInteractorImpl extends AbstractInteractor implements AddIt
     private String mDescription;
 
     private Repository<Income> mRepository;
-    private AddItemInteractor.Callback mCallback;
+    private AddItemInteractor.Callback<Income> mCallback;
 
     public AddIncomeInteractorImpl(Executor threadExecutor, MainThread mainThread,
                                    int year,
@@ -24,7 +24,7 @@ public class AddIncomeInteractorImpl extends AbstractInteractor implements AddIt
                                    Cell amountCell,
                                    String description,
                                    Repository<Income> incomeRepository,
-                                   Callback callback) {
+                                   AddItemInteractor.Callback<Income> callback) {
         super(threadExecutor, mainThread);
 
         mYear = year;
@@ -42,7 +42,7 @@ public class AddIncomeInteractorImpl extends AbstractInteractor implements AddIt
         mainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onItemAdded();
+                mCallback.onItemAdded(income);
             }
         });
     }

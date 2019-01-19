@@ -20,12 +20,10 @@ import ru.is88.dailybudgeting.domain.models.accounts.Income;
 import ru.is88.dailybudgeting.presentation.presenters.MainPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.impl.IncomeMainPresenterImpl;
 import ru.is88.dailybudgeting.presentation.ui.adapters.AccountsRecyclerAdapter;
-import ru.is88.dailybudgeting.presentation.ui.listeners.OnItemAddedToRecyclerListener;
 import ru.is88.dailybudgeting.storage.IncomeRepositoryImpl;
 import ru.is88.dailybudgeting.utils.Utils;
 
-public class IncomePageFragment extends Fragment
-        implements MainPresenter.View<Income>, OnItemAddedToRecyclerListener {
+public class IncomePageFragment extends Fragment implements MainPresenter.View<Income> {
 
     private int mYear;
     private int mMonth;
@@ -92,11 +90,6 @@ public class IncomePageFragment extends Fragment
     }
 
     @Override
-    public void onItemAdded() {
-        mIncomeRecyclerAdapter.notifyItemInserted(mIncomeRecyclerAdapter.getItemCount());
-    }
-
-    @Override
     public void onClickItem(long id, int position) {
 
     }
@@ -114,6 +107,11 @@ public class IncomePageFragment extends Fragment
     @Override
     public void showError(String message) {
 
+    }
+
+    public void notifyAdapterItemInserted(Income income) {
+        mAccounts.add(income);
+        mIncomeRecyclerAdapter.notifyItemInserted(mIncomeRecyclerAdapter.getItemCount());
     }
 
     private void initRecycler() {

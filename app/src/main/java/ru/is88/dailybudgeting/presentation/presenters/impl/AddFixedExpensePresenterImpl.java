@@ -12,14 +12,14 @@ import ru.is88.dailybudgeting.presentation.presenters.AddAccountPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.AddItemPresenter;
 
 public class AddFixedExpensePresenterImpl extends AbstractPresenter
-        implements AddItemPresenter, AddAccountPresenter, AddItemInteractor.Callback {
+        implements AddItemPresenter, AddAccountPresenter, AddItemInteractor.Callback<FixedExpense> {
 
     private Repository<FixedExpense> mRepository;
-    private AddItemPresenter.View mView;
+    private AddItemPresenter.View<FixedExpense> mView;
 
     public AddFixedExpensePresenterImpl(Executor executor, MainThread mainThread,
                                         Repository<FixedExpense> repository,
-                                        AddItemPresenter.View view) {
+                                        AddItemPresenter.View<FixedExpense> view) {
         super(executor, mainThread);
         mRepository = repository;
         mView = view;
@@ -42,7 +42,7 @@ public class AddFixedExpensePresenterImpl extends AbstractPresenter
     }
 
     @Override
-    public void onItemAdded() {
-        mView.onItemAdded();
+    public void onItemAdded(FixedExpense fixedExpense) {
+        mView.onItemAdded(fixedExpense);
     }
 }

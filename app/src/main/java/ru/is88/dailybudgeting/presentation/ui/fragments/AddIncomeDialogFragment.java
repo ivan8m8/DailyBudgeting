@@ -1,5 +1,6 @@
 package ru.is88.dailybudgeting.presentation.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,6 +8,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,23 +22,21 @@ import ru.is88.dailybudgeting.MainThreadImpl;
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.domain.executor.impl.ThreadExecutor;
 import ru.is88.dailybudgeting.domain.models.Cell;
+import ru.is88.dailybudgeting.domain.models.accounts.Income;
 import ru.is88.dailybudgeting.presentation.presenters.AddItemPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.impl.AddIncomePresenterImpl;
-import ru.is88.dailybudgeting.presentation.ui.listeners.OnItemAddedToRecyclerListener;
+import ru.is88.dailybudgeting.presentation.ui.listeners.OnIncomeAdded;
 import ru.is88.dailybudgeting.storage.IncomeRepositoryImpl;
 import ru.is88.dailybudgeting.utils.Utils;
 
-public class AddIncomeDialogFragment extends AppCompatDialogFragment implements AddItemPresenter.View {
-
-    //TODO: зачем тут вообще метод onItemAdded из AddItemPresenter.View
-    // скорее его вызвать в адаптере по логике (или в фрагменте/активити, где этот адаптер)
+public class AddIncomeDialogFragment extends AppCompatDialogFragment implements AddItemPresenter.View<Income> {
 
     private AddIncomePresenterImpl mAddIncomePresenter;
 
     private int mYear;
     private int mMonth;
 
-    private OnItemAddedToRecyclerListener mCallback;
+    private OnIncomeAdded mCallback;
 
     // requires an empty constructor
     public AddIncomeDialogFragment() {
@@ -49,6 +49,17 @@ public class AddIncomeDialogFragment extends AppCompatDialogFragment implements 
         args.putInt(Utils.MONTH_KEY, month);
         addIncomeDialogFragment.setArguments(args);
         return addIncomeDialogFragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mCallback = (OnIncomeAdded) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.getClass().getName() + " must implement OnIncomeAdded");
+        }
     }
 
     @Override
@@ -110,25 +121,25 @@ public class AddIncomeDialogFragment extends AppCompatDialogFragment implements 
                             new Cell(amountEditText.getText().toString()),
                             descEditText.getText().toString()
                     );
-                    mCallback.onItemAdded();
+                    dismiss();
                 }
             }
         });
     }
 
     @Override
-    public void onItemAdded() {
-        dismiss();
+    public void onItemAdded(Income income) {
+        mCallback.onIncomeAdded(income);
     }
 
     @Override
     public void onProgressStarted() {
-
+        Log.d("KSI", "show dialog, progress started");
     }
 
     @Override
     public void onProgressFinished() {
-
+        Log.d("KSI", "hide dialog, progress finished");
     }
 
     @Override

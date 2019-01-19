@@ -13,6 +13,12 @@ public final class Utils {
     public static final String MONTH_KEY = "month_key";
     public static final String YEAR_KEY = "year_key";
 
+    // These two are the fragment positions within AccountsViewPager
+    // They are needed for safely using of android:switcher + ViewPager + FragmentPosition
+    // within AccountsActivity.onIncomeAdded
+    public static final int INCOME_PAGE_FRAGMENT_ID = 0;
+    public static final int FIXED_EXPENSES_PAGE_FRAGMENT_ID = 1;
+
     /**
      * The amount of pages within the viewpager.
      * In this app, this value is equal to the number of months in a year.
@@ -34,10 +40,8 @@ public final class Utils {
         return Integer.parseInt(idString);
     }
 
-    /**
-     *
-     * This method returns 0-indexed calendar.
-     */
+
+    // returns a 0-indexed calendar instance
     public static Calendar getActualCalendarByViewPagerPosition(int viewPagerPosition) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, viewPagerPosition - VIEW_PAGER_START_POSITION);

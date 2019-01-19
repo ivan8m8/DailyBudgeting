@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mViewPager = findViewById(R.id.viewPager);
+        mViewPager = findViewById(R.id.monthDaysViewPager);
         MonthDaysFragmentPagerAdapter monthDaysFragmentPagerAdapter = new MonthDaysFragmentPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(monthDaysFragmentPagerAdapter);
         mViewPager.setCurrentItem(Utils.VIEW_PAGER_START_POSITION);

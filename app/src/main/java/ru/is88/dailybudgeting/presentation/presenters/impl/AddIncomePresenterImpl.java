@@ -12,14 +12,14 @@ import ru.is88.dailybudgeting.presentation.presenters.AddAccountPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.AddItemPresenter;
 
 public class AddIncomePresenterImpl extends AbstractPresenter
-        implements AddItemPresenter, AddAccountPresenter, AddItemInteractor.Callback {
+        implements AddItemPresenter, AddAccountPresenter, AddItemInteractor.Callback<Income> {
 
     private Repository<Income> mRepository;
-    private AddItemPresenter.View mView;
+    private AddItemPresenter.View<Income> mView;
 
     public AddIncomePresenterImpl(Executor executor, MainThread mainThread,
                                   Repository<Income> repository,
-                                  AddItemPresenter.View view) {
+                                  AddItemPresenter.View<Income> view) {
         super(executor, mainThread);
         mRepository = repository;
         mView = view;
@@ -39,10 +39,12 @@ public class AddIncomePresenterImpl extends AbstractPresenter
                         this
                 );
         addItemInteractor.execute();
+        mView.onProgressStarted();
     }
 
     @Override
-    public void onItemAdded() {
-        mView.onItemAdded();
+    public void onItemAdded(Income income) {
+        mView.onItemAdded(income);
+        mView.onProgressFinished();
     }
 }

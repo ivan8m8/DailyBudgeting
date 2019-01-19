@@ -16,7 +16,7 @@ public class AddFixedExpenseInteractorImpl extends AbstractInteractor implements
     private String mDescription;
 
     private Repository<FixedExpense> mRepository;
-    private AddItemInteractor.Callback mCallback;
+    private AddItemInteractor.Callback<FixedExpense> mCallback;
 
     public AddFixedExpenseInteractorImpl(Executor threadExecutor, MainThread mainThread,
                                          int year,
@@ -24,7 +24,7 @@ public class AddFixedExpenseInteractorImpl extends AbstractInteractor implements
                                          Cell amountCell,
                                          String description,
                                          Repository<FixedExpense> repository,
-                                         Callback callback) {
+                                         AddItemInteractor.Callback<FixedExpense> callback) {
         super(threadExecutor, mainThread);
         mYear = year;
         mMonth = month;
@@ -41,7 +41,7 @@ public class AddFixedExpenseInteractorImpl extends AbstractInteractor implements
         mainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onItemAdded();
+                mCallback.onItemAdded(fixedExpense);
             }
         });
     }

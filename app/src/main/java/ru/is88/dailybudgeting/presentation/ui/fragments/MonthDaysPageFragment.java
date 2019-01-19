@@ -71,7 +71,7 @@ public class MonthDaysPageFragment extends Fragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View viewRoot = inflater.inflate(R.layout.fragment_page, container, false);
+        View viewRoot = inflater.inflate(R.layout.fragment_month_days_page, container, false);
 
         mNestedScrollView = viewRoot.findViewById(R.id.nestedScrollView);
         mRecyclerView = viewRoot.findViewById(R.id.monthDaysRecyclerView);
@@ -112,7 +112,7 @@ public class MonthDaysPageFragment extends Fragment
     public void onClickItem(long id, int position) {
         final ViewPager viewPager = Objects.requireNonNull(getActivity(),
                 this.getClass().getSimpleName() + " got null getActivity() or findViewById(R.id.viewPager)")
-                .findViewById(R.id.viewPager);
+                .findViewById(R.id.monthDaysViewPager);
 
         final EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment =
                 EditMonthDayBottomDialogFragment.newInstance((int) id, position, viewPager.getCurrentItem());

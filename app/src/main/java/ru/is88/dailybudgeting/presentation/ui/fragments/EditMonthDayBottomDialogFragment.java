@@ -78,7 +78,7 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
             mCallback = (OnEditingFinishedListener) Objects.requireNonNull(getActivity(),
                     this.getClass().getSimpleName() + " got null getActivity() or getSupportFragmentManager()")
                     .getSupportFragmentManager()
-                    .findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + mFragmentPosition);
+                    .findFragmentByTag("android:switcher:" + R.id.monthDaysViewPager + ":" + mFragmentPosition);
         } catch (ClassCastException e) {
             throw new ClassCastException(mCallback.getClass().getName() + " must implement OnEditingFinishedListener");
         }
