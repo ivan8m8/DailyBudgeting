@@ -25,12 +25,13 @@ import ru.is88.dailybudgeting.domain.models.Cell;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
 import ru.is88.dailybudgeting.presentation.presenters.MainPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.impl.MonthDayMainPresenterImpl;
+import ru.is88.dailybudgeting.presentation.ui.Listeners;
 import ru.is88.dailybudgeting.presentation.ui.adapters.MonthDaysRecyclerAdapter;
 import ru.is88.dailybudgeting.storage.MonthDayRepositoryImpl;
 import ru.is88.dailybudgeting.utils.Utils;
 
 public class MonthDaysPageFragment extends Fragment
-        implements MainPresenter.View<MonthDay>, EditMonthDayBottomDialogFragment.OnEditingFinishedListener {
+        implements MainPresenter.View<MonthDay>, Listeners.OnMonthDayEditingFinished {
 
     private static final String MONTH_DELTA_KEY = "month_delta_key";
 
@@ -82,6 +83,8 @@ public class MonthDaysPageFragment extends Fragment
 
     @Override
     public void onResume() {
+
+        //TODO: is it needed to be inside onResume?
         super.onResume();
 
         int month = mCalendar.get(Calendar.MONTH);
@@ -122,7 +125,7 @@ public class MonthDaysPageFragment extends Fragment
     }
 
     @Override
-    public void onEditingFinished(MonthDay monthDay, int position) {
+    public void onMonthDayEditingFinished(MonthDay monthDay, int position) {
 
         if (mMonthDays.size() == 0) {
             for (int i = 0; i <= mCalendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {

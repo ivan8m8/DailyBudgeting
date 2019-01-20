@@ -12,7 +12,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
-        <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
+        <!--<item name="coordinatorLayoutStyle">@style/CoordinatorLayout</item>-->
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -37,5 +37,13 @@
     <style name="AddFixedExpenseDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <!--
+        20.01.2019 I faced an error "Failed to find style 'coordinatorLayoutStyle'"
+        It could be fixed like this https://stackoverflow.com/a/49305312/7541231
+    -->
+    <!--<style name="CoordinatorLayout" parent="android:Widget">-->
+        <!--<item name="statusBarBackground">#0ffff0</item>-->
+    <!--</style>-->
 
 </resources>

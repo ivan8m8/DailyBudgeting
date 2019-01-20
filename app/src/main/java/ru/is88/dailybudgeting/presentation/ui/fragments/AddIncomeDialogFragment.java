@@ -8,7 +8,6 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatDialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,18 +24,20 @@ import ru.is88.dailybudgeting.domain.models.Cell;
 import ru.is88.dailybudgeting.domain.models.accounts.Income;
 import ru.is88.dailybudgeting.presentation.presenters.AddItemPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.impl.AddIncomePresenterImpl;
-import ru.is88.dailybudgeting.presentation.ui.listeners.OnIncomeAdded;
+import ru.is88.dailybudgeting.presentation.ui.Listeners;
 import ru.is88.dailybudgeting.storage.IncomeRepositoryImpl;
 import ru.is88.dailybudgeting.utils.Utils;
 
-public class AddIncomeDialogFragment extends AppCompatDialogFragment implements AddItemPresenter.View<Income> {
+public class AddIncomeDialogFragment
+        extends AppCompatDialogFragment
+        implements AddItemPresenter.View<Income> {
 
     private AddIncomePresenterImpl mAddIncomePresenter;
 
     private int mYear;
     private int mMonth;
 
-    private OnIncomeAdded mCallback;
+    private Listeners.OnIncomeAdded mCallback;
 
     // requires an empty constructor
     public AddIncomeDialogFragment() {
@@ -56,9 +57,9 @@ public class AddIncomeDialogFragment extends AppCompatDialogFragment implements 
         super.onAttach(context);
 
         try {
-            mCallback = (OnIncomeAdded) context;
+            mCallback = (Listeners.OnIncomeAdded) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.getClass().getName() + " must implement OnIncomeAdded");
+            throw new ClassCastException(context.getClass().getName() + " must implement OnIncomeAddedListener");
         }
     }
 
@@ -112,16 +113,20 @@ public class AddIncomeDialogFragment extends AppCompatDialogFragment implements 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!amountEditText.getText().toString().matches(Utils.AMOUNT_REGEX)){
-                    amountInputLayout.setError(getString(R.string.error_3_amount_input));
-                } else {
-                    mAddIncomePresenter.addNewAccount(
-                            mYear,
-                            mMonth,
-                            new Cell(amountEditText.getText().toString()),
-                            descEditText.getText().toString()
-                    );
-                    dismiss();
+                if (amountEditText.getText() != null) {
+                    if (!amountEditText.getText().toString().matches(Utils.AMOUNT_REGEX)) {
+                        amountInputLayout.setError(getString(R.string.error_3_amount_input));
+                    } else {
+                        if (descEditText.getText() != null) {
+                            mAddIncomePresenter.addNewAccount(
+                                    mYear,
+                                    mMonth,
+                                    new Cell(amountEditText.getText().toString()),
+                                    descEditText.getText().toString()
+                            );
+                            dismiss();
+                        }
+                    }
                 }
             }
         });
@@ -134,12 +139,12 @@ public class AddIncomeDialogFragment extends AppCompatDialogFragment implements 
 
     @Override
     public void onProgressStarted() {
-        Log.d("KSI", "show dialog, progress started");
+
     }
 
     @Override
     public void onProgressFinished() {
-        Log.d("KSI", "hide dialog, progress finished");
+
     }
 
     @Override

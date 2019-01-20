@@ -27,14 +27,11 @@ import ru.is88.dailybudgeting.domain.models.MonthDay;
 import ru.is88.dailybudgeting.presentation.presenters.EditItemPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.EditMonthDayPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.impl.EditMonthDayPresenterImpl;
+import ru.is88.dailybudgeting.presentation.ui.Listeners;
 import ru.is88.dailybudgeting.storage.MonthDayRepositoryImpl;
 import ru.is88.dailybudgeting.utils.Utils;
 
 public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment implements EditItemPresenter.View<MonthDay> {
-
-    public interface OnEditingFinishedListener {
-        void onEditingFinished(MonthDay monthDay, int position);
-    }
 
     private static final String ID_KEY = "month_day_ID_key";
     private static final String POSITION_KEY = "position_key";
@@ -49,7 +46,7 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
     private EditText mDescriptionEditText;
     private EditText mAmountEditText;
 
-    private OnEditingFinishedListener mCallback;
+    private Listeners.OnMonthDayEditingFinished mCallback;
 
     private boolean mInputErrorOccurred = false;
 
@@ -75,7 +72,7 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
                 .getInt(FRAGMENT_POSITION_KEY, Utils.DEFAULT_VALUE);
 
         try {
-            mCallback = (OnEditingFinishedListener) Objects.requireNonNull(getActivity(),
+            mCallback = (Listeners.OnMonthDayEditingFinished) Objects.requireNonNull(getActivity(),
                     this.getClass().getSimpleName() + " got null getActivity() or getSupportFragmentManager()")
                     .getSupportFragmentManager()
                     .findFragmentByTag("android:switcher:" + R.id.monthDaysViewPager + ":" + mFragmentPosition);
@@ -184,7 +181,7 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
 
     @Override
     public void onItemUpdated(MonthDay item) {
-        mCallback.onEditingFinished(item, mPosition);
+        mCallback.onMonthDayEditingFinished(item, mPosition);
     }
 
     @Override

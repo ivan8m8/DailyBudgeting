@@ -111,7 +111,7 @@ public class FixedExpensesPageFragment extends Fragment implements MainPresenter
 
     private void initRecycler() {
         mAccounts = new ArrayList<>();
-        mAccountsRecyclerAdapter = new AccountsRecyclerAdapter(mAccounts);
+        mAccountsRecyclerAdapter = new AccountsRecyclerAdapter(mAccounts, this);
         mRecyclerView.setAdapter(mAccountsRecyclerAdapter);
         mRecyclerView.setHasFixedSize(true);
     }

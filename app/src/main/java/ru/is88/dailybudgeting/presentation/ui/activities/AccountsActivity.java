@@ -14,14 +14,14 @@ import java.util.Objects;
 
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.domain.models.accounts.Income;
+import ru.is88.dailybudgeting.presentation.ui.Listeners;
 import ru.is88.dailybudgeting.presentation.ui.adapters.AccountsFragmentPagerAdapter;
 import ru.is88.dailybudgeting.presentation.ui.fragments.AddFixedExpenseDialogFragment;
 import ru.is88.dailybudgeting.presentation.ui.fragments.AddIncomeDialogFragment;
 import ru.is88.dailybudgeting.presentation.ui.fragments.IncomePageFragment;
-import ru.is88.dailybudgeting.presentation.ui.listeners.OnIncomeAdded;
 import ru.is88.dailybudgeting.utils.Utils;
 
-public class AccountsActivity extends AppCompatActivity implements OnIncomeAdded {
+public class AccountsActivity extends AppCompatActivity implements Listeners.OnIncomeAdded {
 
     private ViewPager mViewPager;
 

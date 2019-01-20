@@ -91,7 +91,7 @@ public class IncomePageFragment extends Fragment implements MainPresenter.View<I
 
     @Override
     public void onClickItem(long id, int position) {
-
+        //
     }
 
     @Override
@@ -116,7 +116,7 @@ public class IncomePageFragment extends Fragment implements MainPresenter.View<I
 
     private void initRecycler() {
         mAccounts = new ArrayList<>();
-        mIncomeRecyclerAdapter = new AccountsRecyclerAdapter(mAccounts);
+        mIncomeRecyclerAdapter = new AccountsRecyclerAdapter(mAccounts, this);
         mRecyclerView.setAdapter(mIncomeRecyclerAdapter);
         mRecyclerView.setHasFixedSize(true);
     }

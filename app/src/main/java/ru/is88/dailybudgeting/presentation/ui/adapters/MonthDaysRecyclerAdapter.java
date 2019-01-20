@@ -15,11 +15,12 @@ import java.util.List;
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
 import ru.is88.dailybudgeting.presentation.presenters.MainPresenter;
-import ru.is88.dailybudgeting.presentation.ui.listeners.OnRecyclerViewItemClickListener;
+import ru.is88.dailybudgeting.presentation.ui.Listeners;
 import ru.is88.dailybudgeting.utils.Utils;
 
-public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecyclerAdapter.ViewHolder>
-        implements OnRecyclerViewItemClickListener {
+public class MonthDaysRecyclerAdapter
+        extends RecyclerView.Adapter<MonthDaysRecyclerAdapter.ViewHolder>
+        implements Listeners.OnRecyclerViewItemClick {
 
     private List<MonthDay> mMonthDays;
     private Calendar mCalendar;
@@ -28,37 +29,6 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
     public final MainPresenter.View<MonthDay> mView;
 
     private NumberFormat mNumberFormat;
-
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        private OnRecyclerViewItemClickListener onRecyclerViewItemClickListener;
-
-        private TextView dateTextView;
-        private TextView descTextView;
-        private TextView saldoTextView;
-        private TextView amountTextView;
-
-        ViewHolder(View itemView, final OnRecyclerViewItemClickListener onRecyclerViewItemClickListener) {
-            super(itemView);
-
-            this.onRecyclerViewItemClickListener = onRecyclerViewItemClickListener;
-            itemView.setOnClickListener(this);
-
-            dateTextView = itemView.findViewById(R.id.dateTextView);
-            descTextView = itemView.findViewById(R.id.descTextView);
-            saldoTextView = itemView.findViewById(R.id.saldoTextView);
-            amountTextView = itemView.findViewById(R.id.amountTextView);
-        }
-
-        @Override
-        public void onClick(View v) {
-            /*
-            Should use additional interface that is above, since unable to call
-            mView.onClickItem that is from the outer class.
-             */
-            onRecyclerViewItemClickListener.onClick(getAdapterPosition());
-        }
-    }
 
     public MonthDaysRecyclerAdapter(List<MonthDay> monthDays,
                                     Calendar calendar,
@@ -119,5 +89,37 @@ public class MonthDaysRecyclerAdapter extends RecyclerView.Adapter<MonthDaysRecy
                 mCalendar.get(Calendar.MONTH) + 1,
                 position + 1),
                 position);
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        private Listeners.OnRecyclerViewItemClick onRecyclerViewItemClickListener;
+
+        private TextView dateTextView;
+        private TextView descTextView;
+        private TextView saldoTextView;
+        private TextView amountTextView;
+
+        ViewHolder(View itemView, final Listeners.OnRecyclerViewItemClick onRecyclerViewItemClickListener) {
+            super(itemView);
+
+            this.onRecyclerViewItemClickListener = onRecyclerViewItemClickListener;
+            itemView.setOnClickListener(this);
+
+            dateTextView = itemView.findViewById(R.id.dateTextView);
+            descTextView = itemView.findViewById(R.id.descTextView);
+            saldoTextView = itemView.findViewById(R.id.saldoTextView);
+            amountTextView = itemView.findViewById(R.id.amountTextView);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            /*
+            Should use additional interface that is above, since unable to call
+            mView.onClickItem that is from the outer class.
+             */
+            onRecyclerViewItemClickListener.onClick(getAdapterPosition());
+        }
     }
 }

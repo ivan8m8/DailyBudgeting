@@ -20,9 +20,8 @@ import ru.is88.dailybudgeting.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
-    /**
-     * 0 indexed
-     */
+    //TODO: make the recyclers cards clickable
+    //TODO: allow users to choose the app bar color through the preferences
 
     private ViewPager mViewPager;
 
@@ -43,9 +42,7 @@ public class MainActivity extends AppCompatActivity {
         // Violation of ISP by Google Android :)
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
 
             @Override
             public void onPageSelected(int position) {
@@ -53,9 +50,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) { }
         });
 
         FloatingActionButton fab = findViewById(R.id.fab);
