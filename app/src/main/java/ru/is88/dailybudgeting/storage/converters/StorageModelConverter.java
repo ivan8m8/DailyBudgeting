@@ -14,7 +14,7 @@ import ru.is88.dailybudgeting.domain.models.accounts.Income;
 import ru.is88.dailybudgeting.storage.model.TableFixedExpense;
 import ru.is88.dailybudgeting.storage.model.TableIncome;
 import ru.is88.dailybudgeting.storage.model.TableMonthDay;
-import ru.is88.dailybudgeting.utils.Utils;
+import ru.is88.dailybudgeting.Utils;
 
 public class StorageModelConverter {
 

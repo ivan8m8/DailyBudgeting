@@ -1,6 +1,6 @@
 package ru.is88.dailybudgeting.presentation.ui.fragments;
 
-import android.content.Context;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,8 +15,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.Objects;
-
 import ru.is88.dailybudgeting.MainThreadImpl;
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.domain.executor.impl.ThreadExecutor;
@@ -24,9 +22,9 @@ import ru.is88.dailybudgeting.domain.models.Cell;
 import ru.is88.dailybudgeting.domain.models.accounts.Income;
 import ru.is88.dailybudgeting.presentation.presenters.AddItemPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.impl.AddIncomePresenterImpl;
-import ru.is88.dailybudgeting.presentation.ui.Listeners;
+import ru.is88.dailybudgeting.presentation.ui.viewmodels.SharedViewModel;
 import ru.is88.dailybudgeting.storage.IncomeRepositoryImpl;
-import ru.is88.dailybudgeting.utils.Utils;
+import ru.is88.dailybudgeting.Utils;
 
 public class AddIncomeDialogFragment
         extends AppCompatDialogFragment
@@ -37,48 +35,16 @@ public class AddIncomeDialogFragment
     private int mYear;
     private int mMonth;
 
-    private Listeners.OnIncomeAdded mCallback;
+    private SharedViewModel mSharedViewModel;
 
     // requires an empty constructor
     public AddIncomeDialogFragment() {
     }
 
-    public static AddIncomeDialogFragment newInstance(int year, int month) {
-        AddIncomeDialogFragment addIncomeDialogFragment = new AddIncomeDialogFragment();
-        Bundle args = new Bundle();
-        args.putInt(Utils.YEAR_KEY, year);
-        args.putInt(Utils.MONTH_KEY, month);
-        addIncomeDialogFragment.setArguments(args);
-        return addIncomeDialogFragment;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        try {
-            mCallback = (Listeners.OnIncomeAdded) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.getClass().getName() + " must implement OnIncomeAddedListener");
-        }
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.AddIncomeDialog);
-
-        if (getArguments() != null) {
-            mYear = getArguments().getInt(Utils.YEAR_KEY, Utils.DEFAULT_VALUE);
-            mMonth = getArguments().getInt(Utils.MONTH_KEY, Utils.DEFAULT_VALUE);
-        }
-
-        mAddIncomePresenter = new AddIncomePresenterImpl(
-                ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance(),
-                new IncomeRepositoryImpl(),
-                this
-        );
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.AddIncomeDialog); // FIXME: 21.01.2019 move to onActivityCreated()
     }
 
     @Nullable
@@ -101,7 +67,9 @@ public class AddIncomeDialogFragment
         titleTextView.setText(R.string.adding_income);
 
         descEditText.requestFocus();
-        Objects.requireNonNull(getDialog().getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+        if (getDialog().getWindow() != null)
+            getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,8 +101,28 @@ public class AddIncomeDialogFragment
     }
 
     @Override
-    public void onItemAdded(Income income) {
-        mCallback.onIncomeAdded(income);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (getArguments() != null) {
+            mYear = getArguments().getInt(Utils.YEAR_KEY, Utils.DEFAULT_VALUE);
+            mMonth = getArguments().getInt(Utils.MONTH_KEY, Utils.DEFAULT_VALUE);
+        }
+
+        mAddIncomePresenter = new AddIncomePresenterImpl(
+                ThreadExecutor.getInstance(),
+                MainThreadImpl.getInstance(),
+                new IncomeRepositoryImpl(),
+                this
+        );
+
+        if (getActivity() != null)
+            mSharedViewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
+    }
+
+    @Override
+    public void onItemAdded(Income item) {
+        mSharedViewModel.setAddedIncome(item);
     }
 
     @Override
@@ -150,5 +138,14 @@ public class AddIncomeDialogFragment
     @Override
     public void showError(String message) {
 
+    }
+
+    public static AddIncomeDialogFragment newInstance(int year, int month) {
+        AddIncomeDialogFragment addIncomeDialogFragment = new AddIncomeDialogFragment();
+        Bundle args = new Bundle();
+        args.putInt(Utils.YEAR_KEY, year);
+        args.putInt(Utils.MONTH_KEY, month);
+        addIncomeDialogFragment.setArguments(args);
+        return addIncomeDialogFragment;
     }
 }

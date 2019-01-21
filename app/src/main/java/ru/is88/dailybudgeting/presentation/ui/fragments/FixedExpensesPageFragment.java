@@ -21,7 +21,7 @@ import ru.is88.dailybudgeting.presentation.presenters.MainPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.impl.FixedExpenseMainPresenterImpl;
 import ru.is88.dailybudgeting.presentation.ui.adapters.AccountsRecyclerAdapter;
 import ru.is88.dailybudgeting.storage.FixedExpenseRepositoryImpl;
-import ru.is88.dailybudgeting.utils.Utils;
+import ru.is88.dailybudgeting.Utils;
 
 public class FixedExpensesPageFragment extends Fragment implements MainPresenter.View<FixedExpense> {
 

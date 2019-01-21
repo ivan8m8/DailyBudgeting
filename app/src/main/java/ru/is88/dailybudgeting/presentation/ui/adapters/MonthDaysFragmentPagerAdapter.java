@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import ru.is88.dailybudgeting.presentation.ui.fragments.MonthDaysPageFragment;
-import ru.is88.dailybudgeting.utils.Utils;
+import ru.is88.dailybudgeting.Utils;
 
 public class MonthDaysFragmentPagerAdapter extends FragmentPagerAdapter {
 

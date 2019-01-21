@@ -16,7 +16,7 @@ import java.util.Calendar;
 
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.presentation.ui.adapters.MonthDaysFragmentPagerAdapter;
-import ru.is88.dailybudgeting.utils.Utils;
+import ru.is88.dailybudgeting.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.monthDaysViewPager);
         MonthDaysFragmentPagerAdapter monthDaysFragmentPagerAdapter = new MonthDaysFragmentPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(monthDaysFragmentPagerAdapter);
+
+        //TODO: when the user navigates back to MainActivity, he should be shown an appropriate month page fragment
         mViewPager.setCurrentItem(Utils.VIEW_PAGER_START_POSITION);
 
         // Violation of ISP by Google Android :)

@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.DateFormatSymbols;
-import java.util.Objects;
 
 import ru.is88.dailybudgeting.MainThreadImpl;
 import ru.is88.dailybudgeting.R;
@@ -29,7 +28,7 @@ import ru.is88.dailybudgeting.presentation.presenters.EditMonthDayPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.impl.EditMonthDayPresenterImpl;
 import ru.is88.dailybudgeting.presentation.ui.Listeners;
 import ru.is88.dailybudgeting.storage.MonthDayRepositoryImpl;
-import ru.is88.dailybudgeting.utils.Utils;
+import ru.is88.dailybudgeting.Utils;
 
 public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment implements EditItemPresenter.View<MonthDay> {
 
@@ -46,7 +45,7 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
     private EditText mDescriptionEditText;
     private EditText mAmountEditText;
 
-    private Listeners.OnMonthDayEditingFinished mCallback;
+    private Listeners.OnMonthDayEdited mCallback;
 
     private boolean mInputErrorOccurred = false;
 
@@ -67,17 +66,16 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        mFragmentPosition = Objects.requireNonNull(getArguments(),
-                this.getClass().getSimpleName() + " got null getArguments() or getInt()")
-                .getInt(FRAGMENT_POSITION_KEY, Utils.DEFAULT_VALUE);
+        if (getArguments() != null)
+            mFragmentPosition = getArguments().getInt(FRAGMENT_POSITION_KEY, Utils.DEFAULT_VALUE);
 
-        try {
-            mCallback = (Listeners.OnMonthDayEditingFinished) Objects.requireNonNull(getActivity(),
-                    this.getClass().getSimpleName() + " got null getActivity() or getSupportFragmentManager()")
-                    .getSupportFragmentManager()
-                    .findFragmentByTag("android:switcher:" + R.id.monthDaysViewPager + ":" + mFragmentPosition);
-        } catch (ClassCastException e) {
-            throw new ClassCastException(mCallback.getClass().getName() + " must implement OnEditingFinishedListener");
+        if (getActivity() != null) {
+            try {
+                mCallback = (Listeners.OnMonthDayEdited) getActivity().getSupportFragmentManager()
+                        .findFragmentByTag("android:switcher:" + R.id.monthDaysViewPager + ":" + mFragmentPosition);
+            } catch (ClassCastException e) {
+                throw new ClassCastException(mCallback.getClass().getName() + " must implement OnEditingFinishedListener");
+            }
         }
     }
 
@@ -85,10 +83,10 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mId = Objects.requireNonNull(
-                getArguments(), this.getClass().getSimpleName() + " got null getArguments() or getInt()")
-                .getInt(ID_KEY, Utils.DEFAULT_VALUE);
-        mPosition = getArguments().getInt(POSITION_KEY, Utils.DEFAULT_VALUE);
+        if (getArguments() != null) {
+            mId = getArguments().getInt(ID_KEY, Utils.DEFAULT_VALUE);
+            mPosition = getArguments().getInt(POSITION_KEY, Utils.DEFAULT_VALUE);
+        }
 
         //noinspection StatementWithEmptyBody
         if (mId == Utils.DEFAULT_VALUE || mPosition == Utils.DEFAULT_VALUE || mFragmentPosition == Utils.DEFAULT_VALUE){
@@ -181,7 +179,7 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
 
     @Override
     public void onItemUpdated(MonthDay item) {
-        mCallback.onMonthDayEditingFinished(item, mPosition);
+        mCallback.onItemEdited(item, mPosition);
     }
 
     @Override

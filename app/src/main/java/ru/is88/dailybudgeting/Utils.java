@@ -1,4 +1,4 @@
-package ru.is88.dailybudgeting.utils;
+package ru.is88.dailybudgeting;
 
 import java.util.Calendar;
 
@@ -15,7 +15,7 @@ public final class Utils {
 
     // These two are the fragment positions within AccountsViewPager
     // They are needed for safely using of android:switcher + ViewPager + FragmentPosition
-    // within AccountsActivity.onIncomeAdded
+    // within AccountsActivity.onItemAdded
     public static final int INCOME_PAGE_FRAGMENT_ID = 0;
     public static final int FIXED_EXPENSES_PAGE_FRAGMENT_ID = 1;
 
@@ -46,5 +46,24 @@ public final class Utils {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, viewPagerPosition - VIEW_PAGER_START_POSITION);
         return calendar;
+    }
+
+    public static class Pair<L, R> {
+
+        private L left;
+        private R right;
+
+        public Pair(L left, R right) {
+            this.left = left;
+            this.right = right;
+        }
+
+        public L getLeft() {
+            return left;
+        }
+
+        public R getRight() {
+            return right;
+        }
     }
 }

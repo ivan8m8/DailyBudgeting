@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
 
 import ru.is88.dailybudgeting.MainThreadImpl;
 import ru.is88.dailybudgeting.R;
@@ -28,10 +27,10 @@ import ru.is88.dailybudgeting.presentation.presenters.impl.MonthDayMainPresenter
 import ru.is88.dailybudgeting.presentation.ui.Listeners;
 import ru.is88.dailybudgeting.presentation.ui.adapters.MonthDaysRecyclerAdapter;
 import ru.is88.dailybudgeting.storage.MonthDayRepositoryImpl;
-import ru.is88.dailybudgeting.utils.Utils;
+import ru.is88.dailybudgeting.Utils;
 
 public class MonthDaysPageFragment extends Fragment
-        implements MainPresenter.View<MonthDay>, Listeners.OnMonthDayEditingFinished {
+        implements MainPresenter.View<MonthDay>, Listeners.OnMonthDayEdited {
 
     private static final String MONTH_DELTA_KEY = "month_delta_key";
 
@@ -92,40 +91,29 @@ public class MonthDaysPageFragment extends Fragment
         mMonthDayMainPresenter.getItemList(year, month + 1);
     }
 
-    /**
-     * This method is called within MyFragmentPagerAdapter.getItem(int position)
-     * @param monthDelta !!!
-     */
-    public static MonthDaysPageFragment newInstance(int monthDelta) {
-        MonthDaysPageFragment monthDaysPageFragment = new MonthDaysPageFragment();
-        Bundle args = new Bundle();
-        args.putInt(MONTH_DELTA_KEY, monthDelta);
-        monthDaysPageFragment.setArguments(args);
-        return monthDaysPageFragment;
-    }
-
     @Override
     public void showItemList(List<MonthDay> monthDays) {
-        //mMonthDays.clear();
+        //mMonthDays.clear(); //TODO: remove when remove fetching from onResume()
         mMonthDays.addAll(monthDays);
         mMonthDaysRecyclerAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onClickItem(long id, int position) {
-        final ViewPager viewPager = Objects.requireNonNull(getActivity(),
-                this.getClass().getSimpleName() + " got null getActivity() or findViewById(R.id.viewPager)")
-                .findViewById(R.id.monthDaysViewPager);
 
-        final EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment =
-                EditMonthDayBottomDialogFragment.newInstance((int) id, position, viewPager.getCurrentItem());
-        editMonthDayBottomDialogFragment.show(Objects.requireNonNull(getFragmentManager(),
-                this.getClass().getSimpleName() + " got null getFragmentManager()")
-                , "edit_month_day_bottom_dialog_fragment");
+        if (getActivity() != null) {
+            final ViewPager viewPager = getActivity().findViewById(R.id.monthDaysViewPager);
+            if (getFragmentManager() != null) {
+                final EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment =
+                        EditMonthDayBottomDialogFragment.newInstance((int) id, position, viewPager.getCurrentItem());
+                editMonthDayBottomDialogFragment.show(getFragmentManager(), "edit_month_day_bottom_dialog_fragment");
+            }
+        }
+
     }
 
     @Override
-    public void onMonthDayEditingFinished(MonthDay monthDay, int position) {
+    public void onItemEdited(MonthDay monthDay, int position) {
 
         if (mMonthDays.size() == 0) {
             for (int i = 0; i <= mCalendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
@@ -152,6 +140,18 @@ public class MonthDaysPageFragment extends Fragment
     @Override
     public void showError(String message) {
 
+    }
+
+    /**
+     * This method is called within MyFragmentPagerAdapter.getItem(int position)
+     * @param monthDelta !!!
+     */
+    public static MonthDaysPageFragment newInstance(int monthDelta) {
+        MonthDaysPageFragment monthDaysPageFragment = new MonthDaysPageFragment();
+        Bundle args = new Bundle();
+        args.putInt(MONTH_DELTA_KEY, monthDelta);
+        monthDaysPageFragment.setArguments(args);
+        return monthDaysPageFragment;
     }
 
     private void initRecycler() {
