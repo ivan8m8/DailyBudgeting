@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import ru.is88.dailybudgeting.presentation.ui.fragments.FixedExpensesPageFragment;
 import ru.is88.dailybudgeting.presentation.ui.fragments.IncomePageFragment;
-import ru.is88.dailybudgeting.Utils;
+import ru.is88.dailybudgeting.utils.Utils;
 
 public class AccountsFragmentPagerAdapter extends FragmentPagerAdapter {
 

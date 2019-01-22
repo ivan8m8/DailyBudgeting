@@ -1,4 +1,4 @@
-package ru.is88.dailybudgeting;
+package ru.is88.dailybudgeting.utils;
 
 import java.util.Calendar;
 
@@ -46,24 +46,5 @@ public final class Utils {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, viewPagerPosition - VIEW_PAGER_START_POSITION);
         return calendar;
-    }
-
-    public static class Pair<L, R> {
-
-        private L left;
-        private R right;
-
-        public Pair(L left, R right) {
-            this.left = left;
-            this.right = right;
-        }
-
-        public L getLeft() {
-            return left;
-        }
-
-        public R getRight() {
-            return right;
-        }
     }
 }

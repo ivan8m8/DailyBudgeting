@@ -24,7 +24,7 @@ import ru.is88.dailybudgeting.presentation.presenters.AddItemPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.impl.AddIncomePresenterImpl;
 import ru.is88.dailybudgeting.presentation.ui.viewmodels.SharedViewModel;
 import ru.is88.dailybudgeting.storage.IncomeRepositoryImpl;
-import ru.is88.dailybudgeting.Utils;
+import ru.is88.dailybudgeting.utils.Utils;
 
 public class AddIncomeDialogFragment
         extends AppCompatDialogFragment
@@ -37,14 +37,22 @@ public class AddIncomeDialogFragment
 
     private SharedViewModel mSharedViewModel;
 
-    // requires an empty constructor
-    public AddIncomeDialogFragment() {
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.AddIncomeDialog); // FIXME: 21.01.2019 move to onActivityCreated()
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.AddIncomeDialog);
+
+        if (getArguments() != null) {
+            mYear = getArguments().getInt(Utils.YEAR_KEY, Utils.DEFAULT_VALUE);
+            mMonth = getArguments().getInt(Utils.MONTH_KEY, Utils.DEFAULT_VALUE);
+        }
+
+        mAddIncomePresenter = new AddIncomePresenterImpl(
+                ThreadExecutor.getInstance(),
+                MainThreadImpl.getInstance(),
+                new IncomeRepositoryImpl(),
+                this
+        );
     }
 
     @Nullable
@@ -66,10 +74,12 @@ public class AddIncomeDialogFragment
 
         titleTextView.setText(R.string.adding_income);
 
-        descEditText.requestFocus();
-
+        //TODO: what does it do? MOVE IT TO RESUME?
         if (getDialog().getWindow() != null)
             getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+        descEditText.requestFocus();
+        //END TODO
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,18 +113,6 @@ public class AddIncomeDialogFragment
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        if (getArguments() != null) {
-            mYear = getArguments().getInt(Utils.YEAR_KEY, Utils.DEFAULT_VALUE);
-            mMonth = getArguments().getInt(Utils.MONTH_KEY, Utils.DEFAULT_VALUE);
-        }
-
-        mAddIncomePresenter = new AddIncomePresenterImpl(
-                ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance(),
-                new IncomeRepositoryImpl(),
-                this
-        );
 
         if (getActivity() != null)
             mSharedViewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);

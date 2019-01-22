@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatDialogFragment;
 
 import ru.is88.dailybudgeting.domain.models.accounts.Income;
 import ru.is88.dailybudgeting.presentation.presenters.EditItemPresenter;
-import ru.is88.dailybudgeting.presentation.ui.Listeners;
 
 public class EditIncomeDialogFragment
         extends AppCompatDialogFragment
@@ -14,8 +13,6 @@ public class EditIncomeDialogFragment
 
     private int mYear;
     private int mMonth;
-
-    private Listeners.OnIncomeEdited mCallback;
 
     @Override
     public void onItemRetrieved(Income item) {

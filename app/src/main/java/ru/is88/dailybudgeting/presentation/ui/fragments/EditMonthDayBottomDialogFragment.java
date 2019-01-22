@@ -1,7 +1,7 @@
 package ru.is88.dailybudgeting.presentation.ui.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,9 +26,9 @@ import ru.is88.dailybudgeting.domain.models.MonthDay;
 import ru.is88.dailybudgeting.presentation.presenters.EditItemPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.EditMonthDayPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.impl.EditMonthDayPresenterImpl;
-import ru.is88.dailybudgeting.presentation.ui.Listeners;
+import ru.is88.dailybudgeting.presentation.ui.viewmodels.SharedViewModel;
 import ru.is88.dailybudgeting.storage.MonthDayRepositoryImpl;
-import ru.is88.dailybudgeting.Utils;
+import ru.is88.dailybudgeting.utils.Utils;
 
 public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment implements EditItemPresenter.View<MonthDay> {
 
@@ -36,48 +36,17 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
     private static final String POSITION_KEY = "position_key";
     private static final String FRAGMENT_POSITION_KEY = "fragment_position_key";
 
-    private EditMonthDayPresenter mEditMonthDayPresenter;
-
     private int mId;
     private int mPosition;
     private int mFragmentPosition; // is actually the month
 
+    private EditMonthDayPresenter mEditMonthDayPresenter;
+    private SharedViewModel mSharedViewModel;
+
     private EditText mDescriptionEditText;
     private EditText mAmountEditText;
 
-    private Listeners.OnMonthDayEdited mCallback;
-
     private boolean mInputErrorOccurred = false;
-
-    public static EditMonthDayBottomDialogFragment newInstance(int id, int position, int fragmentPosition) {
-
-        EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment = new EditMonthDayBottomDialogFragment();
-        Bundle args = new Bundle();
-
-        args.putInt(ID_KEY, id);
-        args.putInt(POSITION_KEY, position);
-        args.putInt(FRAGMENT_POSITION_KEY, fragmentPosition);
-
-        editMonthDayBottomDialogFragment.setArguments(args);
-        return editMonthDayBottomDialogFragment;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        if (getArguments() != null)
-            mFragmentPosition = getArguments().getInt(FRAGMENT_POSITION_KEY, Utils.DEFAULT_VALUE);
-
-        if (getActivity() != null) {
-            try {
-                mCallback = (Listeners.OnMonthDayEdited) getActivity().getSupportFragmentManager()
-                        .findFragmentByTag("android:switcher:" + R.id.monthDaysViewPager + ":" + mFragmentPosition);
-            } catch (ClassCastException e) {
-                throw new ClassCastException(mCallback.getClass().getName() + " must implement OnEditingFinishedListener");
-            }
-        }
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,6 +55,7 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
         if (getArguments() != null) {
             mId = getArguments().getInt(ID_KEY, Utils.DEFAULT_VALUE);
             mPosition = getArguments().getInt(POSITION_KEY, Utils.DEFAULT_VALUE);
+            mFragmentPosition = getArguments().getInt(FRAGMENT_POSITION_KEY, Utils.DEFAULT_VALUE);
         }
 
         //noinspection StatementWithEmptyBody
@@ -100,7 +70,7 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
                 this
         );
 
-        // first get the old month day data from the DB
+        // first fetch old month day data from the DB
         mEditMonthDayPresenter.getMonthDayById(mId);
     }
 
@@ -168,6 +138,14 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (getActivity() != null)
+            mSharedViewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
+    }
+
+    @Override
     public void onItemRetrieved(MonthDay item) {
 
         String description = item.getDescription();
@@ -179,7 +157,7 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
 
     @Override
     public void onItemUpdated(MonthDay item) {
-        mCallback.onItemEdited(item, mPosition);
+        mSharedViewModel.setEditedMonthDay(item, mPosition);
     }
 
     @Override
@@ -195,5 +173,18 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
     @Override
     public void showError(String message) {
 
+    }
+
+    public static EditMonthDayBottomDialogFragment newInstance(int id, int position, int fragmentPosition) {
+
+        EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment = new EditMonthDayBottomDialogFragment();
+        Bundle args = new Bundle();
+
+        args.putInt(ID_KEY, id);
+        args.putInt(POSITION_KEY, position);
+        args.putInt(FRAGMENT_POSITION_KEY, fragmentPosition);
+
+        editMonthDayBottomDialogFragment.setArguments(args);
+        return editMonthDayBottomDialogFragment;
     }
 }

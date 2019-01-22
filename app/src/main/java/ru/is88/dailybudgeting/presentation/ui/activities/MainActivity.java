@@ -16,12 +16,13 @@ import java.util.Calendar;
 
 import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.presentation.ui.adapters.MonthDaysFragmentPagerAdapter;
-import ru.is88.dailybudgeting.Utils;
+import ru.is88.dailybudgeting.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
     //TODO: make the recyclers cards clickable
     //TODO: allow users to choose the app bar color through the preferences
+    //TODO: rename to getRealMonth & setRealMonth
 
     private ViewPager mViewPager;
 
@@ -74,21 +75,6 @@ public class MainActivity extends AppCompatActivity {
         updateAppBar(mViewPager.getCurrentItem());
     }
 
-    private void updateAppBar(int viewPagerPosition){
-
-        Toolbar monthToolbar = findViewById(R.id.monthToolbar);
-        TextView incomeTextView = findViewById(R.id.incomeAmount);
-        TextView expensesTextView = findViewById(R.id.expensesAmount);
-
-        Calendar calendar = Utils.getActualCalendarByViewPagerPosition(viewPagerPosition);
-        monthToolbar.setTitle(getMonthNameForTheCurrentFragment(calendar) + " " + calendar.get(Calendar.YEAR));
-    }
-
-    private String getMonthNameForTheCurrentFragment(Calendar calendar) {
-        return DateUtils.formatDateTime(this, calendar.getTimeInMillis(),
-                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_MONTH_DAY | DateUtils.FORMAT_NO_YEAR);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -107,5 +93,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateAppBar(int viewPagerPosition){
+
+        Toolbar monthToolbar = findViewById(R.id.monthToolbar);
+        TextView incomeTextView = findViewById(R.id.incomeAmount);
+        TextView expensesTextView = findViewById(R.id.expensesAmount);
+
+        Calendar calendar = Utils.getActualCalendarByViewPagerPosition(viewPagerPosition);
+        monthToolbar.setTitle(getMonthNameForTheCurrentFragment(calendar) + " " + calendar.get(Calendar.YEAR));
+    }
+
+    private String getMonthNameForTheCurrentFragment(Calendar calendar) {
+        return DateUtils.formatDateTime(this, calendar.getTimeInMillis(),
+                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_MONTH_DAY | DateUtils.FORMAT_NO_YEAR);
     }
 }

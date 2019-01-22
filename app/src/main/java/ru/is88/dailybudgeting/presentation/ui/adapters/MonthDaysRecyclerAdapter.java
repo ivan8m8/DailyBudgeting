@@ -16,7 +16,7 @@ import ru.is88.dailybudgeting.R;
 import ru.is88.dailybudgeting.domain.models.MonthDay;
 import ru.is88.dailybudgeting.presentation.presenters.MainPresenter;
 import ru.is88.dailybudgeting.presentation.ui.Listeners;
-import ru.is88.dailybudgeting.Utils;
+import ru.is88.dailybudgeting.utils.Utils;
 
 public class MonthDaysRecyclerAdapter
         extends RecyclerView.Adapter<MonthDaysRecyclerAdapter.ViewHolder>

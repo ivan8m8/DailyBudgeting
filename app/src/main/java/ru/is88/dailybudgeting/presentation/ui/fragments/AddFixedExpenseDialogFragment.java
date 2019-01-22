@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import java.util.Objects;
-
 import ru.is88.dailybudgeting.R;
 
 public class AddFixedExpenseDialogFragment extends AppCompatDialogFragment {
@@ -45,7 +43,12 @@ public class AddFixedExpenseDialogFragment extends AppCompatDialogFragment {
         title.setText(R.string.adding_fixed_expense);
 
         TextInputEditText descEditText = view.findViewById(R.id.addAccountDescriptionEditText);
+
+        //TODO: what does it do? MOVE IT TO RESUME?
         descEditText.requestFocus();
-        Objects.requireNonNull(getDialog().getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+        if (getDialog().getWindow() != null)
+            getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        //TODO end
     }
 }

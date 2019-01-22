@@ -25,7 +25,8 @@ import ru.is88.dailybudgeting.presentation.presenters.impl.IncomeMainPresenterIm
 import ru.is88.dailybudgeting.presentation.ui.adapters.AccountsRecyclerAdapter;
 import ru.is88.dailybudgeting.presentation.ui.viewmodels.SharedViewModel;
 import ru.is88.dailybudgeting.storage.IncomeRepositoryImpl;
-import ru.is88.dailybudgeting.Utils;
+import ru.is88.dailybudgeting.utils.Pair;
+import ru.is88.dailybudgeting.utils.Utils;
 
 public class IncomePageFragment
         extends Fragment
@@ -34,11 +35,29 @@ public class IncomePageFragment
     private int mYear;
     private int mMonth;
 
-    private IncomeMainPresenterImpl mIncomeMainPresenter;
-
     private RecyclerView mRecyclerView;
     private AccountsRecyclerAdapter mIncomeRecyclerAdapter;
     private List<AbstractAccount> mAccounts;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+
+            mYear = getArguments().getInt(Utils.YEAR_KEY, Utils.DEFAULT_VALUE);
+            mMonth = getArguments().getInt(Utils.MONTH_KEY, Utils.DEFAULT_VALUE);
+        }
+
+        IncomeMainPresenterImpl incomeMainPresenter = new IncomeMainPresenterImpl(
+                ThreadExecutor.getInstance(),
+                MainThreadImpl.getInstance(),
+                new IncomeRepositoryImpl(),
+                this
+        );
+
+        incomeMainPresenter.getItemList(mYear, mMonth);
+    }
 
     @Nullable
     @Override
@@ -58,20 +77,8 @@ public class IncomePageFragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (getArguments() != null) {
-
-            mYear = getArguments().getInt(Utils.YEAR_KEY, Utils.DEFAULT_VALUE);
-            mMonth = getArguments().getInt(Utils.MONTH_KEY, Utils.DEFAULT_VALUE);
-        }
-
-        mIncomeMainPresenter = new IncomeMainPresenterImpl(
-                ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance(),
-                new IncomeRepositoryImpl(),
-                this
-        );
-
         if (getActivity() != null) {
+
             FloatingActionButton fab = getActivity().findViewById(R.id.fab);
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -80,9 +87,6 @@ public class IncomePageFragment
                     addIncomeDialogFragment.show(getChildFragmentManager(), "add_income_dialog_fragment");
                 }
             });
-        }
-
-        if (getActivity() != null) {
 
             SharedViewModel sharedViewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
 
@@ -94,9 +98,9 @@ public class IncomePageFragment
                 }
             });
 
-            sharedViewModel.editedIncome.observe(this, new Observer<Utils.Pair<Income, Integer>>() {
+            sharedViewModel.editedIncome.observe(this, new Observer<Pair<Income, Integer>>() {
                 @Override
-                public void onChanged(@Nullable Utils.Pair<Income, Integer> incomeIntegerPair) {
+                public void onChanged(@Nullable Pair<Income, Integer> incomeIntegerPair) {
                     if (incomeIntegerPair != null) {
                         mAccounts.set(incomeIntegerPair.getRight(), incomeIntegerPair.getLeft());
                         mIncomeRecyclerAdapter.notifyItemChanged(incomeIntegerPair.getRight());
@@ -104,13 +108,6 @@ public class IncomePageFragment
                 }
             });
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        mIncomeMainPresenter.getItemList(mYear, mMonth);
     }
 
     @Override

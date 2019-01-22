@@ -14,7 +14,7 @@ import ru.is88.dailybudgeting.domain.models.accounts.Income;
 import ru.is88.dailybudgeting.storage.model.TableFixedExpense;
 import ru.is88.dailybudgeting.storage.model.TableIncome;
 import ru.is88.dailybudgeting.storage.model.TableMonthDay;
-import ru.is88.dailybudgeting.Utils;
+import ru.is88.dailybudgeting.utils.Utils;
 
 public class StorageModelConverter {
 
@@ -90,7 +90,7 @@ public class StorageModelConverter {
 
         Calendar calendar = new GregorianCalendar(
                 tableMonthDays.get(0).getYear(),
-                tableMonthDays.get(0).getMonth(),
+                tableMonthDays.get(0).getMonth() - 1,
                 tableMonthDays.get(0).getDay());
 
         List<MonthDay> result = new ArrayList<>();
