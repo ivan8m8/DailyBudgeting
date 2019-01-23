@@ -59,6 +59,8 @@ public class FixedExpensesPageFragment extends Fragment implements MainPresenter
                 new FixedExpenseRepositoryImpl(),
                 this
         );
+
+        mFixedExpenseMainPresenter.getItemList(mYear, mMonth);
     }
 
     @Nullable
@@ -73,13 +75,6 @@ public class FixedExpensesPageFragment extends Fragment implements MainPresenter
 
         mRecyclerView = view.findViewById(R.id.accountsRecyclerView);
         initRecycler();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        mFixedExpenseMainPresenter.getItemList(mYear, mMonth);
     }
 
     @Override
