@@ -32,13 +32,8 @@ import ru.is88.dailybudgeting.utils.Utils;
 
 public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment implements EditItemPresenter.View<MonthDay> {
 
-    private static final String ID_KEY = "month_day_ID_key";
-    private static final String POSITION_KEY = "position_key";
-    private static final String FRAGMENT_POSITION_KEY = "fragment_position_key";
-
     private int mId;
     private int mPosition;
-    private int mFragmentPosition; // is actually the month
 
     private EditMonthDayPresenter mEditMonthDayPresenter;
     private SharedViewModel mSharedViewModel;
@@ -48,19 +43,20 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
 
     private boolean mInputErrorOccurred = false;
 
+    public EditMonthDayBottomDialogFragment() {}
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mId = getArguments().getInt(ID_KEY, Utils.DEFAULT_VALUE);
-            mPosition = getArguments().getInt(POSITION_KEY, Utils.DEFAULT_VALUE);
-            mFragmentPosition = getArguments().getInt(FRAGMENT_POSITION_KEY, Utils.DEFAULT_VALUE);
+            mId = getArguments().getInt(Utils.ID_KEY, Utils.DEFAULT_VALUE);
+            mPosition = getArguments().getInt(Utils.POSITION_KEY, Utils.DEFAULT_VALUE);
         }
 
         //noinspection StatementWithEmptyBody
-        if (mId == Utils.DEFAULT_VALUE || mPosition == Utils.DEFAULT_VALUE || mFragmentPosition == Utils.DEFAULT_VALUE){
-            //mId was not sent
+        if (mId == Utils.DEFAULT_VALUE || mPosition == Utils.DEFAULT_VALUE) {
+            //TODO
         }
 
         mEditMonthDayPresenter = new EditMonthDayPresenterImpl(
@@ -69,14 +65,13 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
                 new MonthDayRepositoryImpl(),
                 this
         );
-
-        // first fetch old month day data from the DB
-        mEditMonthDayPresenter.getMonthDayById(mId);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //TODO: on Android 9 it's unable to scroll the bottom fragment to see the add & cancel buttons
+        //TODO: requestFocus + getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE); may help
         return inflater.inflate(R.layout.fragment_bottom_dialog_edit_month_day, container, false);
     }
 
@@ -85,8 +80,12 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mDescriptionEditText = view.findViewById(R.id.editDescription);
-        mAmountEditText = view.findViewById(R.id.editAmount);
+        mDescriptionEditText = view.findViewById(R.id.monthDayDescriptionEditText);
+        mAmountEditText = view.findViewById(R.id.monthDayAmountEditText);
+
+        // first fetch old month day data from the DB
+        mEditMonthDayPresenter.getMonthDayById(mId);
+
         TextView monthDayTitle = view.findViewById(R.id.monthDayTitleTextView);
         Button save = view.findViewById(R.id.saveMonthDayButton);
 
@@ -175,14 +174,13 @@ public class EditMonthDayBottomDialogFragment extends BottomSheetDialogFragment 
 
     }
 
-    public static EditMonthDayBottomDialogFragment newInstance(int id, int position, int fragmentPosition) {
+    public static EditMonthDayBottomDialogFragment newInstance(int id, int position) {
 
         EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment = new EditMonthDayBottomDialogFragment();
         Bundle args = new Bundle();
 
-        args.putInt(ID_KEY, id);
-        args.putInt(POSITION_KEY, position);
-        args.putInt(FRAGMENT_POSITION_KEY, fragmentPosition);
+        args.putInt(Utils.ID_KEY, id);
+        args.putInt(Utils.POSITION_KEY, position);
 
         editMonthDayBottomDialogFragment.setArguments(args);
         return editMonthDayBottomDialogFragment;

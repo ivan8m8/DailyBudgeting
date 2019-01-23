@@ -12,6 +12,7 @@ public class EditIncomeInteractorImpl extends AbstractInteractor implements Edit
 
     private Income mUpdatedIncome;
 
+    private long mId;
     private Cell mAmountCell;
     private String mDescription;
 
@@ -19,15 +20,14 @@ public class EditIncomeInteractorImpl extends AbstractInteractor implements Edit
     private EditItemInteractor.Callback<Income> mCallback;
 
     public EditIncomeInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                    Income income,
+                                    long id,
                                     Cell amountCell,
                                     String description,
                                     Repository<Income> incomeRepository,
                                     EditItemInteractor.Callback<Income> callback) {
         super(threadExecutor, mainThread);
 
-        mUpdatedIncome = income;
-
+        mId = id;
         mAmountCell = amountCell;
         mDescription = description;
         mIncomeRepository = incomeRepository;
@@ -36,6 +36,9 @@ public class EditIncomeInteractorImpl extends AbstractInteractor implements Edit
 
     @Override
     public void run() {
+
+        mUpdatedIncome = mIncomeRepository.getItemById(mId);
+
         mUpdatedIncome.setAmountCell(mAmountCell);
         mUpdatedIncome.setDescription(mDescription);
 

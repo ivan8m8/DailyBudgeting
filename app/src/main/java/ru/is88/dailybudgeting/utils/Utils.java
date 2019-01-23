@@ -13,11 +13,8 @@ public final class Utils {
     public static final String MONTH_KEY = "month_key";
     public static final String YEAR_KEY = "year_key";
 
-    // These two are the fragment positions within AccountsViewPager
-    // They are needed for safely using of android:switcher + ViewPager + FragmentPosition
-    // within AccountsActivity.onItemAdded
-    public static final int INCOME_PAGE_FRAGMENT_ID = 0;
-    public static final int FIXED_EXPENSES_PAGE_FRAGMENT_ID = 1;
+    public static final String ID_KEY = "ID_key";
+    public static final String POSITION_KEY = "position_key";
 
     /**
      * The amount of pages within the viewpager.

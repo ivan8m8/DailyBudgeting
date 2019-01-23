@@ -5,8 +5,5 @@
     <color name="colorPrimaryLight">#43A047</color> <!--600-->
     <color name="colorAccent">#B71C1C</color>  <!--900-->
 
-    <color name="colorWhite">#FFF</color>
-    <color name="colorBlack">#000</color>
-
     <color name="colorAttentionOrange">#ff9900</color>
 </resources>

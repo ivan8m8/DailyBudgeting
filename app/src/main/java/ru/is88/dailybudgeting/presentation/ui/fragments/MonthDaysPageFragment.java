@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,7 +42,7 @@ public class MonthDaysPageFragment extends Fragment implements MainPresenter.Vie
 
     private NestedScrollView mNestedScrollView;
 
-    private ViewPager mViewPager;
+    public MonthDaysPageFragment() {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,8 +94,6 @@ public class MonthDaysPageFragment extends Fragment implements MainPresenter.Vie
 
         if (getActivity() != null) {
 
-            mViewPager = getActivity().findViewById(R.id.monthDaysViewPager);
-
             SharedViewModel sharedViewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
             sharedViewModel.editedMonthDay.observe(this, new Observer<Pair<MonthDay, Integer>>() {
                 @Override
@@ -132,8 +129,8 @@ public class MonthDaysPageFragment extends Fragment implements MainPresenter.Vie
     @Override
     public void onClickItem(long id, int position) {
         EditMonthDayBottomDialogFragment editMonthDayBottomDialogFragment =
-                EditMonthDayBottomDialogFragment.newInstance((int) id, position, mViewPager.getCurrentItem());
-        editMonthDayBottomDialogFragment.show(getChildFragmentManager(), "edit_month_day_bottom_dialog_fragment");
+                EditMonthDayBottomDialogFragment.newInstance((int) id, position);
+        editMonthDayBottomDialogFragment.show(getChildFragmentManager(), this.getClass().getSimpleName());
     }
 
     @Override

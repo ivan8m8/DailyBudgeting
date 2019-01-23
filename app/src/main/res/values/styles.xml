@@ -22,7 +22,7 @@
     <style name="ToolbarTextAppearance">
         <item name="android:textSize">22sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
@@ -32,6 +32,10 @@
 
     <style name="AddIncomeDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+    <style name="EditIncomeDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@android:color/black</item>
     </style>
 
     <style name="AddFixedExpenseDialog" parent="Theme.AppCompat.Light.Dialog.Alert">

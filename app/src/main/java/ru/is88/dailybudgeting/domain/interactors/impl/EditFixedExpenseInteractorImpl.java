@@ -12,6 +12,7 @@ public class EditFixedExpenseInteractorImpl extends AbstractInteractor implement
 
     private FixedExpense mUpdatedFixedExpense;
 
+    private long mId;
     private Cell mAmountCell;
     private String mDescription;
 
@@ -19,13 +20,13 @@ public class EditFixedExpenseInteractorImpl extends AbstractInteractor implement
     private EditItemInteractor.Callback<FixedExpense> mCallback;
 
     public EditFixedExpenseInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                          FixedExpense updatedFixedExpense,
+                                          long id,
                                           Cell amountCell,
                                           String description,
                                           Repository<FixedExpense> fixedExpenseRepository,
                                           Callback<FixedExpense> callback) {
         super(threadExecutor, mainThread);
-        mUpdatedFixedExpense = updatedFixedExpense;
+        mId = id;
         mAmountCell = amountCell;
         mDescription = description;
         mRepository = fixedExpenseRepository;
@@ -34,6 +35,9 @@ public class EditFixedExpenseInteractorImpl extends AbstractInteractor implement
 
     @Override
     public void run() {
+
+        mUpdatedFixedExpense = mRepository.getItemById(mId);
+
         mUpdatedFixedExpense.setAmountCell(mAmountCell);
         mUpdatedFixedExpense.setDescription(mDescription);
 

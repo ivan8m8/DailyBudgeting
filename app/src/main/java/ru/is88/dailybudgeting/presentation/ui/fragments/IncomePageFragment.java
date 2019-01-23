@@ -39,6 +39,8 @@ public class IncomePageFragment
     private AccountsRecyclerAdapter mIncomeRecyclerAdapter;
     private List<AbstractAccount> mAccounts;
 
+    public IncomePageFragment() {}
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,7 +121,8 @@ public class IncomePageFragment
 
     @Override
     public void onClickItem(long id, int position) {
-        // show edit dialog
+        EditIncomeDialogFragment f = EditIncomeDialogFragment.newInstance(id, position);
+        f.show(getChildFragmentManager(), this.getClass().getSimpleName());
     }
 
     @Override

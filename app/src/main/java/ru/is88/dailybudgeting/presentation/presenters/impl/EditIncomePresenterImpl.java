@@ -8,7 +8,6 @@ import ru.is88.dailybudgeting.domain.interactors.GetItemByIdInteractor;
 import ru.is88.dailybudgeting.domain.interactors.impl.EditIncomeInteractorImpl;
 import ru.is88.dailybudgeting.domain.interactors.impl.GetItemByIdInteractorImpl;
 import ru.is88.dailybudgeting.domain.models.Cell;
-import ru.is88.dailybudgeting.domain.models.accounts.AbstractAccount;
 import ru.is88.dailybudgeting.domain.models.accounts.Income;
 import ru.is88.dailybudgeting.presentation.presenters.AbstractPresenter;
 import ru.is88.dailybudgeting.presentation.presenters.EditAccountPresenter;
@@ -52,12 +51,12 @@ public class EditIncomePresenterImpl extends AbstractPresenter
     }
 
     @Override
-    public void editAccount(AbstractAccount abstractAccountToEdit, Cell amountCell, String description) {
+    public void editAccount(long id, Cell amountCell, String description) {
         EditItemInteractor editItemInteractor =
                 new EditIncomeInteractorImpl(
                         mExecutor,
                         mMainThread,
-                        (Income) abstractAccountToEdit,
+                        id,
                         amountCell,
                         description,
                         mRepository,

@@ -63,7 +63,7 @@
                 android:fontFamily="sans-serif"
                 android:textStyle="bold"
                 android:textSize="32sp"
-                android:textColor="@color/colorBlack"
+                android:textColor="@android:color/black"
                 android:singleLine="true"
                 android:text="@string/amount_text_view_def" />
         </LinearLayout>

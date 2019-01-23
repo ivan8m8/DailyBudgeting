@@ -34,14 +34,7 @@ public class FixedExpensesPageFragment extends Fragment implements MainPresenter
     private RecyclerView mRecyclerView;
     private AccountsRecyclerAdapter mAccountsRecyclerAdapter;
 
-    public static FixedExpensesPageFragment newInstance(int year, int month) {
-        FixedExpensesPageFragment fixedExpensesPageFragment = new FixedExpensesPageFragment();
-        Bundle args = new Bundle();
-        args.putInt(Utils.YEAR_KEY, year);
-        args.putInt(Utils.MONTH_KEY, month);
-        fixedExpensesPageFragment.setArguments(args);
-        return fixedExpensesPageFragment;
-    }
+    public FixedExpensesPageFragment() {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,6 +95,15 @@ public class FixedExpensesPageFragment extends Fragment implements MainPresenter
     @Override
     public void showError(String message) {
 
+    }
+
+    public static FixedExpensesPageFragment newInstance(int year, int month) {
+        FixedExpensesPageFragment fixedExpensesPageFragment = new FixedExpensesPageFragment();
+        Bundle args = new Bundle();
+        args.putInt(Utils.YEAR_KEY, year);
+        args.putInt(Utils.MONTH_KEY, month);
+        fixedExpensesPageFragment.setArguments(args);
+        return fixedExpensesPageFragment;
     }
 
     private void initRecycler() {

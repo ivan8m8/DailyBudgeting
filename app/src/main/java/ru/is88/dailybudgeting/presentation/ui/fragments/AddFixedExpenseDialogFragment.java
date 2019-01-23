@@ -16,12 +16,7 @@ import ru.is88.dailybudgeting.R;
 
 public class AddFixedExpenseDialogFragment extends AppCompatDialogFragment {
 
-    public AddFixedExpenseDialogFragment() {
-    }
-
-    public static AddFixedExpenseDialogFragment newInstance(int year, int month) {
-        return new AddFixedExpenseDialogFragment();
-    }
+    public AddFixedExpenseDialogFragment() { }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,5 +45,9 @@ public class AddFixedExpenseDialogFragment extends AppCompatDialogFragment {
         if (getDialog().getWindow() != null)
             getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         //TODO end
+    }
+
+    public static AddFixedExpenseDialogFragment newInstance(int year, int month) {
+        return new AddFixedExpenseDialogFragment();
     }
 }

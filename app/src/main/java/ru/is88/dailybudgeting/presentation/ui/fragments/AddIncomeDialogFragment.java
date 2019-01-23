@@ -37,6 +37,10 @@ public class AddIncomeDialogFragment
 
     private SharedViewModel mSharedViewModel;
 
+    public AddIncomeDialogFragment() {}
+
+    //TODO: set an InputListener on the amountEditText like it's implemented within EditMonthDayBottomDialogFragment
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +49,11 @@ public class AddIncomeDialogFragment
         if (getArguments() != null) {
             mYear = getArguments().getInt(Utils.YEAR_KEY, Utils.DEFAULT_VALUE);
             mMonth = getArguments().getInt(Utils.MONTH_KEY, Utils.DEFAULT_VALUE);
+        }
+
+        //noinspection StatementWithEmptyBody
+        if (mMonth == Utils.DEFAULT_VALUE || mYear == Utils.DEFAULT_VALUE){
+            //TODO
         }
 
         mAddIncomePresenter = new AddIncomePresenterImpl(
@@ -67,19 +76,16 @@ public class AddIncomeDialogFragment
 
         TextView titleTextView = view.findViewById(R.id.addAccountTitle);
         final TextInputEditText descEditText = view.findViewById(R.id.addAccountDescriptionEditText);
-        final TextInputEditText amountEditText = view.findViewById(R.id.addAccountAmountEditText);
-        final TextInputLayout amountInputLayout = view.findViewById(R.id.accountAmountInputLayout);
-        Button cancelButton = view.findViewById(R.id.cancelAddingAccountButton);
-        Button addButton = view.findViewById(R.id.addAccountButton);
+        final TextInputEditText amountEditText = view.findViewById(R.id.editAccountAmountEditText);
+        final TextInputLayout amountInputLayout = view.findViewById(R.id.addAccountAmountInputLayout);
+        Button cancelButton = view.findViewById(R.id.cancelEditingAccountButton);
+        Button addButton = view.findViewById(R.id.editAccountButton);
 
         titleTextView.setText(R.string.adding_income);
 
-        //TODO: what does it do? MOVE IT TO RESUME?
+        descEditText.requestFocus();
         if (getDialog().getWindow() != null)
             getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
-        descEditText.requestFocus();
-        //END TODO
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
