@@ -6,7 +6,7 @@ Description appears soon...<br>
    * this one, which is within this repo – it's actually the app itself, though, without a sync function;
    * syncing user's data – it's implemented as a separate module for security measures.
 
-   So if you consider to compile the app or clone the repo, you may want to comment syncing in the code.
+   So if you consider to compile the app or clone the repo, you may want to comment out syncing lines in the code.
    
    
 **2. This project has two branches:**
