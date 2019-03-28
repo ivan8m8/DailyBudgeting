@@ -11,7 +11,7 @@ Description appears soon...<br>
    
 **2. This project has two branches:**
 
-   * ``kotlin-mvvm-rx-aac-koin``. It's a current branch that is supported and is used to compile the DailyBudgeting app for the Google Play. The following stack is used: ``Kotlin``, ``MVVM``, ``RxJava``, ``Android Architecture Components``;
+   * ``kotlin-mvvm-rx-aac-koin``. It's a current branch that is supported and is used to compile the DailyBudgeting app for the Google Play. The following stack is used: ``Kotlin``, ``MVVM``, ``RxJava``, ``Android Architecture Components``, ``Koin``;
    * ``java-ca-dbflow``. It's a previous, the first branch, that is no longer supported. The following stack is used: ``Java``, ``Clean Architecture``, ``DBFlow``.
 
    Also, the SOLID principles are followed for both branches.
