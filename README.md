@@ -1,6 +1,6 @@
 # DailyBudgeting
 Description appears soon...<br>
-## The app strcture
+## App strcture
 **1. The whole DailyBudgeting Android app project consists of two modules:**
 
    * this one – which is within this repo – is actually the app itself, though, without a sync function;
